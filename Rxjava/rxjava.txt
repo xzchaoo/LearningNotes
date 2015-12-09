@@ -1,0 +1,408 @@
+http://reactivex.io/documentation/operators.html
+switch
+	从一个发射Observable的Observable(称为o0)那里消耗它发射的Observable(称为o1)
+	然后返回给用户的next是o1的内容,用户每次得到的都是从最新的o1那里订阅到的
+	一旦有新的o1被发射出来, 那么就抛弃原来的o1, 从新的o1那里开始消耗
+
+join
+	TODO
+	这个有点难理解
+
+doOnXX
+	Observable生命周期回调
+
+
+defaultIfEmpty
+	如果O为空就给一个默认值
+
+sequenceEqual
+	判断两个O发射出来的元素顺序是否是一样的, 不在乎时间, 只要顺序是相同的就是
+
+concat(o1,o2)
+	o1发完了换o2发
+
+有区别的哦!看图去吧
+concatMap
+flatMap
+	这两个的作用都是可以将元素转成一个O,然后继续发射,但是有细微的差别,看图就马上可以了解了
+	描述一下差别就是,concatMap会保证第i个O被完全消耗完才会进行第i+1个O的发射
+
+concatWith
+	返回一个新的O,它是当前O和提供的O的concat
+
+publish()
+	将一个O转成一个ConnectableObservable
+	只有当对CO调用connect后 它才会开始发射(就算已经被人订阅了)
+publish(fun1)
+	对一个CO再次使用pulish(fun1) 这个fun1可以认为是一个map 就是一个map吧 擦?
+	不是map注意它接受的参数是Observable<T>,Observable<R> 而map是T,R
+	所以它执行的时候结果不一定出来 并且它还可以执行划分动作 而且只会被执行一次! 而map是多次!
+
+refCount可以将一个CO转成一个O
+	但是这个O有特点一旦有人订阅它 它就自动的对原来的CO进行connect
+
+debounce(1, TimeUnit.SECONDS) 不太对
+	如果原来的O发射出一个元素1秒后没有再发射其他的元素 那么就发射它 用于控制阀值
+
+range 产生一个范围的数
+
+groupBy 分组
+	一般和flatMap连用
+	每个value返回一个key,同key的在同一组
+	GroupedObservable
+
+reduce
+	类似于求和
+
+repeat(n)
+	重复发射O,如果原来是 1,2,3 n=2 那么就是1,2,3,1,2,3
+repeatWhen
+replay
+	接受一段时间长度,之前这段时间内发射的元素
+retry
+retryWhen
+sample
+scan
+sequenceEqual
+serialize
+share
+single
+
+skip
+	简单跳过 前面几个元素 或 前面一段时间内的元素
+skipUntil(Obesrvable other)
+	一直跳过元素直到other发射一个元素
+skipWhile(f1)
+	当函数第一次成立(只要成立一次以后就不管了)的时候才开始接收元素,否则都抛弃元素
+takeWhile
+	当函数第一次不成立的时候就抛弃整个Obervable(跳过剩下的全部,马上结束)
+
+startWith
+switchXXX
+takeXXX
+throttleXXX
+timeInterval
+timeout
+	如果一定时间内没有新的元素被发射 那么就终止
+timer
+	定时器 只发射一次或间隔时间发射多次 返回序列0,1,2...
+toXXX
+
+
+
+
+
+groupJoin
+join
+list
+limit
+	限制返回的个数
+
+
+	
+take(n)拿走前n个
+
+interval(1,TimeUnit.SECONDS)
+	每一秒返回序列0 1 2 3 ...
+
+subscribeOn
+	表示observable的call在哪里执行
+	当有人订阅你的时候 在哪里执行call动作
+observeOn
+	表示订阅者的call在哪里执行
+	当执行 s.onNext(result) 的时候 在哪里执行call动作
+
+startWidth(obj)
+	手动增加一个obj到发射列表
+	即好像先发射了obj,然后再发送原有的内容一样
+
+window(500,TimeUnit.MILLSECONDS)
+	每500毫秒内的对象作为一批发射出去
+window(10) 注意观察window的返回类型就知道它和sample不一样
+	每10个元素作为一批
+
+下面有细微的不一样
+throttleFirst
+下面2个好像效果类似?
+throttleLast
+sample(500毫秒)
+	在每个500毫秒的(没有第0个)
+	的位置发射出距离此处最近的前面一个obj
+	其他都舍弃
+
+cache
+	可以考虑看图
+	当第一次被订阅时:将原本的O的输出进行缓存
+	当再被订阅时,订阅者马上就接收 此时 以前的缓存
+
+buffer(n) n个为一组
+buffer(n,m)第一组[0,n) 第二组[m,m+n) 第三组[2m,2m+n) ...
+buffer(5000, TimeUnit.MILLISECONDS, 2)
+	达到2个就强制返回
+	5000毫秒就强制返回
+buffer(具有边界功能的O充当分界点)
+
+concat
+	将多个Observable串起来进行输出
+
+timeout
+	一定时间内如果没有发射任何obj,就触发异常onError 
+elementAt(i)
+	只发射第i个
+distinct 防止重复 保证所有只出现一次 支持提供一个函数为每一个元素指定一个key
+distinctUntilChanged
+	如果有这样的序列: 0 0 1 1 2 2 0 0 2 2 ...
+	那么结果是 0 1 2 0 2
+	即消除!连续!的重复
+	可以提供一个函数为每一个元素提供一个key
+上面2个版本还可以接受一个函数 返回一个key
+
+doOnCompleted
+doOnEach
+doOnError
+doOnNext
+doOnRequest
+doOnSubscribe
+doOnTerminate
+doOnUnsubscribe
+finallyDo
+forEach
+onBackpressureBlock(n)
+	最多只允许待收取队列里有n个元素,一旦达到n就会阻塞生产者线程
+
+elementAt elementAtOrDefault
+	返回一个O,这个O返回原来的O的第index个元素
+
+exists
+	提供一个函数判断是否存在一个元素
+
+combineLatest(o1,o2,fun2)
+	将o1和o2产生的最新的一组发送给fun2
+	比如o1每秒产生1 3 5 7 9 ...
+	o2每2秒产生 2 4 6 8 10
+	那么2秒的时候fun2会收到 3,2 4秒的时候会收到7 4
+	就是当双方都有产生过值之后,每次有其中一方产生了一个新值就会连同对方当前的最新值一起发送给fun2
+
+from
+	从一个给定的来源里创建O
+	比如一个数组或迭代器或Feature
+
+
+observeOn
+	会让接下来的所有锁链操作切换到相应线程
+subscribeOn
+	会导致进行订阅的时候执行在指定线程
+创建函数
+	create
+		接受一个函数 在这个函数里面不断的返回你的数据
+	empty never error 简单理解就行了
+	range
+	defer just from interval timer
+变换函数
+	bufer flatMap groupBy map scan window
+过滤函数
+	filter first distinct* last sample skip* take*
+混合函数
+	join
+	merge(o1,o2) 同时从o1和o2
+		任何时刻o1或o2发射了一个obj都会进行发送
+		就是简单的合并起来 别想太多
+	mergeDelayError跟merge类似 但是如果其中一方发生了错误 那么就认为那一方已经完成了 另外一方继续读取 等全部都读取完了之后再扔出一个错误onError
+	startWidth switch
+	mergeWith 当前的O与提供的O进行合并
+
+错误处理
+	retry onErrorResumeNext*
+其他
+	observeOn subscribeOn delay using
+serialize
+	将发射的O串行化, 文档说同一个O可能异步发送元素给它的接收者, 所以有可能它会先调用complete,再调用next,(因为异步嘛,没有保证!)
+timeout
+	一定时间内还没有元素发射出来就会发出一个error通知
+timestap
+	给每个发出来的元素带一个时间戳
+
+materialize/dematerialize
+	按照文档的说法是,可以将原来的Observable发射出来的一切东西(普通元素,complete,error)都统一成一个notification,
+	即你每次收到的都是普通元素(onNext)
+
+timeInterval
+	给发射出来的元素加上一个值,这个值表明了现在距离上一次发射值的时间间隔
+
+all
+	判断一个Observable里的所有元素是否都满足一个判定
+
+amb
+	假设O1先发射出一个obj,那么以后就只接受O1发射出的obj了 其他的O发出的obj忽略
+
+delay delaySubscription 延迟
+
+nest
+ofType
+onBackpressureBuffer
+onBackpressureDrop
+onBackpressureLatest
+onErrorResumeNext
+onErrorReturn
+
+
+
+contains 判断是否包含元素
+count countLong 数数
+
+Connectable Observable Operators
+	connect publish refCount reply
+
+4种Subject:1个subject会有多个订阅者
+	replay:
+		任何时候进行订阅都会收到所有的(包括在订阅之前发出的)
+	publish:
+		只会接受到订阅之后发出的
+	behavior:
+		需要给定一个初始化的obj
+		对于每次订阅 都会马上收到一个obj(因为有初始化的obj,所有保证肯定有)
+		然后还会收到订阅后发出的obj
+	async:
+		只会接受到最后一个发出的obj
+
+SerializedSubject
+	可以将一个Subject变为线程安全的
+
+默认情况所有的行为都是在同一个线程执行的
+
+
+
+
+CompositeSubscription
+ConnectableObservable
+Subscription
+
+例子
+	1.
+		stream.buffer(stream.debounce(1, TimeUnit.SECONDS));
+		满足下列条件的obj们将会被分为一批:前后两个obj发射的时间在1秒内
+
+	2.
+		每秒,产生序列 1 3 5 7 9 直到达到99完
+		Observable.interval(10, TimeUnit.MILLISECONDS).take(50).map(i -> 2 * i + 1).toBlocking()
+				.forEach(System.out::println);
+		// 不要自己去模拟定时器 因为你会浪费一个线程去睡觉
+		// 如果需要普通功能的定时器就先用 interval 然后再map就行了
+	3.
+		模拟从缓存和网络拿数据
+		//本来想尝试 !同时进行! 从缓存 和 网络 拿
+		//一般来说网络肯定慢于缓存 但可能也是需要特殊处理一下?
+
+		下面是保证严格的先从缓存 再从网络 耗时是两者相加 虽然本地几乎不用时间...
+		Observable.concat(getDatasFromCache(), getDatasFromServer()).observeOn(Schedulers.io())
+				.subscribe(new Action1<DataWrapper>() {
+					public void call(DataWrapper t1) {
+						System.out.println("收到数据 cache=" + t1.fromCache);
+						System.out.println(t1.datas);
+					}
+				});
+		下面的版本是同时读取 如果本地先读取到(几乎是) 那等下网络数据如果来了就覆盖掉他
+		如果是网络先来(几乎不可能) 那么等下本地再来就拒绝他(使用一个布尔数组+filter过滤掉他)
+		final boolean[] hasGotFromIntenet = new boolean[] { false };
+		System.out.println("开始时间=" + System.currentTimeMillis()/1000);
+		Observable.merge(getDatasFromCache().filter(t -> !hasGotFromIntenet[0]), getDatasFromServer())
+				.subscribe(new Action1<DataWrapper>() {
+					public void call(DataWrapper t1) {
+						if (!t1.fromCache) {
+							hasGotFromIntenet[0] = true;
+						}
+						System.out.println("收到数据 cache=" + t1.fromCache);
+						System.out.println(t1.datas);
+						System.out.println("开始时间=" + System.currentTimeMillis()/1000);
+					}
+				});
+
+
+杂
+		Observable<Integer> o1 = Observable.create(new OnSubscribe<Integer>() {
+			public void call(Subscriber<? super Integer> t1) {
+				tid("o1");
+				t1.onNext(0);
+				t1.onCompleted();
+			}
+		}).observeOn(Schedulers.computation());
+
+		Observable<Integer> o2 = Observable.create(new OnSubscribe<Integer>() {
+			public void call(Subscriber<? super Integer> t1) {
+				tid("o2");
+				t1.onNext(0);
+				t1.onCompleted();
+			}
+		}).observeOn(Schedulers.io());
+
+		对最终的Observable进行observeOn和subscribeOn会生效
+		Observable.merge(o1, o2).observeOn(Schedulers.newThread()).subscribeOn(Schedulers.newThread())
+				.subscribe(new Action1<Integer>() {
+					public void call(Integer t1) {
+						tid("s");
+					}
+				});
+
+		sleep2(1000);
+
+返回每组的最大值,这里之所以这么复杂是因为不想用List之类的东西将数据保存,然后再返回最大值,那样当然很简单了!
+因为这些之类的操作将会导致阻塞!而下面这个是完全不阻塞的!(首先你得懂我说的阻塞是什么鬼)
+		Observable.interval(10, TimeUnit.MILLISECONDS).map(new Func1<Long, Integer>() {
+			public Integer call(Long t1) {
+				return t1.intValue();
+			}
+		}).take(100).groupBy(new Func1<Integer, Integer>() {
+			public Integer call(Integer t1) {
+				return t1 % 5;
+			}
+		}).flatMap(new Func1<GroupedObservable<Integer, Integer>, Observable<Item>>() {
+			public Observable<Item> call(GroupedObservable<Integer, Integer> t1) {
+				Item item = new Item();
+				item.key = t1.getKey();
+				return Observable.create(new OnSubscribe<Item>() {
+					public void call(Subscriber<? super Item> s) {
+						t1.subscribe(new Observer<Integer>() {
+							public void onCompleted() {
+								s.onNext(item);
+								s.onCompleted();
+							}
+
+							public void onError(Throwable e) {
+								s.onError(e);
+							}
+
+							public void onNext(Integer t) {
+								item.max = item.max == null ? t : Math.max(item.max, t);
+							}
+						});
+					}
+				});
+			}
+		}).subscribe(new Action1<Item>() {
+			public void call(Item t1) {
+				System.out.println(t1);
+			}
+		});
+
+
+
+zip:
+	两个或多个O zip在一起
+	Observable<Integer> o1 = Observable.just(1, 2, 3, 4);
+	Observable<Integer> o2 = Observable.just(11, 22, 33, 44,55);
+	o1.zipWith(o2, new Func2<Integer, Integer, String>() {
+		public String call(Integer t1, Integer t2) {
+			return t1 + " " + t2;
+		}
+	}).toBlocking().forEach(System.out::println);
+	
+window:
+	将一个O,分成多个O,新的O,发射一定量的元素
+	Observable<Observable<T>> window(分割边界),注意返回类型
+toSortedList
+	排序
+toMap
+	转成一个map,如果key重复会覆盖
+toMultimap
+	map,允许多值
+
