@@ -1,0 +1,18 @@
+项目之间的依赖
+compile project(':依赖的项目名称')
+依赖的类型
+
+dependencies {//一般推荐这种写法
+    compile 'org.hibernate:hibernate-core:3.6.7.Final'
+}
+dependencies {
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '3.6.7.Final'
+}
+
+gradle dist -x test 可以排除test任务
+-b 指定 build文件
+-p 指定多项目的根目录
+gradle projects获得你所有的项目列表
+gradle tasks 类似... 还有其他类似的
+
+project, task, source set 的作用域内都有一个对象叫做ext 可以让你放额外的数据

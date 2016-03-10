@@ -1,0 +1,27 @@
+log4j-2笔记
+继承关系
+com.foo是com.foo.far的父亲
+
+Logger logger = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
+Logger logger = LogManager.getRootLogger();
+The set of built-in levels includes TRACE, DEBUG, INFO, WARN, ERROR, and FATAL
+
+1.等级默认继承父亲
+2.如果自己制定了等级 那么就是用自己的
+
+Filter可以被加载某些路上
+可以返回
+	Accept表示接受
+	Deny 拒绝
+	Neutral 如果找不到别人处理那就由我来处理
+
+默认情况下
+一个log会被发往它的logger的appenders和它父亲爷爷...的appenders
+可以默认行为可以修改additivity="false"
+将一个logger设置成false之后
+它和它的所有儿子的消息都不会传超过它
+
+Layout就是如何格式化日志
+
+StrSubstitutor StrLookup 允许插值
+

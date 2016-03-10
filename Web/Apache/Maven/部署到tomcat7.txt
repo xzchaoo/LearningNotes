@@ -1,0 +1,93 @@
+用户要具有manager-script权限
+虽然插件名里有 tomcat 7, 但我测试了一下 tomcat 9 也是支持的
+http://tomcat.apache.org/maven-plugin-2.2/tomcat7-maven-plugin/deploy-mojo.html
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.xzc</groupId>
+		<artifactId>test-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../test-dmk/test-parent/pom.xml</relativePath>
+		<!-- <relativePath>../test-api/pom.xml</relativePath> -->
+	</parent>
+
+	<artifactId>test-webapp</artifactId>
+
+	<packaging>war</packaging>
+
+	<name>web-webapp</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>test-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<!-- <pluginManagement> <plugins> <plugin> <groupId>org.apache.tomcat.maven</groupId> 
+			<artifactId>tomcat6-maven-plugin</artifactId> <version>2.2</version> </plugin> 
+			<plugin> <groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> 
+			<version>2.2</version> </plugin> </plugins> </pluginManagement> -->
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+				<!-- 
+					<port>9090</port>
+					 -->
+					<path>/test-web</path>
+					
+					<!-- 
+					<configurationDir>tomcat</configurationDir>
+					<serverXml>tomcat/conf/server.xml</serverXml>
+					 
+					 
+					<contextFile>src/main/webapp/META-INF/context.xml</contextFile>
+					-->
+					
+					
+					<update>true</update>
+					<url>http://localhost:8080/manager/text</url>
+					<username>xzc</username>
+					<password>xzc</password>
+					<!-- 该用户必须具有manager-script权限 -->	
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.derby</groupId>
+						<artifactId>derby</artifactId>
+						<version>${derby.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>javax.mail</groupId>
+						<artifactId>mail</artifactId>
+						<version>1.4</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+
+		<finalName>test-webapp</finalName>
+	</build>
+</project>

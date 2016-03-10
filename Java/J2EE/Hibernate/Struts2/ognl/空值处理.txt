@@ -1,0 +1,5 @@
+NullHandler
+	如果你想要user.name='xzc' 但是user是不存在的 默认情况下user会被自动创建
+
+见
+	InstantiatingNullHandler

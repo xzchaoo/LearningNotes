@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project default="ceshi2">
+	<property name="src" value="src" />
+	<property name="classes" value="classes" />
+	
+	<target name="compile">
+		<javac srcdir="${src}" destdir="${classes}" />
+	</target>
+
+	<target name="ceshi2" depends="compile">
+			<taskdef name="xxoo" classname="xzc.ant.task.XTask1" classpath="${classes}" />
+			<xxoo file="y.txt" />
+	</target>
+
+
+
+	<target name="ceshi1">
+		<ant antfile="sub.xml" target="msg" inheritAll="false">
+			<property name="omsg" value="xyz" />
+		</ant>
+	</target>
+
+	<target name="ceshi">
+		<delete dir="s3"/>
+		<mkdir dir="s3"/>
+		<copy todir="s3">
+			<fileset dir="s1"><!--定义一个文件集合-->
+				<or><!--以下的内容采用or操作进行筛选文件
+					and none majority
+				-->
+					<!--内容中含有0123456789 或 70862045 或 文件大小<4的都可以-->
+					<contains text="0123456789"/>
+					<contains text="70862045"/>
+					<size value="4" when="less"/>
+					<!--
+						size contains
+						filename present
+						depent date depth
+					-->
+				</or>
+			</fileset>
+		</copy>
+	</target>
+</project>

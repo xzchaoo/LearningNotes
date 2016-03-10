@@ -1,0 +1,32 @@
+这个ClassLoader应该是一个很恶心的东西 因为很多库都有自己的额ClassLoader封装
+
+自己的源文件优先级比放在classpath下jar文件的优先级高
+	比如classpath下有一个a.jar里面有一个 org.xzc.Person 类
+	我自己源文件也有一个org.xzc.Person 类 那么我的类是比jar里的类优先级高的
+	会被AppClassLoader优先加载
+假设classpath下有 a.jar 和 b.jar 他们都有一个org.xzc.Person 类
+那么按照classpath路径的配置顺序会有优先级
+比如如果你的classpath是这样配置的
+.;c:\a.jar;c:\b.jar 那么 a.jar优先级是高的
+
+void fun(int n){
+	if(n==0)
+		return;
+	//do something
+	//分配两次
+	int* p1=(int*)malloc(n*sizeof(int));
+	int* p2=(int*)malloc(n*sizeof(int));
+	//do something
+	fun(n/2);
+	//do something
+	free(p1);
+	free(p2);
+}
+
+一个ClassLoader可以由父亲(只能在构造函数设置)
+加载一个类的时候 会先由父亲加载 如果父亲加载成功 那就没你的事了 否则由你加载 如果你加载失败 那就throw ClassNotFoundException
+
+由两个不同的ClassLoader加载的相同的.class文件 后产生的Class也是不同的! 但是他们的类名等 是相同的
+但重点是他们的Class是不同的 而且产生的对象也是不同的 不能相互转换
+
+只要有.class文件的byte[] 数组 就可以 用ClassLoader defineClass 产生一个Class对象!

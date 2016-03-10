@@ -1,0 +1,89 @@
+//加上引号表示这是一个 lazy dependency 因此hello3可以出现在hello之后
+task hello(dependsOn: 'hello3') << {
+	println 'Hello World!'
+	4.times { print "$it "}
+	println ''
+}
+task hello3 << {
+	println '我是hello3'
+}
+//hello2依赖于hello
+task hello2(dependsOn: hello) << {
+	println 'hello2完成'
+}
+
+
+//动态任务
+4.times { counter ->
+	task "dt$counter" << {
+		println "我是动态任务$counter"
+	}
+}
+
+//一旦任务创建完之后就可以这样使用
+dt1.dependsOn dt2,dt3
+
+
+/*
+	双引号会进行插值
+	4.times { 表达式 }会进行4次迭代
+	$it表示当前的迭代值
+*/
+
+task t1720 << {
+	println '正常执行的内容'
+}
+t1720.doFirst {
+	println 'first'
+	ext.name='xzc'
+	ext.age=20
+}
+t1720.doLast{
+	println 'last'
+}
+t1720 << { //<<相当于doLast
+	println '最后内容2'
+	println "your name is $ext.name"
+	println "your age is "+ext.age
+}
+
+//在gradle中可以直接使用ant任务
+
+task loadfile << {
+	def f = xzcGetFile('log.txt')
+	ant.loadfile(srcFile:f,property:f.name)
+	println "*** $f.name ***"
+	println "${ant.properties[f.name]}"
+}
+task listfiles << {
+	xzcListFile('.').each { File f ->
+		println "$f.name"
+	}
+}
+//定义方法
+File xzcGetFile(String filename){
+	return file(filename)
+}
+File[] xzcListFile(String dir){
+	file(dir).listFiles({file -> file.isFile()} as FileFilter).sort()
+}
+
+//声明默认任务
+defaultTasks 'defaultTask1','defaultTask2'
+task defaultTask1(dependsOn: 'defaultTask2') << {
+	println '我是默认任务1'
+}
+task defaultTask2 << {
+	println '我是默认任务2'
+}
+
+gradle.taskGraph.whenReady { taskGraph -> 
+	if(taskGraph.hasTask(defaultTask1)){
+		println '有defaultTask1'
+	}else{
+		println '没有defaultTask1'
+	}
+}
+/*
+	local.properteis里面写一个 sdk.dir=...
+*/

@@ -1,0 +1,10 @@
+可以指定泛型(这样做最好!)
+也可以在Action类同包下建立 如
+LoginAction-conversion.properties
+内容是
+Element_listName=xzc.domain.User
+
+Element_setName=xzc.domain.User
+
+Element_mapName=xzc.domain.User
+Key_mapName=java.lang.Integer

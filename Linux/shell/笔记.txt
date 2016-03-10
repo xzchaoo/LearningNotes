@@ -1,0 +1,650 @@
+环境变量PS1(shell提示符) PS2(第二层提示符,比如要求你再次输入数据时会出现)
+gzip gzipcat gunzip zip
+	zip c.zip a.txt b.txt 将a.txt和b.txt扔进一个c.zip
+tar
+	-c 创建一个归档文件
+	-f 指定归档文件名
+	-x 抽取文件 (直接解压到当前路径下)
+	-A 用于追加一个tar的内容到一个tar里
+		tar -Af ab.tar c.tar 把c.tar的内容追加到ab.tar里
+	-r 追加文件
+		tar -cf ab.tar c.txt 将c.txt追加进ab.tar
+	-t 列出文件
+	-v 详细
+	-u 更新
+	--delete
+		tar --delete -f test.tar 1/1
+		删除test.tar里的1/1(这是一个文件)
+	-C dir 解压到dir
+		tar -C test -xf ab.tar
+	-z将输出重定向到gzip命令进行压缩
+	例子
+		tar -cvf test.tar 1/ 2/
+		将目录1/ 2/扔到test.tar里
+		tar -xvf test.tar -C 3 将test.tar的内容解压到3
+		3这个文件夹要自己创建
+全局变量
+	环境变量
+本地变量
+	只在创建它们的shell中可见
+	直接在bash中 name=value(之间不要有空格 否则会有问题 可以用引号) 就创建了一个名字为name值为value的本地变量了
+	在父bash里设置的变量在子bash里是看不到的
+	同样父bash也看不到在子bash里的本地变量
+	但是可以这样 在父bash里 export 一个本地变量到环境变量里
+	然后你在子bash里就可以看到了(因为创建子bash的时候的环境变量是从父bash继承过来的)
+	但是子bash export的变量父是看不到的 只有子bash的子bash看得到...
+用 unset name 移除变量(包括全局变量)
+/etc/profile #针对所有用户
+	每个用户登录后都会执行这个 是 bash shell 的主默认启动文件
+	它里面有一个for语句 可以 执行所有放在 /etc/profile.d下的sh文件
+~/下的启动文件 针对特定用户
+
+arr=(one two three)
+echo $arr 会打印出one
+echo ${arr[2]} 打印出three  下标基于0
+echo ${arr[*]} 打印出one two three
+arr[2]=222 单独修改 下标可以超出一开始定义的范围
+unset arr[2] 只是删除掉 第三个元素的值 其他元素的索引并没有错1位 即在你删除后 你想访问原来的 arr[9] 你还是要 arr[9] 而不是 arr[8]
+unset arr删除整个数组
+
+使用别名
+alias la='ls -a' #这条语句应该放在 ~/.bashrc 里最合适
+
+/etc/passwd 存放了用户的一些信息
+/etc/shadow 存放了密码信息(只有一些特殊的程序才能访问 比如登陆程序)
+	里面存放了 加密后的密码 密码上次修改距1970/1/1的天数 距离密码必须修改的天数 被禁用的天数 等等...
+用户管理
+	useradd #需要root
+		-D 显示创建出来的用户的一些默认的参数
+		useradd xzc -p70862045 -g500
+	userdel #需要root
+		默认只会删除用户在/etc/passwd和影子文件的信息 不会删除 /home/...的信息 可以使用-r强制删除
+	修改用户
+		usermod 修改useradd时的大部分参数
+		passwd 根用户可以修改别人的密码 或 普通用户修改自己的密码
+		chpasswd
+		chage 用来管理密码失效
+		chfn甚至可以修改名字
+		chsh
+	groupadd
+		可以使用usermod -G将某个用户添加入组
+	groupmod
+
+	修改文件权限
+		chmod 744 abc
+		chmod u=rwx g-rwx o-rwx abc 设置属主的权限是rwx group组减去rwx 其他人减去rwx  可以用+表示添加权限
+	修改所有者 chown: 和所属于的组
+		chown xzc2 abc 需要root
+	set user id (SUID)文件将会在所有者的权限下执行 100
+	set group id (SGID)文件将会在用户组的权限下执行 对于目录 目录中创建的新文件会使用该组作为所属组 010
+	粘着位 进程结束后 文件仍然保留在内存中 001
+	这三个位的设置跟权限一样 也是用3个bit来表示
+	chgrp修改所属组
+
+利用计算器计算比较复杂的表达式
+bc -q << EOF
+a=1
+b=2
+c=a+b
+c
+EOF
+
+linux用$?来保存最后一条命令的退出状态
+在脚本里用 exit 3 来返回状态3
+
+if [ expression ]  []要有严格的空格 否则出错 其实是 if test expression 的简写 或者干脆不用管算了
+then
+fi
+expression:
+	用-o连接两个表达式表示或
+	-eq -ne -lt -gt 用于数字
+	= != < >用于字符串 -n 字符串非空 -z字符串空 <>需要转移否则会被当重定向符号
+	文件:
+		-d file file存在且是一个目录
+		-e file file是否存在
+		-f file file存在且是一个文件
+		-r file 存在可读
+		-s file 存在不空
+		-w file 存在可写
+		-x file 存在可执行
+		-O 由当前用户所拥有
+		-G 由当前用户组所拥有
+		f1 -nt f2 f1比f2新
+		f1 -ot f2 f1比f2旧
+	支持&& || 
+	字符串
+		-z str, 是否为空
+		-n str, 是否非空
+		test str1 = str2
+		test str1 != str2
+
+双圆括号
+	不仅可以用于if还可以用于赋值表达式 ((a=$b+2*3)) 
+	if ((1+2==3)) ++ -- ! ~ ** << >> ^ | && || + - * /
+	then
+		date
+	fi
+双方括号
+	使用字符串 除了比较之外还有字符串匹配
+	if [[ $USER == r* ]]
+case 语句
+	case variable in
+	pattern1 | pattern 2) commands;;
+	pattern3) commands;;
+	*) commands;;
+	esac
+for循环
+	for var in list        #迭代完后 $var保存着最后一个值
+	do
+		commands
+	done
+	例子
+		a=(1 2 3 4)
+		for i in ${a[*]}
+		do
+			echo $i
+		done
+
+		for i in a b c d
+		do
+			echo $i
+		done
+
+		for i in I dont't know if this'll work 不会被正确识别 需要 转义或双引号
+		...
+		for i in I dont\'t know if "this'll" work 这样是对的
+
+		默认是以空格作为分割的 有必要的话需要使用引号将数据括起来
+
+		a="aa bb cc"
+		b=$a" dd"         #直接相连
+		for i in $b ...
+
+		用反引号执行程序
+		for i in `cat a.txt`... 注意这是反引号
+		
+		迭代目录
+			for f in ~/*
+			do
+				if [-d $f]  #linux下允许文件名包含空格 所以 "$f"可以解决这个问题
+				then
+					echo $f
+				fi
+			done
+		C风for循环
+		for ((a=1;a<=10;++a))#这里没有写错 不需要$
+		do
+			echo $a
+		done
+		for ((a=1,b=1;a<=10 && b<=10; ++a,++b))...
+默认,bash shell将 空格 制表符 换行符 看做是 内部字段分隔符(internal field separator,IFS)
+	IFS.OLD=$IFS
+	IFS=$'\n':;" 将IFS修改为 换行 : ; "
+	...
+	IFS=$IFS.OLD
+	unset IFS.OLD
+while循环
+	while [ expresson ] expresson与if的类似
+	do
+		commands
+	done
+	
+	a=1
+	b=1
+	while ((a+b<=10))
+	do
+		echo $a $b
+		((++a,++b))#注意这里要用逗号
+	done
+
+	while循环允许多条测试语句 但只有最后一条的返回值用于while
+		a=1
+		while echo $a
+			((a<3))
+		do
+			((++a))
+		done
+在脚本中的输出重定向 如果想把错误输出到标准输出中 则需要
+	echo "ceshi" 2>&1        必须要&1 否则1会被认为是一个文件名
+在脚本里使用 exec 1> output.txt 来重新打开一个shell 并且将输出(STDOUT)重定向到output.txt 
+read
+	read -p "you name?" name      read如果成功执行则 返回状态0 -p表示给出一个提示
+	echo $name
+	如果在read中不指定 name 那么数据虎i北方到 $REPLY 里
+	-t 5 表示5秒内要输入数据 否则 程序返回非0
+	-n 1 表示只要接受一个字符
+	-s默读 不回显
+
+	while read line
+	do
+		...
+	done
+	
+	cat log.txt | while read line
+	do
+		...
+	done
+
+shell最多可以打开9个文件描述符 除了0~2 还可以打开 3~8
+
+先保存旧的文件描述符 然后重定向 再恢复
+
+exec 3>&1
+exec 1>log.txt
+echo "我是日志内容"
+exec 1>&3
+
+显式关闭一个文件描述符可以将它重定向到 &-
+exec 3>&-
+使用一个关闭了的文件描述符shell会报错
+
+lsof查看linux上开放的每个文件的相关信息
+	lsof -a -p $$ -d 0,1,2
+清空一个文件
+	cat /dev/null > log.txt
+创建临时文件
+	mktemp 会返回临时文件的名字
+	还可以用于创建一个临时文件夹
+	可以指定名字的格式 比如  xzc.XXXX.txt 那么四位会被随机 但此时必须要主动指定生成的目录 否则会被当成是在当前目录下生成
+	用-t指定说在/tmp下生成  --tmpdir=/tmp 也行 --tmpdir好像不能解析~
+	创建出来的文件的权限不受umask制约 只有属主才可以读写
+	用一个变量去接结果 tempFile=`mktemp log.XXXX.txt` ... rm -f $tempFile
+tee 用于分流
+	-a追加
+命令行参数
+	$#参数个数$0不算在内 $0表示程序名 $1第一个参数 ... 
+	如果要把$#用于 获取最后一个参数 则必须要这样做  ${!#}
+	$*所有参数的列表外面再加一个引号 相当于是把它括起来了
+	$@所有参数的列表
+	for i in $* 与 for i in $@ 的结果是一样的
+	假设参数是 a b c
+		for i in "$*" ...echo $i的结果是 a b c
+		for i in "$@" ...echo $i的结果是 a\nb\nc\n
+	用`basename $0`获得程序的基名
+	if [ -n "$1" ]   #注意 -n 是用于字符串的 所以你要 "$1" 否则 -n $1 似乎每次都是true
+	then
+		echo -n "f[$1]="
+		f1=1
+		f2=1
+		for((i=3;i<=$1;++i))
+		do
+			f3=$[$f1+$f2]
+			f1=$f2
+			f2=$f3
+		done
+		echo $f2
+	fi
+	shift用于弹出第一个参数 $1 然后剩余的参数都错1位 $# $* $@ 也会跟着变化
+	while [ -n "$1" ];do
+		echo "\$1=$1"
+		shift
+	done
+	
+	获取选项
+	while [ -n "$1" ];do
+		case $1 in
+		-a) echo "你选择了-a";;
+		*) echo "不认识的参数...$1";;
+		esac
+		shift
+	done
+	
+	getopt命令
+		echo `getopt -q ab:cd $*` ab:cd的意思是接受abcd4个选项其中b可以带参数 getopt会将$*进行格式化
+			-q表示如果遇到了在abcd之外的选项 也不报错
+			比如你的输入是 -a -b 3 test1 test2 test3 -c -d -e
+			那么echo的结果是 -a -b 3 -c -d -- test1 test2 test3                 一个--被自动加入其中作为 选项 与 参数 的分隔符
+			echo "\$*=$*"							#先打印出原始的$*
+			set -- `getopt -q ab:cd $*`				$set -- 将 getopt的结果改写入$*里
+			echo "\$*=$*"							#打印出修改后的$*
+			while [ -n "$1" ];do
+				case $1 in
+				-a) echo "-a";;
+				-b) echo "-b=$2";shift;;			#b需要一个参数肯定放在了$2
+				-c) echo "-c";;
+				-d) echo "-d";;
+				--) break;;
+				*) echo "what?!";;					#这里肯定没机会执行的
+				esac
+				shift
+			done
+		遗憾的是getopt没办法处理 带空格的参数 如果你输入了 'abc def' 那么最后会被认成 'abc' 'def'
+	getopts命令
+		getopts 从左向右扫描 选项(注意不是参数) 当它遇到参数的时候它会停下来  $OPTIND 表示下一个将要处理的选项
+		-a -b 3 test1 test2 test3 -c -d -e
+		while getopts :ab:cd opt;do
+			case "$opt" in
+			a) echo "-a";;
+			b) echo "-b=$OPTARG";;
+			c) echo "-c";;
+			d) echo "-d";;
+			*) echo "what?!";;
+			esac 
+		done                             
+		shift $[$OPTIND -1] #按照上面的输入 此时$OPTIND=4 我们要弹出3个 即 -a -b 3
+		for i in $*;do     可以看到在后面的 -c -d -e也是选项但是没有被处理到  要解决这个问题可以考虑与 getopt合起来用
+			echo "i=$i"
+		done
+
+脚本控制
+	默认情况下 bash shell忽略 SIGQUIT SIGTERM 处理 SIGHUP SIGINT
+	^C终止 SIGINT
+	^Z挂起 SIGTSTP
+	trap命令可以拦截linux信号 保护某个信号不被shell处理 而由脚本处理
+		trap commands signals
+		trap "echo nihao" SIGINT SIGTERM
+		sleep 10
+		sleep 10
+		表明脚本要自己处理INT TERM信号 当你第一次按^C的时候 会输出nihao 第二次按^C的时候 会输出nihao 然后脚本就结束了
+		这是因为^C会打断sleep
+		除了捕获linux的信号 还有一些其他的信号
+		EXIT 脚本退出
+		trap "echo bye" EXIT
+		trap - EXIT 取消捕获EXIT
+	脚本以后台模式运行 ./test &
+		后台进程共享STDIN STDOUT STDERR 你可以给他们重定向
+		每个后台进程都连接着一个终端 当终端退出的时候 后台进程也会退出
+		nohup ./test1 & ./test1 以后台模式运行 即使终端退出也不会影响它
+			但是同时./test1的输入和输出都不是stdin stdout 有需要的话 需要重定向他们
+			nohup默认将stdout重定向到nohup.out这个文件
+	jobs fg bg ^Z
+	nice -n 10 ./test4 >test4out &
+	renice -n 5 -p 29504 改变pid为29504的进程的优先级为5 需要root 而且优先级只能比当前更低
+	
+	给定时间运行
+		at [-f filename] time 作业被提交到作业队列(job queue)中
+			作业队列分26个等级用a-z表示 a最高级
+			作业需要自己重定向输入输出
+			time: 10:15 10:15PM now nonn midnight teatime(4PM)
+				MMDDYY MM/DD/YY DD.MM.YY Jul 4 Dec 25
+				now + 25 minutes
+				10:15PM tomorrow
+				10:15 + 7 days
+		atq查看作业队列
+		atrm移除作业
+		batch
+			与at类似 不过它的作业是在系统负载率比较低(0.8)的时候才会被运行
+			也可以指定一个time(可选的) 不过这个time是这个作业的最早执行时间
+		cron	用于定时执行 如果到了运行时间而服务器是关机的 那么开机后没办法重新执行错过的命令
+			如果存在/etc/cron.allow 则里面是允许调用cron的用户
+			否则/etc/cron.deny 里面是不允许调用cron的用户
+			min hour dayofmonth month dayofweek command
+			具体值 范围 1-5 通配符*
+			15 10 * * * command 每天10:15运行
+			15:16 * * 1 每周一下午4点15分运行
+			*/5 * * * * command 每5分钟
+			8-15 ... 8-15分钟
+			8,15 8,15分钟
+			dayofweek可以是 mon tue wed thu fri sat sun 0 7都是星期天
+			每个月的最后一天的12:00执行任务
+				00 12 * * * if [ `date +%d -d tomorrow` = 01 ];then;command;fi
+				每天的12:00都检查明天是不是1日 是的话就执行
+			查看cron表格
+			crontab 保存在/var/spool/cron里
+				-l查看
+				-e编辑
+					执行之后会打开vi/vim
+					在里面进行任务的编辑
+					比如在第一行输入
+					* * * * * echo "hello" >> /home/xzc/桌面/log.txt 要用绝对路径否则到时候找不到路径...
+					可能会用到一个命令叫做 run-parts dir
+					它的功能是接受一个目录 然后遍历这个目录下的文件 执行能够执行的文件
+					注意第3,4,5个参数
+					* * 9 11 5 会被认为是每年的11月9日 或 星期5 执行
+			这个crontab是对于每个用户来说的
+			如果需要维护系统级别的crontab
+			那就要把执行的任务写到/etc/crontab (这是一个文档)
+			打开它一看你就明白了
+			修改完成之后执行 service crond restart 重启crond服务 详情看鸟哥的 第16章
+		anacron
+			其实anacron也是crontab里的一个任务(不过执行频率上比较高 每小时 每天 ... 执行一次 可以在/etc/cron.daily /etc/cron.hourly)
+			以天为单位 或 在开机后 执行任务
+			可以处理错过的任务的问题 当它开机后将会自动处理在关机期间的作业
+			period delay identifier command
+	在启动linux系统的时候自动执行
+		假设你的脚本叫做abc
+		先将你的脚本放在/etc/rc.d/init.d/abc
+		然后到/etc/rc.d/rc5.d里 创建/etc/rc.d/init.d/abc的符号链接为 S99abc
+			凡是以Kxx开头的，都以stop为参数来调用；
+			凡是以Sxx开头的，都以start为参数来调用。
+		重启系统就会生效
+		http://blog.chinaunix.net/uid-26000296-id-3986914.html
+		放在/etc/rc.d 或 /etc/init.d里的脚本
+		如果是要针对某个用户的则可以放到  ~/.bash_profile里
+		runlevel查看运行等级
+		Linux 提供了chkconfig 命令用来更新和查询不同运行级上的系统服务。
+创建函数
+	后定义的函数如果重名会覆盖之前的
+	bash shell将函数看做一个小型的脚本 最后一条命令的返回值作为函数的返回值
+	而已使用$?来查看函数的退出状态
+		可以用return 5显示改变退出值 要记住:函数返回后要尽早使用$? 而且返回值介于 0~255 否则是对256取模
+	可以使用反引号``来捕获函数的输出
+		但是由于read -p "you name?" name 而产生的 you name? 不算是输出
+	
+	#!/bin/bash
+	#my first shell script
+	if [ -r "mylib" ]     
+	then
+		. ./mylib		#从mylib库加载定义
+	fi
+
+	function ceshi1 {	#简单的函数
+		echo "ceshi1"
+	}
+	ceshi2(){
+		echo "ceshi2"	#简单的函数
+	}
+	ceshi3(){
+		date /s			#最有一条命令发生错误 返回值是1
+	}
+	ceshi4(){
+		echo "ceshi4"
+		return 5666		#自定义返回值
+	}
+	ceshi5(){
+		read -p "you name?" name
+		echo "hello $name, i am ceshi5" #捕获函数输出
+	}
+	ceshi6(){
+		echo $*				#参数
+	}
+	ceshi7(){
+		local value=$[$value+4] #局部变量value 不过 右边那个$value此时还是引用的全局变量
+		value=$[$value+4]		#局部变量
+		echo $value				#局部变量
+	}
+
+	ceshi1
+	ceshi2
+	ceshi3
+	echo "\$?=$?"
+	ceshi4
+	echo "\$?=$?"
+	#echo `ceshi5`
+	r=(`ceshi6 1 2 3 4`)
+	echo ${r[*]}
+	value=1
+	ceshi7
+	echo $value
+	libfun					$这个函数位于库 ./mylib
+文本菜单
+	menu(){
+		echo
+		echo -e "\t\t\tWelcome to ss1\n"
+		echo -e "\t1. who"
+		echo -e "\t2. whoami"
+		echo -e "\t3. date"
+		echo -e "\t4. Exit"
+		echo -e "\n"
+		echo -en "\tEnter option: "
+		read -n 1 option
+	}
+	while [ 1 ];do
+		menu
+		case $option in
+		1) clear;who;break;;
+		2) whoami;break;;
+		3) date;break;;
+		4) break;;
+		esac
+	done
+
+图形化
+	dialog kdialog zenity
+		dialog --menu "Sys Admin Menu" 20 30 10 1 "item1" 2 "item2" 3 "item3" 4 "item4"           20 30是高度 宽度 10是显示的菜单数量(后面给出了4个菜单,如果是40个菜单那么会进行滚动,因为超过10了)
+		dialog --title "选择文件" --fselect ~ 10 50 2>file.txt
+sed编辑器
+	echo "this is a test test" | sed "s/test/big test/g"
+	g所在的位置还可以是一个数字比如是2 那么意思是将第二个 test换成 big test
+	cat test.txt | sed -n 's/two2/ccc/gp' -n表示不输出 p表示满足pattern的行要进行输出
+	sed 's/test/aaaa/gw new' old 将old中的test换成aaaa然后保存到new
+	sed允许用其他的分隔符比如 sed 's!test!aaaa!g'
+	sed可以指定多个替换
+	echo "this is a test test" | sed -e "s/test/big test/g" -e "s/is/iis/g"或echo "this is a test test" | sed "s/test/big test/g;s/is/iis/g"
+	或echo "this is a test test" | sed "^J
+s/this/that/g
+s/test/big test/g
+"^J
+	可以将这些替换命令放在一个文件里 然后 cat log.txt | seg -f file.txt
+	将commands应用于某些行 addresscommand address{commands}
+	sed '2s/1/X/g' test.txt 只对第二行有效 还可以是 2,$ 表示从第二行到最后一行
+	还可以让sed只作用于满足pattern的行
+	sed '/rich/s/1/X/g' test.txt 只作用于满足rich的行(即包含有rich的行)
+	sed '/two1/{s/1/X/g}' test.txt 花括号{}内可以放多条语句
+	删除行
+		2d 2,3d 2,$d
+		sed '2,3d' test.txt
+		sed '/rich/d' test.txt
+	插入文本
+		sed '1i7086' test.txt在 第1行之前插入7086 还可以是$最后一行
+		sed '/rich/i7086' test.txt在 满足rich的行之前插入7086
+		a在所有满足条件的行后面插入
+	修改行
+		sed '/rich/c7086' test.txt在 满足rich的行修改为7086
+		sed -n '/one1/{p;s/one2/XXXX/gp}' test.txt
+			-n禁止输出 对于满足one1的行先p(输出原本的内容)再用正则表达式替换之后再次输出
+	变换 tr
+		[address]y/abc/123/
+	p
+		输出
+		先-n 进制sed输出 再  2,3p输出2,3行
+	P
+		打印模式空间的第一行
+	w
+		[address]w filename
+		sed '1,2w test' test.txt
+		sed '/rich/w test' test.txt 将所有满足w的行输出到test
+	n
+		移动到下一行
+	N
+		将下一行加入到模式空间
+		如果已经是在最后一行了 那么就会出错 出错会导致N后面的语句没有被执行
+	h 模式空间复制到保留空间
+	H 模式空间追加到保留
+	g 保留空间复制到模式
+	G 保留空间追加到模式空间
+	x 模式空间和保留空间互换
+	D
+		删除模式空间中的第一行
+	r插入文本
+		[address]r filename 在address位置插入filename指定的文本
+		sed -n '1r log.txt' test.txt在第一行插入log.txt的内容
+		r与d一起用,刻意替换文本中的特定表达式
+		比如 sed '/LIST/{
+			r list.txt
+			d
+		}'          表示把满足LIST的行替换成 list.txt的内容
+	分支
+	sed '
+	2,3b
+	s/abc/111/
+	s/def/222/
+	' test.txt 的意思是 这段命令不对2,3起作用
+	sed '2b jump1;s/today/XXXX/;:jump1;s/is/XX/' test.txt 的意思是
+		对于每一行 如果是第2行 就跳到 :jump1处继续执行
+		否则就按顺序执行s/today/XXXX/ s/is/XX/ 即第二行的时候只会处理s/is/XX/
+	分支 标签
+	echo "today,is,a,good,day" | sed -n '          意思是每次替换today,is,a,good,day中的,为空格 直到没有逗号
+		> :start
+		> s/,/ /p
+		> /,/b start
+		> '
+		today is,a,good,day
+		today is a,good,day
+		today is a good,day
+		today is a good day
+	测试命令t 标签
+	[address]t [label]
+	如果上一次替换成功 那么就跳到label所指定的地方 如果label没有指定的话 那么久是脚本的最末尾(相当于continue)
+	sed '
+	s/good/fucking/          #如果这一行将good替换成fucking成功了 那么就跳过剩余的执行(不输出)
+	t
+	p' -n test.txt
+	today is
+	yoshi dadadi hao
+	yoshi dadadi hao
+	yoshi dadadi hao
+	
+	echo "today,is,a,good,day" | sed -n '
+	:start
+	s/,/ /p
+	t start'       #每次替换,为空格 直到没有,
+
+	与号 &
+	sed 's/.at/"&"/g' 把满足 .at的单词 替换成 "&" &表示匹配的那个单词 比如 hat -> "hat"
+	echo "today is a good day" | sed -n 's/\b\w\{3,5\}\b/"&"/pg' 给长度3~5的单词加上双引号 注意 {} 需要转义 \{ \}
+	echo "www.baidu.com" | sed 's/www\.\([^\.]\+\)\.com/& no \1/g' \1保存了第一个捕获组 + ( ) .需要转义
+	需要这么多转义的原因应该是它用的是基础正则表达式
+
+	sed '=' test.txt | sed 'N;s/\n/ /'
+		打印行号
+	q
+		退出
+gawk
+	$0本行 $1第一个字段 $n...
+	-F指定分隔符
+	-f指定输入文件
+	test.txt的内容是
+	one1,one2,one3
+	two1,two2,two3
+	gawk -F ',' '{print $1}' test.txt #以,为分隔符读取test.txt每行 输出第一个字段
+	gawk -F ',' '{print $1}' test.txt #以,为分隔符读取test.txt每行 输出第一个字段
+	gawk -F ',' '{$1=7086245;print $0}' test.txt 将第一个字段替换成70862045 #也可以换行输入
+	gawk '
+	BEGIN {print "I am goint to working on test.txt"  BEGIN块最先执行
+	FS=","}  手动FS=","指定分隔符 跟  -F ',' 效果一样
+	{print $1 $2}
+	END{print "I finished it"}             END块等全部执行完后再执行
+	' test.txt
+	内置变量
+		FS输入字段分隔符 RS输入记录分隔符 OFS输出字段分隔符 ORS输出记录分隔符 FIELDWIDTHS
+		因为OFS默认是空格 所以 print $1,$2,$3 是用空格隔开的 $NF是最后一个字段  NF是字段个数
+		有些情况下数据并没有明确的分隔符 而是占了一定的列
+		BEGIN{FIELDWITHDS="3 5 2 5"}{print $1,$2,$3,$4} 表明第一个变量占了3列 然后5列 ...
+	定义函数
+	function funcname([vars]){ 函数定义必须出现在BEGIN之前
+		statements
+		return ...
+	}
+	可以将函数的定义单独放在一个文件里 比如 func 然后 gawd -f func ... 导入func文件
+	
+
+将Sublime Text 2固定到linux中
+在/usr/share/applications/创建sublime-text.desktop内容是
+[Desktop Entry]
+Encoding=UTF-8
+Version=2.0
+Type=Application
+Terminal=false
+Icon=/usr/local/st/Icon/48x48/sublime_text.png
+Name=Sublime Text
+Comment=Sublime Text 2
+Exec=/usr/local/st/sublime_text %F
+尾巴的 %F表示允许出现在 用其他程序打开列表中
+创建完之后在 /usr/share/applications/里应该能看到sublime text的图标
+然后是替换掉默认的gedit
+我们先创建一个软链接  ln -s subtext_text /usr/bin/sublime
+然后 sublime /usr/share/applications/defaults.list 替换掉 gedit.desktop出现过的地方(应该是  text/plain)
+然后就行了~
+
+

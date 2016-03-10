@@ -1,0 +1,16 @@
+getContextPath
+如果地址是http://127.0.0.1:8080/ssh_0902/index.jsp则返回/ssh_0902
+getQueryString
+如果是http://127.0.0.1:8080/ssh_0902/index.jsp?sdf=sdf则返回sdf=sdf
+getRequestedSessionId
+获得SessionId
+
+getRequestURI()
+返回/ssh_0902/index.jsp
+getRequestURL()
+返回http://127.0.0.1:8080/ssh_0902/index.jsp
+都不会带有QueryString
+
+getServletPath
+返回/index.jsp
+

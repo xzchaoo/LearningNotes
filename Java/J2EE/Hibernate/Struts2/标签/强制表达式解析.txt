@@ -1,0 +1,7 @@
+<s:iterator value="{1,5,9,8}">
+	<s:textfield name="ziduan%{top}"/>
+</s:iterator>
+
+本来name是不支持动态表达式的
+不过加了%{top}之后 内容 top 会被强制表达式解析
+而top指的是当前值栈顶的元素

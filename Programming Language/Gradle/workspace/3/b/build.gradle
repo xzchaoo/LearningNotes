@@ -1,0 +1,5 @@
+task bt1 << {
+	println('ÎÒÊÇbt1')
+}
+
+println bt1

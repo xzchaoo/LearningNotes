@@ -1,0 +1,14 @@
+去实现ognl.TypeConverter
+	或继承ognl.DefaultTypeConverter
+	或继承org.apache.struts2.util.StrutsTypeConverter
+
+全局级别的类型转换器
+	在classpath下
+		xwork-conversion.properties
+	或
+		Action类下建立XXXAction-conversion.properties
+		java.awt.Rectangle=caster.BiliCaster
+	
+用注解方式实现
+	@TypeConversion 加载方法或属性上
+	@Conversion 加在domain类上

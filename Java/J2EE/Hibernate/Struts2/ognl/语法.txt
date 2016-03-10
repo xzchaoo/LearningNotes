@@ -1,0 +1,13 @@
+<s:property value="@xzc.util.StringUtil@AUTHOR"/>创建list
+{1,2,3,4}
+{'1','2','4'}
+
+创建map
+#{'name':'xzc','age':'20'}
+
+用 in 和 not in判断元素是否在某个集合中
+
+<s:set var="list" value="{1,2,3}" />
+<s:if test="1 in #list">
+	日
+</s:if>

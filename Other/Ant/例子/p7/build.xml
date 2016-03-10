@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project default="c1">
+	
+	<target name="c1">
+		<available classname="xzc.ant.task.XTask1" classpath="dest/classes" property="yes"/>
+		<available file="1.txt" type="file" property="yes" />
+		<echo message="${yes}" />
+	</target>
+
+	<target name="ceshi">
+		<delete dir="dest" />
+		<mkdir dir="dest" />
+		<mkdir dir="dest/classes" />
+		<javac srcdir="src" destdir="dest/classes" classpath="E:\Java\json\google-gson\gson-2.2.4.jar"/>
+		<taskdef name="xt1" classname="xzc.ant.task.XTask1" classpath="dest/classes;E:\Java\json\google-gson\gson-2.2.4.jar" />
+		<xt1 file="1.txt" />
+	</target>
+	<target name="jar">
+		<jar jarfile="lib/xt1.jar" basedir="dest/classes" />
+	</target>
+	
+	<taskdef name="xt1" classname="xzc.ant.task.XTask1" classpath="lib/xt1.jar" />
+	<target name="run">
+		<touch file="x.txt" />
+		<xt1 file="1.txt" />
+	</target>
+
+</project>

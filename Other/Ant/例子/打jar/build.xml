@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project default="mkjar">
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="dist"  location="dist"/>
+	
+	<target name="mkjar">
+		<mkdir dir="${build}"/>
+		<mkdir dir="${dist}"/>
+		<mkdir dir="${dist}/lib"/>
+		<javac srcdir="${src}" destdir="${build}"/>
+		<jar jarfile="${dist}lib/jar.jar" basedir="${build}"/>
+	</target>
+</project>

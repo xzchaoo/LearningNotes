@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/1"
+	xmlns:tns="http://www.example.org/1" elementFormDefault="qualified">
+
+	<element name="root" type="tns:rootType" />
+
+	<element name="root3" />
+
+	<element name="root2" type="tns:root2Type" />
+
+	<complexType name="root2Type">
+		<complexContent>
+			<extension base="tns:rootType">
+				<sequence>
+					<element name="char">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="1" />
+								<enumeration value="2" />
+								<enumeration value="3" />
+							</restriction>
+						</simpleType>
+					</element>
+				</sequence>
+				<attribute name="a1" type="int">
+					<annotation>
+						<documentation>
+							fuckyou
+						</documentation>
+					</annotation>
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="rootType">
+		<sequence>
+			<element name="role">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="a" />
+						<enumeration value="b" />
+						<enumeration value="c" />
+					</restriction>
+				</simpleType>
+			</element>
+		</sequence>
+		<attribute name="a0" type="int" use="optional" />
+	</complexType>
+
+	<complexType name="t1">
+		<sequence>
+			<element name="char" minOccurs="0" type="string" />
+		</sequence>
+		<attribute name="a" type="int" />
+		<attribute name="b" type="int" />
+	</complexType>
+
+	<element name="e1" type="tns:t1" />
+
+	<complexType name="t2">
+		<complexContent>
+			<restriction base="tns:t1">
+				<sequence>
+					<element name="char" minOccurs="0">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="a" />
+								<enumeration value="b" />
+								<enumeration value="c" />
+							</restriction>
+						</simpleType>
+					</element>
+				</sequence>
+				<attribute name="a" use="prohibited" />
+			</restriction>
+		</complexContent>
+	</complexType>
+	<element name="e2" type="tns:t2" />
+
+	<complexType name="t3">
+		<complexContent>
+			<restriction base="tns:t2">
+			</restriction>
+		</complexContent>
+	</complexType>
+	<element name="e3" type="tns:t3" />
+
+	<complexType name="t4">
+		<sequence>
+			<any namespace="##any" />
+		</sequence>
+		<anyAttribute />
+	</complexType>
+
+	<element name="e4" type="tns:t4" />
+
+	<element name="itemList">
+		<complexType>
+			<sequence>
+				<element ref="tns:item" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+
+	<complexType name="itemType">
+		<sequence>
+			<element name="name" type="string" />
+		</sequence>
+	</complexType>
+	<element name="item" type="tns:itemType" abstract="true"/>
+
+	<complexType name="item1Type">
+		<complexContent>
+			<extension base="tns:itemType">
+				<sequence>
+					<element name="item1a" type="int" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="item1" type="tns:item1Type" substitutionGroup="tns:item"/>
+
+	<complexType name="item2Type">
+		<complexContent>
+			<extension base="tns:itemType">
+				<sequence>
+					<element name="item2a" type="boolean" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="item2" type="tns:item2Type" substitutionGroup="tns:item"/>
+	
+</schema>

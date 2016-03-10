@@ -1,0 +1,20 @@
+
+	WARNINGFATAL && !IGNOR{#对于所有满足  WARNINGFATAL 且 不满足 IGNOR 的行
+		$6=$2+$5     #第6字段为第2字段加上第5字段
+		m[mc++]=$6   #将所有的第6字段存起来
+		print $0
+	}
+	END{
+		sum=0
+		for(i in m){
+			sum+=m[i];
+		}
+		avg=summc #求出第6字段们的平均数
+		printf(sum=%d mc=%d avg=%fn,sum,mc,avg)
+		count=0
+		for(i in m){
+			if(m[i]avg)
+				++count
+		}
+		printf(count=%dn,count)#看看有几个第6字段是大于第6字段的平均数的
+	}   

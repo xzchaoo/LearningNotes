@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="proj2">
+	<target name="p2c1">
+		<echo>hellow p2c1 ${x}</echo>
+	</target>
+</project>

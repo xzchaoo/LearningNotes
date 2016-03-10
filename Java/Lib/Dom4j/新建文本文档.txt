@@ -1,0 +1,70 @@
+package com.xzc.dom4j;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Iterator;
+
+import org.dom4j.Attribute;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
+import org.junit.Test;
+
+//测试Dom4j的常用方法
+public class TestDom4j {
+	@Test
+	public void testWrite(){
+		try {
+			Document d=DocumentHelper.createDocument();
+			Element root=d.addElement( "IAmRoot" );
+			root.setAttributeValue( "name1",  "xzc1");
+			root.addAttribute( "name2", "xzc2" ).addAttribute( "age","士大夫");
+			root.addElement( "child" ).addAttribute( "name", "child" );
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			XMLWriter writer=new XMLWriter(new FileOutputStream( "write_test.xml" ),format);
+			writer.write( d );
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+	}
+	@Test
+	public void testRead() throws DocumentException {
+		SAXReader reader = new SAXReader();
+		Document d = reader.read( new File( "WebRoot/dataxx.xml" ) );
+		Element root = d.getRootElement();
+		//打出根节点的名字
+		System.out.println( root.getName() );
+		//遍历所有子节点
+		System.out.println("遍历子节点");
+		for(Iterator i=root.elementIterator();i.hasNext();){
+			Element e=(Element)i.next();
+			System.out.println(e.getName());
+		}
+		//遍历所有test子节点
+		System.out.println("遍历test子节点");
+		for(Iterator i=root.elementIterator("test");i.hasNext();){
+			Element e=(Element)i.next();
+			System.out.println(e.getName());
+		}
+		//遍历所有属性
+		System.out.println("遍历属性");
+		for(Iterator i=root.attributeIterator();i.hasNext();){
+			Attribute  a=(Attribute )i.next();
+			System.out.println(a.getName()+"="+a.getValue());
+		}
+		System.out.println("用select选择节点");
+		Element test=(Element)root.selectSingleNode( "test" );
+		System.out.println(test.getName());
+		System.out.println("用XPath:");
+		System.out.println(root.selectSingleNode( "//data//name" ).getName());
+		//转成String
+		d.asXML();
+		//字符串转document
+		//Document d2=DocumentHelper.parseText( "..." );
+	}
+}

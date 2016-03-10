@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+	<!-- 4.0.0 固定 -->
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>dmk</groupId>
+		<artifactId>dmk-ap</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../parent/pom.xml</relativePath>
+	</parent>
+
+	<artifactId>dmk-a2</artifactId>
+	<name>dmk-n2</name>
+
+</project>

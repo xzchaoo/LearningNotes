@@ -1,0 +1,14 @@
+使用rpm包安装完之后, 自动生成了一个超级用户的密码, 通过下面的方式取出来
+grep 'temporary password' /var/log/mysqld.log
+
+/etc/my.cnf /etc/mysql/my.cnf /usr/etc/my.cnf ~/.my.cnf 是mysql的配置文件
+我在centos7下安装完之后只有my.conf
+mysql -u root -p
+然后会提示你输入密码
+
+mysqladmin password -u root -p
+提示你输入旧密码
+提示你输入新密码
+提示你再次输入新密码
+142的密码是在 xzcXZC@...
+

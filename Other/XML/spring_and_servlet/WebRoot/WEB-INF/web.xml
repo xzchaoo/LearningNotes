@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+
+	<servlet>
+		<servlet-name>bean1</servlet-name>
+		<servlet-class>spring_and_servlet.ServletToBeanHelper</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>bean1</servlet-name>
+		<url-pattern>/bean1</url-pattern>
+	</servlet-mapping>
+	
+</web-app>

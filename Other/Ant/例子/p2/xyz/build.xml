@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project default="ceshi">
+	<target name="ceshi">
+		<mkdir dir="s1" />
+		<mkdir dir="s2" />
+		<echo>呵呵</echo>
+		<copy todir="s3">
+			<fileset dir="s1"/>
+		</copy>
+		<zip destfile="output.zip" basedir="."/>
+	</target>
+</project>

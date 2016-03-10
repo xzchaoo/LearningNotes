@@ -1,0 +1,93 @@
+function f1(name,_________,i,s){
+	printf("hello %s\n",name)
+	m[0]=77 #!!!
+	s=0
+	for(i=1;i<=100;++i)
+		s+=i
+	printf("1+...+100=%d\n",s)
+	i=1
+	s=0
+	while(i<=100){
+		s+=i++ #you can also break or continue
+	}
+	printf("1+...+100=%d\n",s)
+	printf("%f\n",sin(3.141592653/2))
+	srand(systime()) #you should remember to use this statement
+	printf("rand()=%f\n",rand()) #range is 0~1     [0,10) int(10*rand())
+	printf("1<<2=%d\n",lshift(1,2)) #not support operator <<    and&& or|| rshift>> xor^ compl~
+	return "sb"
+}
+BEGIN{
+	print "starting..."
+	printf ("n = %d\n",n)
+}
+{
+	printf ("return value=%s\n",f1($1))
+	#printf("m[0]=%d\n",m[0])
+	m[1]=1
+	m["b"]=2
+	m["c"]="c"
+	delete m["b"]
+	for (i in m){
+		printf("%s=%s\n",i,m[i]);
+	}
+
+}
+/^today/{
+	printf("this line starts with today.         %s\n",$0)
+}
+$2 ~ /is/{
+	printf("the second word of this line is is        %s\n",$0)
+}
+$2 !~ /man/{
+	printf("the second word of this line is not man        %s\n",$0)
+}
+1+2!=3 || 1+3==4{
+	printf("1+2==3 is always true!\n")
+}
+$1=="today"{
+	printf("the 1st field is today\n")
+}
+$3<44{
+	printf("the 3rd field,seen as a number,is small than 44    %s\n",$0)
+	if($3>33){
+		printf(">33\n")
+	}else if($3<33){
+		printf("<33\n")
+	}else{
+		printf("=33\n")
+	}
+}
+END{
+	print "ending..."
+	delete m
+	m[0]=9
+	m[1]=7
+	m[6]=2
+	asort(m,d)
+	for(i in d){
+		printf("%s=%s\n",i,d[i])
+	}
+	d[5]=9
+	asorti(m,d)
+	for(i in d){
+		printf("%s=%s\n",i,d[i])
+	}
+	printf("length(m)=%d\n",length(m))
+	if("one" in m){
+		#...
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

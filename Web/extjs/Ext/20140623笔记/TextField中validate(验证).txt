@@ -1,0 +1,29 @@
+Ext.onReady(function() {
+			Ext.QuickTips.init();
+			var formPanel = new Ext.FormPanel({
+						title : "我是title",
+						applyTo : "d",
+						width : 800,
+						height : 600,
+						defaultType : "textfield",
+						labelSeparator : "#",// 可以修改标签的分隔符 默认是 xxx:
+						labelAlign : "right",
+						frame : true,
+						labelWidth : 80,
+						items : [new Ext.form.TextField({
+											fieldLabel : "账号",
+											validateOnBlur : true,
+											validateDelay : 1000,
+											minLength : 4,
+											minLengthText : "账号必须至少位四位",
+											allowBlank : false,
+											blankText : "账号不能为空",
+											msgTarget : "side"//指定错误提示的方式,有多种,  msgTarget:"qtip"  qtip,title,under,side
+											//qtip title 类似普通的提示 under出现在输入框的下面 size出现在右边
+										}), new Ext.form.TextField({
+											fieldLabel : "密码"
+										})]
+					});
+		});
+
+

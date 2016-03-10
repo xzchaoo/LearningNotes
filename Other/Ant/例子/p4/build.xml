@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="p4" default="compile" basedir=".">
+	<property name="src" value="src" />
+	<property name="build" value="build" />
+	<property name="build.classes" value="${build}/classes" />
+	<property name="lib" value="lib" />
+
+	<target name="init">
+		<mkdir dir="${build.classes}" />
+	</target>
+	
+	<target name="compile" depends="clean,init">
+		<javac srcdir="${src}" destdir="${build.classes}">
+			<classpath>
+				
+					<fileset dir="${lib}">
+						<include name="*" />
+					</fileset>
+				
+			</classpath>
+
+		</javac>
+	</target>
+
+
+	<target name="jar" depends="compile">
+		<jar jarfile="xyz.jar" basedir="${build.classes}"/>
+	</target>
+	
+	<target name="run" depends="compile">
+		<java classname="Test" fork="yes" classpath="${build.classes}">
+			<classpath>
+				
+					<fileset dir="${lib}">
+						<include name="*" />
+					</fileset>
+				
+			</classpath>
+		</java>
+	</target>
+	
+
+	<target name="clean">
+		<delete dir="${build}" />
+	</target>
+
+</project>

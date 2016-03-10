@@ -1,0 +1,57 @@
+dependencies {
+    compile("org.gradle.test.excludes:api:1.0") {
+        exclude module: 'shared'
+    }
+}
+
+mavenCentral() //maven中央仓库
+jcenter() //jcenter仓库
+jcenter {//jcenter默认是https://jcenter.bintray.com/ 也支持http 但需要这样写
+	url "http://jcenter.bintray.com/"
+}
+mavenLocal() 本地maven
+    maven {
+	  credentials {
+            username 'user'
+            password 'password'
+        }
+        url "http://repo.mycompany.com/maven2"
+    }
+
+	A build depending on both module-a and module-b will obtain different versions of libraries within the releasable unit.
+Dependency resolve rules give you the power to enforce releasable units in your build. Imagine a releasable unit defined by all libraries that have 'org.gradle' group. We can force all of these libraries to use a consistent version:
+Example 52.45. Forcing consistent version for a group of libraries
+
+build.gradle
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'org.gradle') {
+            details.useVersion '1.4'
+        }
+    }
+}
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.name == 'groovy-all') {
+            //prefer 'groovy' over 'groovy-all':
+            details.useTarget group: details.requested.group, name: 'groovy', version: details.requested.version
+        }
+        if (details.requested.name == 'log4j') {
+            //prefer 'log4j-over-slf4j' over 'log4j', with fixed version:
+            details.useTarget "org.slf4j:log4j-over-slf4j:1.7.10"
+        }
+    }
+}
+
+替换外部依赖为项目
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute module("org.utils:api") with project(":api")
+        substitute module("org.utils:util:2.5") with project(":util")
+    }
+}
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute project(":api") with module("org.utils:api:1.3")
+    }
+}

@@ -1,0 +1,12 @@
+2016-03-09
+git clone URL
+git checkout BRANCH
+git reset --(soft/mixed/hard) HEAD
+
+git add ...
+git rm ...
+git status
+git log
+git branch -v
+git remote -v
+

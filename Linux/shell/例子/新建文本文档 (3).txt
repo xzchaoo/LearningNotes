@@ -1,0 +1,11 @@
+检验文件系统(Filesystem)中支持的文件类型
+
+文件系统支持的文件类型指的是通过ls -l 中第一个字符表示的文件类型：
+
+-(regular)：正规文件（包括文本文件(ASCII,会打印text)，可执行文件(会打印excutable)，其他二进制文件(会打印data)）
+d(directory)：目录
+l(link)：软链接（不包括硬连接，硬链接会以正规文件显示
+b(block buffered special)：随机存储的设备文件，如硬盘，光盘等存储设备
+c(character unbuffered special)：持续输入的设备文件，如鼠标，键盘
+s(socket)：socket文件，最常在/var/run目录下看到这类文件
+p(pipe)：管道文件(first-in-first-out)，它的目的在解决多个程序同时存取一个文件造成的错误问题

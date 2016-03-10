@@ -1,0 +1,5 @@
+NumberField
+TextArea
+TextField 利用inputType:"password"可以设置成密码框
+Label
+TriggerField 即下拉框

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/2"
+	xmlns:tns="http://www.example.org/2" elementFormDefault="qualified">
+	<element name="book">
+		<simpleType>
+			<union>
+				<simpleType>
+					<restriction base="int" />
+				</simpleType>
+				<simpleType>
+					<list itemType="int" />
+				</simpleType>
+			</union>
+		</simpleType>
+	</element>
+</schema>

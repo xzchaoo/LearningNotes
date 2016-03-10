@@ -1,0 +1,157 @@
+对于margin这种需要指定四个方向的值
+	如果给定1个参数 那么用于4个方向
+	如果给定2个参数 那么分别用于 上下 左右
+	如果给定3个参数 那么分别用于 上 左右 下
+	如果给定4个参数 那么分别用于 上 下 左 右
+container可以让元素居中
+
+btn-group 一个可以下拉的按钮
+<div class="btn-group">
+	<!-- 去掉 dropdown-toggle 会发现 按钮的 右边是方的 而左边是圆角的 因此 dropdown-toggle就是用于是的右边变成圆角
+	-->
+	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Menu <span class="caret"></span></button>
+	<ul class="dropdown-menu" role="menu">
+	<li><a href="#">一个链接</a></li>
+	<li><a href="#">另一个链接 link</a></li>
+	<li><a href="#">其他功能</a></li>
+	</ul>
+</div>    
+
+dropdown-menu常用在ul上
+	divider用于li上作为分隔符
+	dropdown-submenu用于li上 表示一个子菜单
+	active disabled 用于li
+
+
+
+
+
+使用
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+设置宽度 使得正确呈现 initial-scale=1 保证网站加载的时候 1:1 呈现 不缩放
+添加 user-scalable="no" 使得用户无法缩放 常与maximum-scale=1.0一起用
+
+
+<h1>我是标题1 h1. <small>我是副标题1 h1</small></h1> 
+
+
+有很多类可以用于段落 表示 强调 信息 警告 等
+
+缩写
+<abbr title="World Wide Web">WWW</abbr>
+
+使用<address>可以显得像一个地址
+
+使用cite 可以让人移动过去显示一个框框提示
+
+使得pre可以滚动 pre可以用于显示一段文字
+<pre class="pre-scrollable">
+code与pre类似常用于显示代码
+code常用语内联显示代码
+pre用于一个独立的块元素或代码有多行
+
+
+
+表格
+.table	为任意 <table> 添加基本样式 (只有横向分隔线)
+.table-striped	在 <tbody> 内添加斑马线形式的条纹 ( IE8 不支持)
+.table-bordered	为所有表格的单元格添加边框
+.table-hover	在 <tbody> 内的任一行启用鼠标悬停状态
+.table-condensed	让表格更加紧凑
+通过把任意的 .table 包在 .table-responsive class 内，您可以让表格水平滚动以适应小型设备（小于 768px）。当在大于 768px 宽的大型设备上查看时，您将看不到任何的差别。
+
+创建表单的基本方法
+向父 <form> 元素添加 role="form"。
+把标签和控件放在一个带有 class .form-group 的 <div> 中。这是获取最佳间距所必需的。
+向所有的文本元素 <input>、<textarea> 和 <select> 添加 class .form-control。
+
+<!-- 下面是一个垂直表单 -->
+<form role="from">
+	<div class="form-group">
+		<label for="name">名称</label>
+		<input type="text" class="form-control" id="name" placeholder="请输入名称">
+	</div>
+	<div class="form-group">
+		<label for="passwod">密码</label>
+		<input type="password" class="form-control" id="password" placeholder="请输入密码">
+	</div>
+
+	<!-- 这样使得 点击 "请打钩" 就会选中checkbox 并且鼠标变成手 -->
+	<div class="checkbox">
+		<label><input type="checkbox"> 请打钩</label>
+	</div>
+	
+	<!-- btn使得button变成好看的button btn-info指定了btn的类型是通知(蓝色) -->
+	<button type="submit" class="btn btn-info">提交</button>
+</form>
+
+在form添加 class="form-inline" 将其变成内联表单
+在内联表单的情况下 一般不需要显示 label
+在label添加 class="sr-only" 使其隐藏
+
+
+
+水平表单
+
+水平表单与其他表单不仅标记的数量上不同，而且表单的呈现形式也不同。如需创建一个水平布局的表单，请按下面的几个步骤进行：
+
+向父 <form> 元素添加 class .form-horizontal。
+把标签和控件放在一个带有 class .form-group 的 <div> 中。
+向标签添加 class .control-label。
+
+对一系列复选框和单选框使用 .checkbox-inline 或 .radio-inline class，控制它们显示在同一行上。
+
+has-(warning|success|error)
+在input上使用col-lg-*改变input的大小
+
+
+
+.pull-left	元素浮动到左边	
+.pull-right	元素浮动到右边	
+.center-block	设置元素为 display:block 并居中显示	
+.clearfix	清除浮动	
+.show	强制元素显示	
+.hidden	强制元素隐藏	
+.sr-only	除了屏幕阅读器外，其他设备上隐藏元素	
+.sr-only-focusable	与 .sr-only 类结合使用，在元素获取焦点时显示(如：键盘操作的用户)	
+.text-hide	将页面元素所包含的文本内容替换为背景图	
+.close	显示关闭按钮	
+.caret	显示下拉式功能
+
+
+
+
+.visible-xs-block 的意思是 这个元素只有在xs(超小屏幕)状态下才显示为block 否则隐藏
+	block可以替换为 inline inline-block
+.hidden-lg 的意思是在lg下 这个元素隐藏
+下面的代码很好的说明了问题
+<div class="container" style="padding: 40px;">
+   <div class="row visible-on">
+      <div class="col-xs-6 col-sm-3" style="background-color: #dedef8;
+         box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+         <span class="hidden-xs">特别小型</span>
+         <span class="visible-xs">✔ 在特别小型设备上可见</span>
+      </div>
+      <div class="col-xs-6 col-sm-3" style="background-color: #dedef8;
+         box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+         <span class="hidden-sm">小型</span>
+         <span class="visible-sm">✔ 在小型设备上可见</span>
+      </div>
+      <div class="clearfix visible-xs"></div>
+      <div class="col-xs-6 col-sm-3" style="background-color: #dedef8;
+         box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+         <span class="hidden-md">中型</span>
+         <span class="visible-md">✔ 在中型设备上可见</span>
+      </div>
+      <div class="col-xs-6 col-sm-3" style="background-color: #dedef8;
+         box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+         <span class="hidden-lg">大型</span>
+         <span class="visible-lg">✔ 在大型设备上可见</span>
+      </div>
+</div>
+
+
+字体图标
+	<span class="glyphicon glyphicon-search"></span>
+	在线定制
+	http://www.w3cschool.cc/try/demo_source/bootstrap-glyph-customization.htm

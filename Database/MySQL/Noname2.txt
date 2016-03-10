@@ -1,0 +1,17 @@
+Let's Encrypt
+
+--test-cert
+
+/etc/letsencrypt/live/xzchaoo.ml/fullchain.pem
+
+privkey.pem
+	私钥, 必须保证他的安全
+	这个用用于 ssl_certificate_key
+cert.pem
+	Server certificate
+chain.pem
+	除了Server certificate外的所有certificate
+	ssl_trusted_certificate
+fullchain.pem
+	包含所有certificate
+	

@@ -1,0 +1,65 @@
+用户a的粉丝
+	用一个集合保存 fans:a
+用户a的关注的人
+	用一个集合保存 following:a
+
+a关注了b
+	multi
+	sadd fans:b a
+	sadd following:a b
+	exec
+a是否关注了b?
+	sismember fans:b a
+a关注了谁?
+	smembers following:a
+谁关注了a?
+	smembers fans:a
+
+用户a发了一个帖子
+	一个帖子的具体内容用一个hash来表示
+	tz:tid 是一个hash, hash里面放了一个用户的id
+	user.tz:a 用于存放a发过的所有帖子的id
+
+用户a的所有帖子
+	smembers user.tz:a
+帖子t是谁发的
+	拿到tz:tid之后, 里面有个字段userid
+
+用户b回复了帖子t
+	reply:rid 用于保存回复的内容
+	reply.ridCounter 用于rid的counter
+	reply:tid:lid 用于存放帖子t的回复的rid, lid表示是第几楼回复的
+	reply.lid:tid 用于存放当前已经有几个人回复了, 即楼号
+	reply.byUserId:userId 用于保存某个用户近期的所有回复的rid
+
+
+	incr reply.ridCounter 获取rid
+	hmset reply:rid ...
+	incr reply.lid:tid 获取楼号
+	set reply:tid:lid rid
+
+用户b的所有回复
+	reply.byUserId:userId
+
+
+Counter相关:
+counter:userid 用于维护用户的id自增
+
+推送表
+每个用户都有一个链表, 链表里面放了消息的id, 表示这个用户还没有读取的消息的id
+
+简单消息系统
+
+
+counter:msgId
+msg:msgId 根据msgId获得msg的数据
+user.msg.read:userId 用户已读的消息
+user.msg.unread:userId 用户未读的消息
+user.msg.all:userId 用户收到的所有消息
+
+a给b发消息
+a发过的消息
+a收到的消息
+a已读的消息
+a未读的消息
+a发给b的所有消息

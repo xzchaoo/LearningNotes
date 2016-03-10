@@ -1,0 +1,26 @@
+File f=file('1.log')
+//f.absolutePath
+println f.text
+
+FileCollection fc=files('1.log','2.log')
+println fc.size()
+fc.each{ File ff->
+	println ff.name
+}
+List list=fc as List
+
+//gradle --stop 
+
+/*
+	插件有2种类型 script 和 binary
+	There are two general types of plugins in Gradle, script plugins and binary plugins. Script plugins are additional build scripts that further configure the build and usually implement a declarative approach to manipulating the build. They are typically used within a build although they can be externalized and accessed from a remote location. Binary plugins are classes that implement the Plugin interface and adopt a programmatic approach to manipulating the build. Binary plugins can reside within a build script, within the project hierarchy or externally in a plugin jar.
+
+	script:
+		//从别的文件里拉去
+		apply from: 'other.gradle'
+
+	binary:
+		apply plugin: 'java'
+
+
+*/

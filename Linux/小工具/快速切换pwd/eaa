@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PWD_FILE=~/.pwd_file
+
+if [ ! -f  $PWD_FILE ]
+then
+	touch $PWD_FILE
+fi
+
+PWD=`pwd`
+
+cat $PWD_FILE | grep ^$PWD\$ >> /dev/null
+if [ $? -eq 1 ]
+then
+	echo `pwd` >> $PWD_FILE
+	echo add $PWD.
+else
+	echo $PWD has already existed!
+fi

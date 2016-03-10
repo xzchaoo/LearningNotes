@@ -1,0 +1,8 @@
+在web.xml里配置 context-param 元素
+	<context-param>
+		<description>测试</description>
+		<param-name>ceshi</param-name>
+		<param-value>haha</param-value>
+	</context-param>
+然后可以通过
+application.getInitParameter( "ceshi" )获取

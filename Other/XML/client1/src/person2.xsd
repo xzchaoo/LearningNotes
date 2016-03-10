@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/person2"
+	xmlns:tns="http://www.example.org/person2" xmlns:pe="http://www.example.org/person"
+	elementFormDefault="qualified">
+	<xsd:import namespace="http://www.example.org/person" schemaLocation="person.xsd"/>
+	<xsd:element name="asdf" type="pe:emailType"></xsd:element>
+</xsd:schema>

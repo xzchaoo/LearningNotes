@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.devMode" value="true" />
+
+	<package name="default" namespace="/" extends="struts-default">
+
+		<global-results>
+			<result name="to_home" type="redirect">/index.jsp</result>
+		</global-results>
+
+		<action name="toLoginPage" class="org.xzc.buy.login.action.LoginAction">
+			<result>/WEB-INF/jsp/login.jsp</result>
+		</action>
+
+		<action name="login" class="org.xzc.buy.login.action.LoginAction" method="login">
+			<result name="input" type="chain">toLoginPage</result>
+		</action>
+		
+		<!-- 对剩余的url都放行 -->
+		<action name="*">
+			<result>{1}</result>
+		</action>
+	</package>
+
+</struts>

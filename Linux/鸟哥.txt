@@ -1,0 +1,145 @@
+stty erase ^H 设置erase为^h(本来是退格键是erase功能 之后你再按退格键的话就会出现^?)
+用set对bash进行设置 比如 set -x 的意思就是在执行每条命令之前先显示这条命令
+bash的通配符 * ? [abc] [a-z] [^abc]
+	bash的特殊符号
+	#注释
+	\转义
+	|管道
+	;命令分隔符
+	~家目录
+	$取变量
+	&后台运行
+	!非
+	/目录富豪
+	> >> < <<重定向
+	'单引号
+	"双引号
+	()在子shell执行的语句
+	{}命令区块的组合
+	
+	&&前面成功才执行后面           &&与||组合 没有优先级的关系 都是从做到右 cmd1 || cmd2 && cmd3 的意思是 (cmd1 || cmd2 ) && cmd3
+	||前面失败才执行后面
+	$?最近一次命令的返回值
+echo "a,b,c" | cut -d ',' -f 3 输出3 以,为分隔符抽取"a,b,c"的第3字段
+	-f的参数还可以是 1-3 1,3
+	还可以按列抽取
+cat a | tr -s '\r' '\r\n' > b 将每行的\n转成\r\n
+cat b | tr -s '\r\n' '\n' > c 将每行的\r\n转成\n 或 cat b | tr -d '\r' > c 删掉\r
+newgrp 用于改变当前用户的 gid 不过这个gid必须是当前用户已经支持的组(一个用户可以属于多个组,其中gid所代表的那个组被叫做有效组)
+usermod useradd userdel passwd chage
+groupadd groupmod groupdel
+群组管理员 一个群组的管理人员
+	root 先使用 gpasswd 设置群组密码,让某些人成为群组管理员
+	群组管理员再用 gpasswd 使得某些人进入这个群群组
+
+ACL(Access Control List)首先要确认当前的文件系统是否支持并启动ACL
+	getfacl
+	setfacl
+		u:usernames:privilege
+			-m u:user1:r log.txt 允许user1读log.txt
+			-m u::rwx log.txt 没有给出username则代表是文件拥有者
+			把-m换成-x就是删除了
+		g:groupnames:privilige
+		m:privilige 设置mask
+			其他的所有人的权限必须和mask取并
+			比如mask设置为rw- 其他人如果有前线rwx 那么它的x也不起作用
+		ACL也可以用于目录
+			在ug前面加上d:使得这个权限可以被目录下的文件和子目录继承
+			比如setfacl -m d:u:xzc:rwx d1 则xzc有对目录d1及其子文件的rwx权限
+			如果一个文件不想被继承下来的权限所约束 可以使用-b 移除所有附加的权限
+su
+	直接使用su则表示切换到root 但是此时很多环境变量还没有改过去
+	用 su -  则表示要使用 login-shell的方式登录系统(这样环境变量就对了)
+	-l username 使用login-shell的方式登录username
+	-m或-p表示使用当前的环境设定 不重新读取对应使用者的配置 (不可以与-l一起使用,否则mp失效)
+	-c "command" 表示只执行对应的命令而已su -c "echo 'hello'" 输入root密码后输出hello后自动退出root登录
+sudo
+	sodu让你以其他用户(通常是root)的身份来执行一条命令
+	只有在/etc/sudoers内规定的用户才能够执行sudo
+	/etc/sudoers内的格式
+	root ALL=(ALL) [NOPASSWORD:] ALL
+	切换到root且不需要root的密码
+	User_Alias ADMINS = a1,b2,c3
+	ADMINS ALL=(root) /bin/su -
+	sudo -u xzc2 touch /tmp/abc
+/etc/nologin.txt
+	修改一面的内容
+	如果用户尝试在终端用一些无法登陆的系统账号(比如mail)进行登录
+	就会提示nologin.txt的内容
+手动建立一个账号 user:group
+	/etc/group 添加组信息
+	grpconv
+	/etc/passwd 添加用户信息
+	pwconv
+	passwd user
+		123456
+	cp -a /etc/skel /home/user
+	chown -R user:group /home/user
+	chmod 700 /home/user
+at
+	如果存在/etc/at.allow 则里面写的是允许执行at的
+	否则再看/etc/at.deny 里面写的是不允许执行at的
+	at -f job.sh now+1 minute
+		HH:MM YYYY-MM-DD
+	at now+1minutes
+	>...
+	>...
+	>^D
+atq
+	查看任务
+atrm
+	移除任务
+crontab
+	-l
+	-e
+	/etc/crontab
+jobs fg bg ^Z kill
+ps
+	ps 只查看自己的这个shell范围内的
+	-u 只查看跟当前用户有关的 (所以会看到别的shell的内容)
+	-ef
+	aux 选择全部(除了少数特殊的)进行详细显示
+	ps aux | grep 'syslog' | grep -v 'grep' | gawk '{print $2}'
+		列出所有进程->找出跟syslog有关的->排除grep->打印出第二个字段
+pstree
+	-A 用ascii字符来连接
+	-U 用utf8来连接
+	-p 显示pid
+	-u 显示关联的user
+killall
+	通过名字杀进程
+vmstat 1
+	1表示每1秒更新一次
+	查看内存 cpu等的占用情况
+find 命令 功能强大 复杂
+fuser
+	找出跟一个文件想关联的pid们
+lsof
+	找出跟一个pid相关联的文件们
+getenforce
+	若显示Enforcing则表示 SELinux启动
+setenforce [01]
+	0宽容模式
+	1强制模式
+sestatus查看SELinux状态
+chcon
+	-R 递归
+	-t 类型
+	-u 身份
+	-r 角色
+	--reference=某个文件 以某个文件为参考,设置成与某个文件的配置相同
+restorecon
+	设置成预设的配置
+	restorecon -Rv .
+		将当前目录下都设置成预设的配置
+setroubleshoot
+	将错误信息写入/var/log/messages
+seinfo
+	-A
+	t
+	r
+	u
+	b
+setsebool
+getsebool
+semessage

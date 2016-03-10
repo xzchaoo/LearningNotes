@@ -1,0 +1,47 @@
+project(':b'){
+}
+task bt1
+
+task at1 << {
+	println('我是at1')
+}
+
+task myCopy(type:Copy){
+	description '复制一些文件'
+	from 'src'
+	into 'srcbak'
+	include ('**/*')
+}
+task myCopy(overwrite:true) << {
+	
+}
+
+println bt1
+
+
+ext{//要先这样声明一下 才会有p1这个属性
+	p1 = null
+}
+project.setProperty('p1','p1的值')
+println project.property('p1')
+if(project.hasProperty('p1')){
+	println '有p1'
+}
+//if (true) { throw new StopExecutionException() }
+
+//禁用某任务
+task ceshi << { //如果没有<<这个符号的话 会有差别的
+	println '进行测试'
+}
+ceshi.enabled=false
+
+task utd{
+
+	//inputs和outputs作为输入和输出是否改变的判断标准
+	inputs.property('name','xzc')
+	outputs.upToDateWhen {true}
+	
+	doLast{
+		println '你好世界'
+	}
+}

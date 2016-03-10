@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cnblogs.com"
+	xmlns="http://www.cnblogs.com">
+	<xs:element name="bookInfo">
+		<xs:complexType>
+			<xs:sequence>
+
+				<xs:element name="book" type="bookType" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+		<xs:key name="sortKey">
+			<xs:selector xpath="bookSort" />
+			<xs:field xpath="." />
+		</xs:key>
+		<xs:keyref refer="sortKey" name="sortKeyRef">
+			<xs:selector xpath="book"></xs:selector>
+			<xs:field xpath="@type"></xs:field>
+		</xs:keyref>
+		<xs:unique name="maneUnique">
+			<xs:selector xpath="book"></xs:selector>
+			<xs:field xpath="name"></xs:field>
+		</xs:unique>
+	</xs:element>
+	<xs:complexType name="bookType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="quantity" type="xs:integer" />
+			<xs:element name="price" type="xs:decimal" />
+		</xs:sequence>
+		<xs:attribute name="type" type="xs:string" />
+	</xs:complexType>
+</xs:schema>

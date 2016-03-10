@@ -1,0 +1,17 @@
+方法1
+	写java类继承SimpleTagSupport
+		然后写相应的tld文件 并且进行配置
+		在jsp页面用<%@ taglib uri="..."
+方法2
+	在/WEB-INF/tags下建立a.tag [目录应该可以自己改]
+	比如内容是
+	<%@ tag pageEncoding="utf-8" import="java.util.*"%>
+	<%@ attribute name="from" type="java.lang.Integer" required="true" rtexprvalue="true"%>
+	<%@ attribute name="to" type="java.lang.Integer" required="true" rtexprvalue="true"%>
+	<%
+		for (int i = from; i < to; ++i)
+			out.println( i + " " );
+		out.println( "<br/>" );
+	%>
+	在jsp页面用<%@ taglib tagdir="..."
+	然后就可以使用了...

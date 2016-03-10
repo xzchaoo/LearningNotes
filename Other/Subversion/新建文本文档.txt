@@ -1,0 +1,156 @@
+svn --version 查看版本
+
+用命令行启动svn服务器
+	svnserve -d -r "c:\workspace\subversion"
+	-d表示作为守护进程启动
+	-r和后面表示svn的根目录
+用windows服务方式启动
+	先用sc创建一个服务
+	sc create MySvnServer binPath= "C:\Program Files\Subversion\bin\svnserve.exe --service -r C:\workspace\Subversion" start= auto depend= Tcpip
+	然后再用sc启动这个服务
+	sc start MySvnServer
+	用sc停止服务
+	sc stop MySvnServer
+	用sc删除这个服务,注销后才有效果
+	sc delete MySvnServer
+
+svn checkout svn://vxzc:3690/pro5 pro5
+	checkout可以加参数 --depth opt 用于指示深度
+	可以加 -r8 指定拿版本号为8的
+	其中opt可以为 empty(只加该文件) files(只加该文件和它下面的文件,不包含它下面的目录) immediates(只加该文件和它下面的第一级文件和目录) infinity(无限制递归的添加,默认就是它)
+svn add test.txt
+svn commit test.txt -m "first"
+将仓库下的conf/svnserve.conf
+#允许匿名用户写
+anon-access = write
+
+svn info 打印出当前目录的信息后可以加文件
+svn info aaa.txt 打印出当前目录下的aaa.txt的信息
+svn info svn://vxzc/pro5/trunk/aaa.txt 打印出服务器端的aaa.txt的信息
+
+
+svn update 更新当期目录到最新版本
+svn update a b -r8 更新当前目录下的a,b到版本8
+
+
+假设A那里拿到了一个t文件 并且修改内容为 name=a
+假设B那里拿到了同一个t文件 并且修改内容为 name=b
+然后A commit 了 成功
+然后B commit 则会失败 out-of-date
+
+svn update test.txt --revision 1 让test.txt更新为3版本
+
+修改conf/svnserve.conf password-db = passwd表示启动授权访问 而且 用户信息保存在同目录下的passwd里
+修改conf/svnserve.conf authz-db=authz 表示使用authz所指示的权限信息
+
+svn import pro7 svn://vxzc/pro5
+将pro7复制到 仓库,而pro7本身没有变化(不会被标记为已经提交,它目录下也不会产生.svn)
+如果pro7是一个文件 那就直接过去
+如果pro7是目录那么 就是pro7下的所有东西都过去(会自动创建目录结构)
+
+svn list svn://vxzc/pro5 列出目录结构
+
+
+推荐:
+	创建trunk目录来保存你开发的主线
+	创建branches目录存放分支拷贝
+	创建tags目录保存标签拷贝
+用 svn status 查看你所作的修改可以--verbose查看更多信息用 --u 显示本地文件是否旧于服务端文件
+
+svn resolve
+
+svn log
+svn diff
+svn cat
+svn list
+svn log svn://vxzc/pro5 26 打印版本26的信息
+svn log svn://vxzc/pro5 26 -v 更详细
+
+svn diff [file]默认直接比较本地的文件与本地最近一次从服务器取下来的数据的差别
+svn diff -c M [file]比较版本M与M-1的差别
+svn diff -r M:N [file]比较版本M与N的差别
+
+svn cat test.txt [-r 3] 显示test.txt的内容 如果指定了 -r 则显示相应的版本的内容
+
+svn list -r 3
+
+使用svn export将远程的文件拷贝过来 但是不产生.svn文件夹(与checkout相比)
+svn cleanup
+
+使用TortoiseSVN
+文件(夹)的 添加 修改 删除 移动 重命名 复制
+
+考虑下面一种情况
+A,B同时拿到一个文件t.txt
+A将t.txt删除并且提交
+B将t.txt修改并且提交,这时会提示错误 resolve之后 B本地的t.txt 退化成一个unversioned文件
+
+HEAD表示最新的那个
+BASE表示你的当前项目是基于哪个版本的 比如我先从30版本checkout,但是之后别人已经将版本号弄到40了 这时在你这里, BASE=30 HEAD=40
+
+
+属性操作
+svn propset cs asdf test.txt 将test.txt的cs属性设置为asdf
+svn propset cs asdf test/* 将test下的文件的cs属性设置为asdf
+svn proplist test.txt 查看test.txt上的属性keys
+svn proplist test.txt -v 查看test.txt上的属性keys和values
+svn propget cs test.txt 查看test.txt上的cs属性的值
+svn propdel cs test.txt从test.txt上删除cs属性
+
+
+在某个目录a,设置它的属性 svn:ignore=*.aaa 则会忽略以aaa结尾的文件 若要过滤多个则用回车换行分开
+不过在A目录设置ignore,并不影响其子目录的ignore
+
+先更新本地工作副本
+svn merge svn://vxzc/pro5/trunk .
+则将trunk与本地工作副本合并 可以将trunk改成其他branches
+
+svn revert . -R 完全恢复当前目录(包括子目录)
+
+在trunk下
+svn merge -c -83 svn://vxzc/pro5/trunk . 则是反向执行83版本所进行的修改,但84或之后的版本的修改依然存在
+比如83是添加了1.txt 84是添加了2.txt
+那么上面那条命令只会反向执行83,即删除1.txt
+svn merge -r 27:26 svn://vxzc/pro5/trunk . 撤销版本由版本26->27所作出的修改
+上面一条等价于svn merge -r 27:26 .           在需要SourceURL的地方写了一个. 会自动展开成当前目录对应的URL 而原本后面的.可以省略(默认就是.)
+
+使用 svn copy svn://vxzc/pro5/trunk/123.txt@807 ./123.txt 将807版本的123.txt复制到当前工作集的123.txt 然后你再提交,此时这个123.txt是保存着和807版本的123.txt的历史关系的
+可以使用 svn cat svn://vxzc/pro5/trunk/123.txt@807 > ./123.txt 这样就没有历史关系了
+
+svn status 显示当前目录的修改状态(基于与BASE的比较)
+svn status --show-updates(基于与HEAD的比较)
+
+svn resolved test.txt
+
+
+给某个文本文件添加 属性 svn:keywords="Author Date"等
+然后你在这个文本文件里 如果有 $Date$ $Author$ 则提交后会自动展开 比如 $Date$展开成$Date: 2015-02-12 20:31:45 +0800... $
+
+svn diff -r 69:75 查看69与75的差别
+svn diff -c 70 查看69与70的差别
+
+
+svn log 查看所有日志
+svn log test.txt 查看关于test.txt的日志
+svn log -r 10:20 -v test.txt
+
+svn blame test.txt 查看test.txt每一行的修改情况
+svn blame test.txt -r 80 查看截止至版本80的每行修改情况
+svn blame test.txt -r 80:82 查看版本80~82的每行修改情况
+
+svn lock 1.txt 2.txt
+svn unlock 1.txt 2.txt
+也可以给一个文件加上 svn:needs-lock属性 这样 当 checkout的时候 文件就会是 只读 的
+如果你获得了该文件的锁 文件就会变成 可写 的,你commit修改之后 文件由会变成只读的 总而言之对该文件的修改提交只能在你获取了该文件的锁的前提下
+lock和unlock可以加 --force强制运行
+
+svn log --stop-on-copy svn://...
+
+
+svnadmin dump URL > 1.dat 将所有版本备份到1.dat
+
+建立一个仓库(项目)
+svnadmin create svn-rep2
+svnadmin load svn-rep2 < 1.dat
+
+svnadmin dump --incremental --revision 100:104 . > 2.dat 这样2.dat里面只保存了100~104做出的变化 如果你有1~100的变化 那么合起来就有1~104的变化了

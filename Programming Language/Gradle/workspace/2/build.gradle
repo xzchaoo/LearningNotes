@@ -1,0 +1,44 @@
+apply plugin: "java"
+
+description "测试一下"
+println name
+println project.name //name是挂链到project.name上的
+println path
+println description
+println projectDir
+println buildDir
+println group
+println version
+
+
+//下面的意思就是遍历所有的set 然后对在他们的作用域里做 ext.purpose=null 操作
+sourceSets.all { ext.purpose = null }
+
+sourceSets{
+	main{
+		purpose="production"
+	}
+	test{
+		purpose="test"
+	}
+	plugin{
+		purpose="production"
+	}
+}
+
+
+
+ext(){ //ext好像指向了一个函数 所以才可以这样让你调用
+	a = 1
+	b = 2
+}
+ext{
+	c = 3
+}
+println ext.a+'!!!'
+println ext
+
+//matching是个函数 可以接一个filter 然后做each 遍历 输出name
+sourceSets.matching { it.purpose == "production" }.each { println it.name }
+
+//当变量没有找到的时候会到当前作用域的ext去找

@@ -1,0 +1,8 @@
+package ttt;
+
+public class Testsfdfds {
+	public void fun() {
+		System.out.println( 123 );
+	}
+	public void test(){}
+}

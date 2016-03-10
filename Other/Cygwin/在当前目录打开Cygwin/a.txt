@@ -1,0 +1,11 @@
+注册表
+[HKEY_CLASSES_ROOT\Directory\Background\shell\OpenCygwin]
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\OpenCygwin\command]
+@="D:\\cygwin64\\Cygwin.bat %V"
+
+cygwin64.bat
+加入一行set _T=%*
+
+
+http://blog.csdn.net/wjr2012/article/details/7964005

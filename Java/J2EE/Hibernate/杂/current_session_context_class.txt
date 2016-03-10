@@ -1,0 +1,3 @@
+当设置为thread的时
+	使用getCurrentSession会自动开启session并返回 如果已经有未关闭的session 就返回这个
+	但是当transaction.commit后 该session就自动关闭了

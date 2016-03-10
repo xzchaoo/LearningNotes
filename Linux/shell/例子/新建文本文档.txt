@@ -1,0 +1,35 @@
+#!binbash
+# ./x -s 256 -z d0 d1 d2 把d0下的文件 小于256字节的移动到d1下 大于等于256的移动到d2下
+#不对d0下的进行操作
+#-z表示移动的时候对文件进行压缩 但是大小按照原来的计算
+size=100
+z=0
+while [ -n "$1" ];do      #对选项进行处理
+	case $1 in
+	-s)size=$2;shift;;
+	-z)z=1;;
+	*)d0=$1;d1=$2;d2=$3;break;;
+	esac
+	shift
+done
+#echo "size=$size"
+#echo "z=$z"
+#echo "d0=$d0"
+#echo "d1=$d1"
+#echo "d2=$d2"
+if [ -d $d0 ]        #如果d0存在
+then
+	mkdir $d1 2>/dev/null      #如果目录不存在就创建    把错误抛弃掉(如果目录已经存在会用错误流输出)
+	mkdir $d2 2>/dev/null
+	for f in `ls -F $d0 | sed -n '/\//!p'` #`ls -l $d0 | gawk '/^-/{print $9}'`  #这里是3种列出 d0目录下的文件的方法
+	do	#本来想用 for f in $d0/* 的方法列出d0下的文件 但是d0下没有文件的时候 f会枚举到 d0/* 而且没办法处理目录文件的判断
+		fsize=`stat -c "%s" $d0/$f` #`ls -l $d0/$f | gawk '{print $5}'` #获取文件的大小 in bytes
+		if ((fsize<size))                    #  if [ $fsize -lt $size ] 也行
+		then
+			mv $d0/$f $d1/`basename $f`
+		else
+			mv $d0/$f $d2/`basename $f`
+		fi
+	done
+fi
+echo "done."

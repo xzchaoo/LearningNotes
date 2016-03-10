@@ -1,0 +1,5 @@
+<servlet>
+	
+</servlet>
+
+通过ServletConfig的对象.getInitParameter也行

@@ -1,0 +1,3 @@
+
+p2c1:
+     [echo] hellow p2c1 xx

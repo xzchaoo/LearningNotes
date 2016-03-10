@@ -1,0 +1,655 @@
+手动启动
+mongod.exe --dbpath "数据路径"
+
+安装成服务
+mongod.exe --config "配置文件" --install
+sc.exe create MongoDB binPath= "C:\mongodb\bin\mongod.exe --service --config=\"C:\mongodb\mongod.cfg\"" DisplayName= "MongoDB" start= "auto"
+net start MongoDB
+
+
+卸载服务
+net stop MongoDB
+"C:\mongodb\bin\mongod.exe" --remove
+sc.exe delete MongoDB
+
+
+关键字
+https://docs.mongodb.org/manual/reference/glossary/#term-field-path
+
+增
+	主要是利用Document和asList
+查
+	用到辅助类Filters Sorts Projections 里的静态方法 非常好用 一定得用!
+	System.out.println( c3.find( or( gt( "grades.语文", 80 ), gt( "grades.数学", 80 ) ) ).first() );
+	System.out.println(  c3.find( new Document( "$or", asList( new Document( "grades.语文", new Document( "$gt", 80 ) ),
+		new Document( "grades.数学", new Document( "$gt", 80 ) ) ) ) ).first());
+	
+	常用的过滤器: 各种比较符(大于等于小于之类...) and or exists
+	{qqs:['70862045',"8147532"]} qqs要求严格相等
+	{qqs:"70862045"} qqs数组中至少有一个为70862045 当然70862045也可以换成其他的表达式
+	qqs数组第一个元素是70862045
+	find({'qqs.0':'70862045'})
+
+	至少ratings里的一个元素满足 5<元素<9
+	db.inventory.find( { ratings: { $elemMatch: { $gt: 5, $lt: 9 } } } )
+	注意$elemMatch与下面的区别
+	而
+	db.inventory.find( { ratings: { $gt: 5, $lt: 9 } } )
+	的意思会被认识是只要元素 满足>5 或 <9即可
+
+
+改
+	update: $set:obj 可以修改内嵌的属性
+	replace: obj
+	更新操作符
+		$set:{}
+		更新这个文档的最后更新事件
+		$currentDate:{lastModified:true}
+	
+	替换操作
+		可以替换一个对象,保持_id不变
+	
+	upsert update+insert
+		如果不存在就创建
+	
+删
+	deleteOne deleteMany
+	删除所有 deleteMany(new Document()) drop
+
+聚合
+	常见阶段
+	$project $match $redact $limit $skip $unwind $group $sort $out
+	$project对每个文档的字段进行调整
+	<field>: <1 or true>	Specify the inclusion of a field.
+	_id: <0 or false>	Specify the suppression of the _id field.
+	<field>: <expression>	Add a new field or reset the value of an existing field.
+	对内嵌属性也可以进行操作
+		Embedded Document Fields
+		When projecting or adding/resetting a field within an embedded document, you can either use dot notation, as in
+		"contact.address.country": <1 or 0 or expression>
+		Or you can nest the fields:
+		contact: { address: { country: <1 or 0 or expression> } }
+	但是要统一格式 如果用了contact:{address:1}就不能使用contact:{'address.count':1}
+         $project: {
+            title: 1,
+            isbn: {
+               prefix: { $substr: [ "$isbn", 0, 3 ] },
+               group: { $substr: [ "$isbn", 3, 2 ] },
+               publisher: { $substr: [ "$isbn", 5, 4 ] },
+               title: { $substr: [ "$isbn", 9, 3 ] },
+               checkDigit: { $substr: [ "$isbn", 12, 1] }
+            },
+            lastName: "$author.last",
+            copiesSold: "$copies"
+         }
+
+
+	$group
+		如果_id是null那么所有元素作为一个组
+		可以退化成获取不同的元素
+		$group:{_id:"$name"}则会返回不同的名字的数组
+	$sum
+	c3.aggregate( asList( new Document( "$group", new Document( "_id", "$age" ).append( "count", new Document("$sum",1) ) ) ) ).forEach( (Document d) -> {
+		System.out.println( d );
+	} );
+	$match进行过滤 不然你的聚合函数没有过滤的地方
+		$match应该尽量靠前
+	$limit $skip
+	数据处理流水线
+	
+	优化
+	$match放在$sort之前比较好
+	$limit放在$skip之前比较好
+	$sort+$limit 会合并成排序前k小/大
+	两个$limit
+	两个$skip
+	两个$match 合并$match : $and:[con1,con2]
+	$unwind
+		{ "_id" : 1, "item" : "ABC1", sizes: [ "S", "M", "L"] }
+		db.inventory.aggregate( [ { $unwind : "$sizes" } ] )
+		{ "_id" : 1, "item" : "ABC1", "sizes" : "S" }
+		{ "_id" : 1, "item" : "ABC1", "sizes" : "M" }
+		{ "_id" : 1, "item" : "ABC1", "sizes" : "L" }
+	与$group配合的操作符
+		$sum $avg $first $last $max $min $push $addToSet(不保证顺序)
+
+			$push是指将表达式的值加到一个数组里返回
+				比如
+					{...作者=a,书=1}
+					{...作者=a,书=2}
+					{...作者=a,书=3}
+					{...作者=b,书=4}
+					{...作者=b,书=5}
+					$group:{_id:作者,书们:{$push:"$书"}}
+			特殊变量$$ROOT表示当前正在操作的记录
+				如果$push:"$$ROOT"的话 你可以想想
+				{
+				  "_id" : "Homer",
+				  "books" :
+					 [
+					   { "_id" : 7000, "title" : "The Odyssey", "author" : "Homer", "copies" : 10 },
+					   { "_id" : 7020, "title" : "Iliad", "author" : "Homer", "copies" : 10 }
+					 ]
+				}
+
+	$month $dayOfMonth $year可以对时间进行取值
+	$add:["$age",1]
+	$multiply:Array 做乘法
+		totalPrice: { $sum: { $multiply: [ "$price", "$quantity" ] } },
+
+	简单的聚合
+		count:
+			collection.count() 简单的数数
+			collection.count({a:1}) a=1的有多少个
+		distinct:
+
+	重命名_id为state,或者说"_id不显示,state的值取_id的值"
+	biggestCity的值取{name:值取...,pop:值取...}
+	{ $project:
+		{ _id: 0,
+			state: "$_id",
+			biggestCity:  { name: "$biggestCity",  pop: "$biggestPop" },
+			smallestCity: { name: "$smallestCity", pop: "$smallestPop" }
+		}
+	}
+	一开始_id就是保存用户的名字
+	统一为大写之后进行排序
+	db.users.aggregate(
+	  [
+		{ $project : { name:{$toUpper:"$_id"} , _id:0 } },
+		{ $sort : { name : 1 } }
+	  ]
+	)
+
+
+
+索引
+	可以是复合的
+	1表示递增 -1表示递减
+	"text"表示这个一个文本
+	哈希索引
+	查询覆盖
+		如果查询的内容都是索引
+		速度将会很快
+	_id默认有递增索引 而且不能被移除
+	单值索引
+		.name 也可以是内嵌的 .name.first_name
+	复合索引
+		(firstname,lastname)
+		first和last的顺序很重要 否则会不起作用
+		你查询的时候也要按照先制定first再制定last的顺序
+		(a,b,c)索引会对(a)(a,b)(a,b,c)都起作用
+	Multikey Indexes
+		作用在一个数组上的索引
+		好像是这么一回事吧
+		会为数组里的每个元素创建索引
+		A multikey index is an index on an array field,
+		adding an index key for each value in the array.
+		比如一个系统有10种角色,而用户数量非常大,一个用户可以有多种角色
+		我们在用户里添加一个属性 roles:[...] 来表示一个用户有哪些角色
+		为roles建立索引
+		这样在 find({roles:1}) 的时候速度就会很快
+		原因是:这种索引会为每个数组里的元素建立一个索引
+		u1.roles=[1,2,3]
+		u1.roles=[1,2]
+		u1.roles=[1,3]
+		那么有索引1->[u1,u2,u3]
+		那么有索引2->[u1,u2]
+		那么有索引3->[u1,u3]
+		当roles比较小的时候性能很好
+
+	Geospatial Indexes and Queries
+		Geospatial indexes support location-based searches on data that is stored as either GeoJSON objects or legacy coordinate pairs.
+	Text Indexes
+		Text indexes support search of string content in documents.
+	Hashed Index
+		Hashed indexes maintain entries with hashes of the values of the indexed field and are primarily used with sharded clusters to support hashed shard keys.
+		db.active.createIndex( { a: "hashed" } )
+	
+	db.members.createIndex( { "user_id": 1 }, { unique: true } )
+
+	Sparse Indexes
+		稀疏的索引
+		不要求索引对象一定存在
+		比如只有一部分对象具有qq属性
+		https://docs.mongodb.org/manual/core/index-sparse/
+		有些函数要使用hint否则不会用到稀疏索引
+		db.people.createIndex( { qq: 1}, {sparse: true } )
+
+	建立索引的时候指定一些属性
+	background:默认是false
+		在后台建立索引
+		假设建立一个索引需要耗时10秒,那么你一createIndex你就阻塞10秒
+		并且其他用户也无法用你的集合 直到10秒后
+		而后台呢 就是索引不会立即生效
+		db.people.createIndex( { zipcode: 1}, {background: true, sparse: true } )
+
+MapReduce的阶段
+db.orders.mapReduce( mapFunction2,
+                     reduceFunction2,
+                     {
+                       out: { merge: "map_reduce_example" },
+					   sort filter limit
+					   query: { ord_date:
+                                  { $gt: new Date('01/01/2012') }
+                              },
+                       finalize: finalizeFunction2
+                     }
+                   )
+MapReduceIterable
+	一个MapReduce的迭代器
+	可以用于设置
+		输出到哪个数据库的哪个集合 以什么方式 reduce merge replace batchSize 等
+		最终函数
+		scope filter sort limit
+	以及最终数据的合并方式
+
+Perform Incremental Map-Reduce
+	假设你的数据一旦加入就不变并且越来越多
+	那么其实mapreduce只需要一直对新的数据做操作就行了 然后合并到结果里
+	1.先做第一次mapreduce 将其结果以replace方式(这是默认方式)保存为集合 比如 aaa
+	2.之后一旦有新数据来,你又想做mapreduce了
+	那么就这样
+	MapReduceIterable<Document> mr = c.mapReduce( "function(){for(var i in this.items)emit({cust_id:this.cust_id,price:this.price},this.items[i].qty*this.items[i].price);}","function(key,values){return Array.sum(values)}");
+	mr.filter( new Document() );
+	你需要在filter里指明哪些东西是新数据
+	并且输出方式要变成
+	mr.action( MapReduceAction.REDUCE );
+	mr.collectionName( "aaa" );
+
+Expressions
+	可以包含
+		field paths
+			要使用$开头
+		系统变量
+			$name等价于$$CURRENT.name
+				$$CURRENT是当前正在操作的对象
+			To use user-defined variables, use $let and $map expressions.
+		字面值
+		
+		表达式操作符
+		{<op>:[arg1,arg2]} 如果只有一个参数的话 直接省略成 arg就行了
+			布尔
+				$and:[arg1,...,argn]
+				$or
+				$not:{$and:[...]}
+			集合
+				$setEquals:[s1,s2] 两个集合是否相等 可以接受两个以上的参数
+				$setIntersection:[多个集合] 集合相交
+				$setUnion
+				$setDifference:[s1,s2] 只出现在集合1不出现在集合2的
+				$setIsSubset:[s1,s2] s1是s2的子集(不严格)
+				$anyElementTrue:set 是否有一个元素可以认为是true
+				$allElementsTrue
+			比较
+				$cmp:[a,b] if a==b:0 if a>b:1 if a<b:-1
+				$eq $gt $gte $lt $lte $ne
+			算数
+				$add 多个参数
+					如果有一个参数是时间 有参数是数字 那么数字被当成毫秒加到时间上
+				$subtract 多个参数
+				$multiply 可以接多个参数
+				$mod 两个参数
+				$divide 两个参数
+			字符串
+				$concat 多个参数
+				$substr:["abcc",1,2] 字符串,起点,长度 长度=-1表示 一直到完
+				$toLower
+				$toUpper
+				$strcasecmp
+					不关心大小写的比较
+				$regex:/abc/
+			文本搜索
+				$meta
+			数组
+				$size
+			变量操作
+				$map
+					https://docs.mongodb.org/manual/reference/operator/aggregation/map/#exp._S_map
+					将$quizzes数组进行映射
+					相当于是for(var grade : quizzes){
+						新元素=grade+2
+					}
+					$map:{
+					   input: "$quizzes",
+					   as: "grade",
+					   in: { $add: [ "$$grade", 2 ] }
+					 }
+					 下面的结果是total=
+					 Document d2 = Document.parse( "{$project:{total:{$map:{input:'$items',as:'i',in:{$add:['$$i.price',2]}}}}}" );
+
+
+				$let
+				 $let:用vars声明了一堆变量 这堆变量只在in里面可以用 相当于
+					var1=...,var2=...,varn=...
+					(function(var1,var2,...,varn){in表达式})(va1,var2,...,varn);
+				 {
+				   vars: { <var1>: <expression>, ... },
+				   in: <expression>
+				 }
+				 注意bbb要使用$$
+				Document d2=Document.parse( "{$project:{newPrice:{$let:{vars:{bbb:123},in:{$add:['$price','$$bbb']}}}}}" );
+
+			字面值
+				$literal:obj
+				将obj强制作为字面值
+			日期
+				$dayOfYear $dayOfMonth $dayOfWeek $year $month $week $hour $minute $second $millisecond $dateToString
+			条件
+				$cond三元表达式
+				{ $cond: { if: <boolean-expression>, then: <true-case>, else: <false-case-> } }
+				Or:
+				{ $cond: [ <boolean-expression>, <true-case>, <false-case> ] }
+
+				ifNull:["$a",1] 默认用1代替a
+			积累
+				$sum avg first last max min push addToSet
+	系统变量
+		ROOT
+		CURRENT
+		DESCEND
+		PRUNE
+		KEEP
+
+例子
+1.
+{
+  "_id": "10280",
+  "city": "NEW YORK",
+  "state": "NY",
+  "pop": 5574,
+  "loc": [
+    -74.016323,
+    40.710537
+  ]
+}
+The _id field holds the zip code as a string.
+The city field holds the city name. A city can have more than one zip code associated with it as different sections of the city can each have a different zip code.
+The state field holds the two letter state abbreviation.
+The pop field holds the population.
+The loc field holds the location as a latitude longitude pair.
+找出每个国家的城市平均人口
+db.zipcodes.aggregate( [
+   { $group: { _id: { state: "$state", city: "$city" }, pop: { $sum: "$pop" } } },
+   { $group: { _id: "$_id.state", avgCityPop: { $avg: "$pop" } } }
+] )
+因为_id是复合的 所以使用$_id.state
+
+
+2.
+统计每个月有多少个人加入,假设join保存某个用户加入的时间
+	$group:{_id:{$month:"$join"},total:{$sum:1}},
+	$sort:{total:1}
+
+3.
+统计最常见的爱好排行top3
+{$unwind:"$likes"},
+{$group:{_id:"$likes",count:{$sum:1}}},
+{$sort:{count:-1}},
+{$limit:3}
+关键是使用unwind将爱好摊开
+比如本来有
+{
+	name:"xzc",
+	likes:["a","b","c"]
+}
+unwind之后变成
+{
+	name:"xzc",
+	likes:"a"
+},{
+	name:"xzc",
+	likes:"b"
+},{
+	name:"xzc",
+	likes:"c"
+}
+三条记录
+
+4.
+{
+     _id: ObjectId("50a8240b927d5d8b5891743c"),
+     cust_id: "abc123",
+     ord_date: new Date("Oct 04, 2012"),
+     status: 'A',
+     price: 25,
+     items: [ { sku: "mmm", qty: 5, price: 2.5 },
+              { sku: "nnn", qty: 5, price: 2.5 } ]
+}
+求每个用户的的总花费
+$unwind:"$items",
+$group:{_id:"cust_id",total:{$sum:{$add($multiply:["$items.qty","$items.price"])}}}
+
+
+5.
+	$push $each $sort $slice
+	{
+		_id:1,
+		scores:[
+			{kemu:'语文',score:10},
+			{kemu:'数学',score:8}
+		]
+	}
+	collection.update({_id:1},{
+		$push:{
+			scores:{
+				$each:[{kemu:'英语',score:9},{kemu:'物理',score:9}],
+				$sort:{score:1}
+				$slice:-3
+			}
+		}
+	});
+	往_id=1的那个人的scores里加入两个对象  英语和物理...
+	然后排序 在scores内对socre排序
+	最后保留倒数3个元素
+
+
+JAVA常用api
+Collection:
+	aggregate 聚合 流水线操作
+	bulkWrite 批量写操作 包含增删改
+	count 数数
+	createIndex 创建索引
+	delete one/many
+	distinct
+	drop
+	dropIndex
+	find
+	findOneAnd...
+	insert one/many
+	update one/many
+	replaceOne
+	mapReduce
+	rename
+
+
+Mongo Shell
+
+use dbname;
+show dbs;
+
+
+杂
+Tailable Cursor
+	普通的Cursor用完后就关闭了
+	这种Cursor用完之后不关闭
+	并且当有新数据加入后 又可以继续读 跟Unix的tail很相似
+	不要在有索引的字段上使用Tailable
+	对于有索引的字段应该使用:
+	db.<collection>.find( { indexedField: { $gt: <lastvalue> } } )
+
+
+用一个集合来存放主键的最大值 然后每次需要产生一个主键的时候
+就去递增它
+
+
+使用内嵌属性
+	一对一
+	一对多
+		并且这些多一般都是依赖于一的 即弱实体
+	缺点
+		容易使得数据量变得很大
+	Furthermore, documents in MongoDB must be smaller than the maximum BSON
+	document size. For bulk binary data, consider GridFS (page 150).
+使用引用
+	当一个对象需要被多个对象引用的时候
+	当对象有点大的时候
+	客户端需要拿到"外键"后,再次发请求到服务端取
+
+原子性
+	在文档级别的写操作是原子性的
+Ensure that your application stores all fields with atomic dependency requirements in the same document. If the
+application can tolerate non-atomic updates for two pieces of data, you can store these data in separate documents.
+
+
+.
+Generally, having a large number of collections has no significant performance penalty and results in very good
+performance. Distinct collections are very important for high-throughput batch processing.
+
+树形结构
+	方案1
+		每个文档放一个parent属性指向父亲
+		然后为parent属性创建索引可以加快速度
+	方案2
+		父亲有一个children数组
+		为children创建数组
+		可以快速找到一个父亲有哪些儿子
+	方案3
+		放一个数组表示你的所有祖先
+			[父亲,爷爷,...]
+			或[...,爷爷,父亲]
+		为这个数组创建索引
+		可以很快找到一个父亲有哪些子孙
+		一个儿子的继承树
+	方案4
+		方案3变成字符串
+			parents:"...,爷爷,父亲"
+		然后建立索引
+		好处
+			1.当你按照parents排序的时候你就会发现...
+			2.找出abc的后代
+				find({parents:/abc(,|$)/})
+			3.直接儿子
+				find({parents:/abc$/})
+			
+			
+	方案5
+		商品树
+
+
+
+
+7.聚合
+	聚合管道
+		{$match:{status:"A"}},
+		{$match:{age:{$lt:10}}},//一个阶段可以出现多次 除了某些特殊的,$geoNear $text
+		{$sort:{state:1,age:-1}},排序
+		{$limit:20},
+		{$skip:5},
+		{$group:{_id:"$cust_id",count:{$sum:1},total:{$sum:"$price"}}}
+		{$project}可以使用各种表达式
+
+		管道优化
+		
+	MapReduce
+		MapReduce将每条记录分都若干个组里(由key指定),
+		然后对于每个组,进行reduce
+		query
+		map
+		reduce
+		output
+		final
+		
+	Single Purpose Aggregation Operations
+		distinct
+		count
+		group
+
+
+返回每个国家的城市品均人口
+{$group:{_id:{state:"$state",city:"$city"},peopleInCityCount:{$sum:"$pop"}}},
+{$group:{_id:"$_id.state"},avgPop:{$avg:"$peopleInCityCount"}}
+
+返回每个国家的最大的城市及其人口,最小的城市及其人口
+{$group:{_id:{state:"$state",city:"$city"},pop:{$sum:"$pop"}}}},
+{$sort:{pop:1}},
+{$group:{_id:"$_id.state",maxCity:{$last:"$_id.city"},maxCityCount:{$last:"$pop"}}}
+...
+
+$project:{
+	_id:0,
+	state:"$_id",
+	big:{
+		name:"$maxCity",
+		pop:"$maxCityCount",
+	}
+}
+
+{$project:{count:{$size:"$likes"}}},
+{$sort:{count:-1}},
+{$limit:5}
+
+假设user下的items是用户买过的东西
+找出销量最多的商品
+{$unwind:"$items"},
+{$group:{_id:"$items",count:{$sum:"$items.quantity"}}},
+{$sort:{count:-1}},
+{$limit:3}
+或用MapReduce
+map=function(){
+	for(var i in this.items){
+		emit(this.items[i].name,this.items[i].quantity);
+	}
+}
+reduce=function(name,values){
+	返回values的和;
+}
+MapReduce会返回一个迭代器 那个迭代器可以进行排序和limit 好像没有skip啊
+
+返回最有钱的用户
+	总钱=用于身上的余额 + 用户花过的钱
+使用管道
+{$unwind:"$items"},
+{$group:{_id:{id:"$_id",money:"$money"},total:{$sum:{$multiply:["$items.quantity","$items.price"]}}}},
+{$project:{_id:"$_id.id",total:{$add:["$_id.money","total"]}}}
+使用MapReduce
+map=function(){
+	var sum=this.money;
+	for(var i in this.items){
+		sum+=this.items[i].quantity*this.items[i].price;
+	}
+	return sum;
+}
+reduce=function(key,values){
+	return values[0];
+}
+
+统计所有商品的 订单数量 和 销售总量 和 平均每个订单的销售量
+假设订单里有一堆商品(内嵌的)
+{$unwind:"$items"},
+{$group:{_id:"$items.itemid",totalOrder:{$sum:1},totalCount:{$sum:"$items.quantity"}}},
+//下一步本来是这样 但是要考虑 除以0 的问题
+//虽然实际上订单项数量不可能为0啊...
+{$project:{avgCountPerOrder:{$divide:["$totalOrder","$totalCount"]}}}
+//所以变成这样
+{$project:{avgCountPerOrder:{$cond:[{$eq:["$totalCount",0]},0,{$divide:["$totalOrder","$totalCount"}]}}}
+使用MapReduce
+map=function(){
+	for(var i in this.items){
+		emit(this.items[i].itemid,{
+			order:1,
+			quantity:this.items[i].quantity
+		});
+	}
+}
+reduce=function(key,values){
+	var totalOrder=values的长度;
+		或values[i].order的和
+	value totalCount=values[i].quantity的和
+	做除法 就完了
+	return {
+		order:totalOrder,
+		quantity:quantity,
+		avg:avg
+	};
+}

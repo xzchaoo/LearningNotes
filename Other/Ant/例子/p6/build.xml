@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="proj1" default="c11" basedir=".">
+	<target name="c11">
+		<condition property="ceshi" value="true">
+			<equals arg1="1" arg2="1" />
+		</condition>
+		<echo>${ceshi}</echo>
+	</target>
+
+	<target name="c3">
+		<touch file="old.txt"/>
+		<sleep seconds="2" />
+		<touch file="new.txt"/>
+	</target>
+	<target name="c4" depends="c3">
+		<uptodate property="saikou">
+			<srcfiles dir="old" includes="*" />
+			<mapper type="merge" to="../new/3.txt" />
+		</uptodate>
+		<echo>${saikou}</echo>
+	</target>
+	<!--
+	<target name="c4" depends="c3">
+		<uptodate targetfile="old.txt" srcfile="new.txt" property="jdx" />
+	</target>
+	<target name="c5" depends="c3">
+		<uptodate targetfile="new.txt" srcfile="old.txt" property="xdx" />
+	</target>
+	
+	<target name="c6" depends="c4,c5" if="xdx">
+		<echo>new比较新</echo>
+	</target>
+	
+	<target name="c7" depends="c4,c5" if="jdx">
+		<echo>old比较新</echo>
+	</target>
+-->
+
+
+
+	<target name="c2">
+		<delete dir="s" />
+		<mkdir dir="s" />
+		<copy todir="s">
+			<fileset dir="t"/>
+			<mapper type="package" from="*" to="test_*" />
+		</copy>
+	</target>
+
+	<target name="c1">
+		<delete dir="build" />
+		<mkdir dir="build" />
+		<mkdir dir="build/classes" />
+		<javac srcdir="src" destdir="build/classes">
+			 <classpath location="lib/gson-2.2.4.jar" />
+		</javac>
+		<java classname="Hello" classpath="build/classes" >
+			<classpath location="lib/gson-2.2.4.jar" />
+		</java>
+	</target>
+</project>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project default="c2">
+	<property name="src" value="src"/>
+	<property name="dest" value="dest"/>
+	<!--将环境变量存到env里去-->
+	<property environment="env" />
+	<property name="pa" value="" />
+	<!-- 定义一个匹配样式 -->
+	<patternset id="p1">
+		<include name="1.txt" />
+		<include name="2.txt" if="pa"/>
+		<include name="3.txt" unless="pb"/>
+	</patternset>
+	
+	<!--定义一个filter-->
+	<filterset id="fs1" begintoken="@" endtoken="!">
+		<!--将内容@s1!替换成s2-->
+		<filter token="s1" value="s2" />
+	</filterset>
+		
+	<target name="c2" depends="rs5">
+		<!--生成时间戳-->
+		<tstamp>
+			<!--指定格式并且注入到一个属性里去-->
+			<format property="now" pattern="yyyy-MM-dd"/>
+		</tstamp>
+		<echo>${now}</echo>
+		<copy todir="s">
+			<fileset dir="src">
+				<patternset refid="p1"/>
+			</fileset>
+			<!--对该copy操作应用filter-->
+			<filterset refid="fs1"/>
+		</copy>
+	</target>
+
+	<target name="rs5">
+		<delete dir="s" />
+		<mkdir dir="s" />
+	</target>
+
+	<target name="c1" depends="rs5">
+		<copy todir="s">
+			<fileset dir="src">
+				<patternset refid="p1"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<!--如果没有env.JAVA_HOME就失败-->
+	<target name="check_ab" unless="env.JAVA_HOME">
+		<fail message="你悲剧了" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${dest}" />
+		<javac srcdir="${src}" destdir="${dest}" />
+	</target>
+		
+	<target name="run" depends="compile">
+		<java classname="Hello" classpath="${dest}" fork="true">
+			<arg line="abc def"/>
+			<arg value="abc def"/>
+			<arg path="x/y\z"/>
+		</java>
+	</target>
+</project>

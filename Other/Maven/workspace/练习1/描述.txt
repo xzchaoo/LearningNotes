@@ -1,0 +1,9 @@
+使用httpclient库随便访问一个网页 然后将内容保存到硬盘上
+
+要求使用
+	httpclient
+	junit
+	commons-logging
+	log4j
+	spring
+	虽然有点牵强 但就当做练习吧

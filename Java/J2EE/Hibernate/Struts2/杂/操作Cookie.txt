@@ -1,0 +1,5 @@
+Cookie[] cookies = ServletActionContext.getRequest().getCookies();  
+
+Cookie cookie = new Cookie("cookie",object);  
+cookie.setMaxAge(31536000);// Ò»Äê  
+ServletActionContext.getResponse().addCookie(cookie);  

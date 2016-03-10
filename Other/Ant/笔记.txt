@@ -1,0 +1,241 @@
+核心任务
+	在ant中也可以访问到System.getProperty()可以获得的量;
+	也有一些ant的内置属性
+
+	<tstamp/>
+	<echo>${DSTAMP} ${TSTAMP} ${TODAY}</echo>
+
+	<pathconvert> 将ant的文件地址转成指定平台的地址
+
+	当条件true的时候设置一个属性
+	<condition> condition下可以有 equals uptodate and or not 等
+	<target name="c11">
+		<condition property="ceshi" value="true">
+			<equals arg1="1" arg2="1" />
+		</condition>
+		<echo>${ceshi}</echo>
+	</target>
+	
+	执行一个系统命令
+	<apply>
+
+	调用build2.xml文件里的p2c1目标 并且将结果写入333.txt
+	<ant antfile="build2.xml" target="p2c1" output="333.txt">
+		<property name="x" value="xx" />
+	</ant>
+	antfile不写则是 build.xml target不写的话则是默认目标
+	
+	调用当前xml文件里的p3c2目标
+	并且给它传y=yy属性 注意这样做y=yy只对调用p3c2有效
+	<antcall target="p3c2">
+		<param name="y" value="yy"/>
+	</antcall>
+
+	
+	<target name="c4">
+		如果 相对于 old 的 ../new/3.txt 比 old下的任何文件都要新 那么 设置saikou=true
+		<uptodate property="saikou">
+			<srcfiles dir="old" includes="*" />
+			<mapper type="merge" to="../new/3.txt" />
+		</uptodate>
+		<echo>${saikou}</echo>
+	</target>
+
+<uptodate targetfile="new.txt" srcfile="old.txt" property="xdx" />
+如果new.txt比old.txt更新 那么就设置xdx为true
+	可以用srcfiles子元素指示一组srcfile
+
+创建一个临时文件
+<touch file="old.txt" />
+<sleep seconds="2" /> 还有其他单位
+
+<target name if unless description depends>
+
+映射mapper
+	原来的文件是怎样的 到目标文件夹以后还是怎样的 默认情况下 move copy 等就是identity
+	<mapper type="identity"/>
+	
+	会将所有文件展开到目标目录下 比如现在要把/1/md/1.txt /1/md/2.txt /1/md/3 这是一个文件夹 复制到 /2下 那么结果是
+	md 1.txt 2.txt 3 在/2下 总是所有的文件都会被放到/2下 而删除了原来的目录结构
+	<mappter type="flatten" />
+	
+	<copy todir="s">
+		<fileset dir="t"/>
+		<mapper type="glob" from="*.txt" to="*.txt.bak"/>
+	</copy>
+	将t下的所有文件,如果该文件满足*.txt则复制到s对应目录下*.txt.bak, 所以t下的 java文件是不会被复制的,因为不满足*.txt
+	*号可以用一次 from的星号和to的星号是相对应的
+	所以可以这样
+		<mapper type="glob" from="*.txt" to="5566_*.txt.bak"/>
+	
+	与flatten类似 如果某文件原来是 /t/1/2/3.txt 那么拷贝到到s后变成 /s/test_1.2.3.txt
+	<mapper type="package" from="*" to="test_*" />
+	unpackage可以从.转回\
+时间戳
+<tstamp />
+${DSTAMP} 格式是 20141012
+${TSTAMP} 格式是 1839 表示18点39分
+<tstamp>
+	<format pattern="yyyy-MM-dd" property="t1"/>
+</tstamp>
+<echo>${TSTAMP}</echo>
+<echo>${DSTAMP}</echo>
+<echo>${t1}</echo>
+
+filterset用法
+	filterset下可以由filter和filterset 还有一个filtersfile 不知道怎么用
+<copy todir="s">
+	<fileset dir="t"/>
+	<filterset begintoken="@" endtoken="!">
+		<filter token="1" value="5566"/>
+		<filterset begintoken="@" endtoken="!">
+			<filter token="22" value="5566"/>
+		</filterset>
+	</filterset>
+</copy>
+
+fileset用法
+fileset第一级子元素的关系是 and
+	用 and or not none元素实现取舍
+		<and>下的所有元素要同时成立 or类似 not下只能有一个子元素 对其取反 none下的元素都不能成立
+	size 用来过滤大小
+	type type=(dir|file)
+	depth 用来限制文件层数
+	contains 内容要包含 指定的text
+	containsregexp 内容要包含指定的正则表达式所匹配的...
+	include和exclude 用于选取或过滤单个文件或批量(当名字是*.txt) 有if 和unless属性
+	patternset的子元素是一堆的include和exclude,可以将pattern定义为工程级别
+		然后在需要patternset的地方可以使用refid进行引用
+	另外还有 作用不太清楚 有空再学习
+					<custome>
+					<modified ></modified>
+					<majority ></majority>
+
+<patternset id="ps1">
+	<include name="1.txt" />
+	<include name="2.txt" />
+</patternset>
+
+<target name="c2">
+	<delete dir="s" />
+	<mkdir dir="s" />
+	<copy todir="s">
+		<fileset dir="t">
+			<patternset refid="ps1" />
+		</fileset>
+	</copy>
+</target>
+
+<containsregexp expression="\d{5}" />
+
+<contains text="55555" /> casesensitive="" ignorewhitespace=""
+
+/t/1/2 则会从 则/t /t/1下的文件是不会被复制的
+<copy todir="s">
+	<fileset dir="t">
+		<depth min="2"/>
+	</fileset>
+</copy>
+
+
+将t目录下的所有文件夹 拷贝到s
+<copy todir="s">
+	<fileset dir="t">
+		<type type="dir" />
+	</fileset>
+</copy>
+
+将t目录下的所有(包括文件和文件夹) 拷贝到s
+<copy todir="s">
+	<fileset dir="t"/>
+</copy>
+
+<or>
+	<and>
+		<size value="1" when="more" />
+		<size value="5" when="less" />
+	</and>
+	<size value="1" when="equal" />
+</or>
+
+
+<copy todir="s">
+	<fileset dir="t">
+		要拷贝的文件必须满足 1<fileSize<5
+		<size value="1" when="more" />
+		<size value="5" when="less" />
+	</fileset>
+</copy>
+
+将src下的所有java和xml文件复制到s目录下
+注意 文件 /src/1/a.xml 将会被复制到 /s/1/a.xml 而不是 /s/a.xml
+<target name="c2">
+	<delete dir="s" />
+	<mkdir dir="s" />
+	<copy todir="s">
+		<fileset dir="src" includes="**/*.java,**/*.xml" />
+	</copy>
+</target>
+
+<javac srcdir="src" destdir="build/classes">
+	 <classpath location="lib/gson-2.2.4.jar" />
+</javac>
+		
+		指定一个文件
+<pathelement location="1.txt"/>
+指定了一个目录 也可以用来指定jar文件
+<pathelement path="x" />
+
+<classpath id location path >
+	<fileset>
+	<path>
+	<pathelement>
+</classpath>
+
+
+
+<copy todir="xx">
+	<fileset .../ >
+	<mapper .../>
+</copy>
+
+<fileset>
+	
+</fileset>
+
+**/*.java
+
+利用
+	<property file="xxx.properties"/>
+	将该文件里指示的属性导入进来
+
+文件分隔符用 / 或 \ 都行 会自动转换
+分隔符可以用 : 或 ;
+文件操作
+	mkdir
+	move
+		<move file="x.txt" tofile="y.txt"/>
+		可以指定todir属性 移到目录下
+	copy
+		<copy file="x.txt" tofile="y.txt"/>
+		可以指定todir属性 移到目录下
+		<copy todir="archive">
+			<fileset dir="src">
+				<include name="*.java"/>
+				//也可以指定exclude
+			</fileset>
+		</copy>
+zip jar 操作
+	//将当前目录zip到output.zip
+	<zip destfile="output.zip" basedir="."/>
+	//将output.zip解压到xyz
+	<unzip src="output.zip" dest="xyz"/>
+
+<target ...>
+	<ant antfile="sub.xml" target="showMsg" inheritAll="false">
+		<property name="message" value="xxoo" />
+	</ant>
+</target>
+
+<echo>...</echo>
+<echo message="..."/>

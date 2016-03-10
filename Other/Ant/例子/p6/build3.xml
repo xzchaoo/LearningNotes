@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="proj3">
+	<target name="p3c1">
+		<ant antfile="build2.xml" target="p2c1" output="333.txt">
+			<property name="x" value="xx" />
+		</ant>
+		<antcall target="p3c2">
+			<param name="y" value="yy"/>
+		</antcall>
+		<echo>70862045_${y}</echo>
+	</target>
+	<target name="p3c2">
+		<echo>70862045_${y}</echo>
+	</target>
+</project>

@@ -1,0 +1,50 @@
+http://tuckey.org/urlrewrite/
+某些页面可能要翻墙https://love.me.woaichina.net/
+
+1.加入jar包
+
+2.
+<filter>
+	<filter-name>UrlRewriteFilter</filter-name>
+	<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+</filter>
+
+<filter-mapping>
+	<filter-name>UrlRewriteFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+	<dispatcher>REQUEST</dispatcher>
+	<dispatcher>FORWARD</dispatcher>
+</filter-mapping>
+
+注意事项
+如果你要和struts2整合那么你的struts2也需要添加
+	<dispatcher>REQUEST</dispatcher>
+	<dispatcher>FORWARD</dispatcher> 这写配置项
+
+3.加入urlrewrite.xml文件到/WEB-INF目录下 这是一个默认路径 可以修改的
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite>...</urlrewrite>
+
+通过http://127.0.0.1:8080/ssh2/rewrite-status可以看到配置信息
+
+常用参数配置,更多的去看官网吧
+采用如下的配置方式
+<init-param>
+	<param-name>confReloadCheckInterval</param-name>
+	<param-value>60</param-value>
+</init-param>
+
+confReloadCheckInterval=-1 多少秒重新加载urlrewrite.xml配置文件 -1不重新加载 设置成0的话 每次请求都会重新加载 调试的时候很好用
+confPath='/WEB-INF/urlrewrite.xml' 指定配置文件位置
+logLevel='WARN'日志等级
+statusPath statusEnabled statusEnabledOnHosts 用于控制status相关的
+modRewriteConf modRewriteConfText 跟mod_rewrite style相关
+
+
+
+%{VARIABLE-NAME}
+例如%{context-path}
+${FUNCTION:PARAMS}
+replace replaceFirst escape unescape lower upper trim

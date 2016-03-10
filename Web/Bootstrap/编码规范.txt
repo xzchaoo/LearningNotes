@@ -1,0 +1,113 @@
+doctype必须加 <!DOCTYPE html>
+最好指定lang <html lang="zh-CN"><!-- ... --></html>
+嵌套元素要缩进
+用两个空格来代替制表符
+不要在自闭合的元素尾部加斜线 <img/> 这个斜线不需要(可选的) 要这样<img>
+不要忽略可选的结束标签 要这样<li>123</li>
+IE兼容模式<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+字符编码<head><meta charset="UTF-8"></head>
+引入css和js文件可以不写type 因为都有默认值
+	<link rel="stylesheet" href="code-guide.css">
+	<script src="code-guide.js"></script>
+	<style>...</style>
+属性顺序
+	HTML 属性应当按照以下给出的顺序依次排列，确保代码的易读性。
+	class
+	id, name
+	data-*
+	src, for, type, href
+	title, alt
+	aria-*, role
+bool属性不用赋值 <input ... checked>
+	但是XHTML有这个要求
+减少标签量
+
+CSS
+为选择器分组的时候应该要放在多行
+select1,
+select2,
+select3 {  #花括号前要有一个空格 清晰
+	name: value;  也要有一个空格 隔开
+	name2: value2; 每条声明一行  分号都不要生路
+	省略0~1小数前的0 写成 .5 好
+	16进制的数都用小写
+	用0避免使用单位 margin: 0
+}
+	/* Good CSS */
+	.selector,
+	.selector-secondary,
+	.selector[type="text"] {
+	  padding: 15px;
+	  margin-bottom: 15px;
+	  background-color: rgba(0,0,0,.5);
+	  box-shadow: 0 1px 2px #ccc, inset 0 1px 0 #fff;
+	}
+声明顺序
+相关的属性声明应当归为一组，并按照下面的顺序排列：
+Positioning
+Box model
+Typographic
+Visual
+
+.declaration-order {
+  /* Positioning */
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+
+  /* Box-model */
+  display: block;
+  float: right;
+  width: 100px;
+  height: 100px;
+
+  /* Typography */
+  font: normal 13px "Helvetica Neue", sans-serif;
+  line-height: 1.5;
+  color: #333;
+  text-align: center;
+
+  /* Visual */
+  background-color: #f5f5f5;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+
+  /* Misc */
+  opacity: 1;
+}
+
+
+与 <link> 标签相比，@import 指令要慢很多
+	使用多个 <link> 元素
+	通过 Sass 或 Less 类似的 CSS 预处理器将多个 CSS 文件编译为一个文件
+	通过 Rails、Jekyll 或其他系统中提供过 CSS 文件合并功能
+
+/* Prefixed properties */
+.selector {
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+          box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+
+
+/* Bad example */
+.element {
+  margin: 0 0 10px;
+  background: red;
+  background: url("image.jpg");
+  border-radius: 3px 3px 0 0;
+}
+
+/* Good example */
+.element {
+  margin-bottom: 10px;
+  background-color: red;
+  background-image: url("image.jpg");
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+class命名
+	短 明确 小写 破折号

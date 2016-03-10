@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project default="dist">
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="dist"  location="dist"/>
+
+	<target name="init" description="初始化的任务">
+		<tstamp/>
+		<mkdir dir="${dist}"/>
+		<mkdir dir="${build}"/>
+	</target>
+	
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${build}"/>
+	</target>
+
+	<target name="dist" depends="compile">
+		<mkdir dir="${build}/lib"/>
+		<jar jarfile="${dist}/lib/p1-${DSTAMP}.jar" basedir="${build}"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build}"/>
+		<delete dir="${dist}"/>
+	</target>
+
+</project>

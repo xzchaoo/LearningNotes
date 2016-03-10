@@ -1,0 +1,17 @@
+ActionContext
+	独立的数据结构,封装了WEB容器对象
+	还自带一个ContextMap
+	包含了整个处理体系的数据环境
+	每一次调用都会有一个ActionContext与之对应
+ValueStack
+	主要用于OGNL计算
+
+ActionProxy
+
+ActionInvocation
+
+INterceptor
+
+Action
+
+Result
