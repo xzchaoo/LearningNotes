@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.ognl.alowStaticMethodAccess" value="true"></constant>
+
+	<package name="main" namespace="/" extends="struts-default">
+		
+		<action name="*_*" class="action.{1}Action" method="{2}">
+			<result name="success">/work/list.jsp</result>
+			<result name="fail">/login/login.jsp</result>
+		</action>
+		
+		<action name="User_toAdd">
+			<result>/User_add.jsp</result>
+		</action>
+		
+		<action name="User_add" class="action.UserAction" method="add">
+			<result name="toList">/work/list.jsp
+			</result>
+			<result name="fail">/User_add.jsp</result>
+		</action>
+		
+		<action name="User_toChange" class="action.UserAction" method="toChange">
+			<result>/User_change.jsp</result>
+		</action>
+		
+		<action name="User_change" class="action.UserAction" method="change">
+			<result name="toList" >/work/list.jsp</result>
+		</action>
+		
+		<action name="User_toDelete" class="action.UserAction" method="toDelete">
+			<result type="chain">User_delete</result>
+		</action>
+		
+		<action name="User_delete" class="action.UserAction" method="delete">
+			<result name="toList">/work/list.jsp</result>
+		</action>
+	</package>
+</struts>

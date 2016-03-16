@@ -1,0 +1,8 @@
+Spring Session的特点
+	与原有的HttpSession无缝整合
+	集群session
+	一个浏览器多个tabs支持不同账号
+	restful apis
+	websocket
+
+需要与Radis一起使用 然而... 官方并不支持windows
