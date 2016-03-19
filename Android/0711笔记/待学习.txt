@@ -1,0 +1,125 @@
+去学习一下ExpandableLayout
+compile 'com.github.traex.expandablelayout:library:1.2.2'
+
+这个东西还真不好学 擦...
+https://github.com/Bearded-Hen/Android-Bootstrap
+
+https://github.com/Avocarrot/json2view
+https://github.com/bmelnychuk/AndroidTreeView
+https://github.com/commonsguy
+https://github.com/JoanZapata/base-adapter-helper
+https://github.com/gabrielemariotti/AndroidStudioTemplate
+https://github.com/rudsonlive/NavigationDrawer-MaterialDesign
+https://github.com/neokree/MaterialNavigationDrawer
+https://github.com/HeinrichReimer/material-drawer
+
+下拉刷新
+	https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh
+	https://github.com/nuptboyzhb/SuperSwipeRefreshLayout
+	https://github.com/android-cjj/Android-MaterialRefreshLayout
+
+
+https://github.com/johncarl81/parceler
+
+看到Parcelables
+QuickReturn 
+https://github.com/henrytao-me/smooth-app-bar-layout
+http://mockito.org/
+https://github.com/greenrobot/greenDAO
+https://github.com/j256/ormlite-android
+https://github.com/pardom/ActiveAndroid
+https://github.com/Raizlabs/DBFlow
+https://github.com/yahoo/squidb
+
+效果好像挺不错的 不过可以自己去仿作一个
+https://github.com/Yalantis/GuillotineMenu-Android
+
+https://github.com/daimajia/AndroidViewHover
+https://github.com/zhaozhentao/InboxLayout
+https://github.com/satorufujiwara/material-scrolling
+https://github.com/TonicArtos/SuperSLiM
+https://github.com/ShogoMizumoto/ZDepthShadow
+http://uncodin.github.io/bypass/
+https://github.com/falnatsheh/MarkdownView
+https://github.com/typicode/json-server
+https://github.com/felipecsl/AsymmetricGridView
+https://github.com/koral--/android-gif-drawable
+https://github.com/alamkanak/Android-Week-View
+	目前效果不太好
+https://github.com/googlesamples/android-UniversalMusicPlayer
+https://github.com/rockerhieu/emojicon
+http://blog.csdn.net/jdsjlzx/article/details/41441083
+https://github.com/qiujuer/ImageBlurring
+https://github.com/500px/500px-android-blur
+https://github.com/kikoso/android-stackblur
+
+	
+可以使得背景模糊的DialogFragment
+	https://github.com/tvbarthel/BlurDialogFragment
+https://github.com/faradaj/BlurBehind
+https://github.com/sakebook/Reachability
+https://github.com/KeepSafe/MultiStateAnimation
+https://github.com/nvanbenschoten/motion
+https://github.com/DesarrolloAntonio/FragmentTransactionExtended
+https://github.com/daimajia/AnimationEasingFunctions
+https://github.com/kaichunlin/android-transition
+https://github.com/daimajia/AndroidViewHover
+https://github.com/Flipboard/bottomsheet
+
+典型信息系统原理
+
+
+小红帽业务流程体系?
+	准时 北京范围
+	订阅变更
+	新增取消
+	收款
+	高效率 高质量
+	工作时间只有早上 扩展业务
+	桶装水 图书音像  
+
+业务信息
+	三套信息系统 四年 描述一下
+逐渐                                                                            
+
+https://github.com/devsoulwolf/Android-RatioLayout
+
+https://github.com/lawloretienne/ImageGallery
+https://github.com/sephiroth74/ImageViewZoom
+https://github.com/AlbertGrobas/PolygonImageView
+
+圆图
+	https://github.com/hdodenhof/CircleImageView
+不同图形的图片
+	https://github.com/MostafaGazar/CustomShapeImageView
+仿QQ讨论组头像
+	https://github.com/kongnanlive/android-combination-avatar
+
+Crossfader
+
+transition与动画的区别
+
+DialogFragment
+https://developer.android.com/intl/zh-cn/training/material/animations.html
+ViewAnimationUtils.createCircularReveal()
+ActivityOptions
+TextInputLayout
+android.support.design.widget.CoordinatorLayout
+android.support.design.widget.AppBarLayout
+android.support.v7.widget.Toolbar
+android.support.design.widget.FloatingActionButton
+app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+android-transition
+http://android-arsenal.com/details/1/2013
+
+ArcAnimator
+
+Rebound
+
+Android-Iconics
+
+Crouton
+
+GestureDetector
+

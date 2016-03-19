@@ -1,0 +1,19 @@
+id¹æ·¶
+	TabLayout tabs
+	Toolbar toolbar
+	ViewPager vp
+
+Layout:
+		activity_xxx
+		fragment_xxx
+		dlg_xxx
+		item_ll_vertical_tuijianfanju
+		item_grid_tuijianfanju
+		item_sg_vertical_tuijianfanju
+
+Drawable:
+	btn_xx btn_xx_normal btn_xx_pressed ...
+	ic_more_help
+
+¶¯»­
+	fade_in fade_out

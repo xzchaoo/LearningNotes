@@ -1,0 +1,36 @@
+使用偏好文件
+	SharedPreferences
+	在Activity里
+		SharedPreferences sp = getSharedPreferences( "mypreferences", MODE_PRIVATE );
+		sp.edit().putFloat( "money", 100f).commit();
+		String name = sp.getString( "name","xzc");
+	getPreferences
+		获取专属与当前Activity的SharedPreferences
+		即不用指定P的名字
+
+使用文件
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+	getCacheDir() /data/data/你的包名/cache
+		获得一个专属于当前应用的临时路径
+		里面的东西很可能被系统删除
+
+	getFilesDir() /data/data/你的包名/files
+		获得一个专属与当前应用的路径
+		该应用具有任意权限
+
+	openFileOutput("name",mode) /data/data/你的包名/files/name
+		好像就是在getFilesDir()相关的路径打开一个文件进行输出
+		模式一般是私有
+
+	保存在sd卡上
+		File sdroot = Environment.getExternalStorageDirectory();记得加权限
+
+使用数据库
+	最好提供一个schema
+	建立一个Contract类,在他里面定义了URI tables columns
+	数据处理的操作最好让给AsyncTask or IntentService.
+	写一个类继承SQLiteOpenHelper剩下的你应该懂了
+
+

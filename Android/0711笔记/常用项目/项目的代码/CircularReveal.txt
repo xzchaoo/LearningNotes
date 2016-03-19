@@ -1,0 +1,25 @@
+createCircularReveal关键是这个函数
+第一个参数是要做动画的view
+第2,3个参数是圆心
+4,5个参数是起始半径和结束半径
+注意content必须是io.codetail.widget.RevealFrameLayout的直接儿子
+
+SupportAnimator sa = ViewAnimationUtils.createCircularReveal(content, rect.centerX(), 0, 0, f(rect.width(), rect.height()));
+sa.setDuration(2000); 设置一下动画的参数...
+sa.setInterpolator(new AccelerateDecelerateInterpolator());
+sa.start();
+
+		@OnClick(R.id.btn)
+		public void onClick() {
+			// get the center for the clipping circle
+			int cx = (cv.getLeft() + cv.getRight()) / 2;
+			int cy = (cv.getTop() + cv.getBottom()) / 2;
+
+			// get the final radius for the clipping circle
+			int finalRadius = Math.max(cv.getWidth(), cv.getHeight());
+
+			SupportAnimator animator = ViewAnimationUtils.createCircularReveal(cv, cx, cy, 0, finalRadius);
+			animator.setInterpolator(new AccelerateDecelerateInterpolator());
+			animator.setDuration(1500);
+			animator.start();
+		}

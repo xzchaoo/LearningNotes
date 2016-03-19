@@ -1,0 +1,61 @@
+To define custom attributes, add <declare-styleable>  resources to your project. It's customary to put these resources into a res/values/attrs.xml file. Here's an example of an attrs.xml file: 
+<resources>
+   <declare-styleable name="PieChart">
+       <attr name="showText" format="boolean" />
+       <attr name="labelPosition" format="enum">
+           <enum name="left" value="0"/>
+           <enum name="right" value="1"/>
+       </attr>
+   </declare-styleable>
+</resources>
+
+
+Once you define the custom attributes, you can use them in layout XML files just like built-in attributes. The only difference is that your custom attributes belong to a different namespace. Instead of belonging to the http://schemas.android.com/apk/res/android namespace, they belong to http://schemas.android.com/apk/res/[your package name]. For example, here's how to use the attributes defined for PieChart: 
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:custom="http://schemas.android.com/apk/res/com.example.customviews">
+ <com.example.customviews.charting.PieChart
+     custom:showText="true"
+     custom:labelPosition="left" />
+</LinearLayout>
+
+When a view is created from an XML layout, all of the attributes in the XML tag are read from the resource bundle and passed into the view's constructor as an AttributeSet. Although it's possible to read values from the AttributeSet directly, doing so has some disadvantages:
+•Resource references within attribute values are not resolved
+•Styles are not applied
+
+Instead, pass the AttributeSet to obtainStyledAttributes(). This method passes back a TypedArray array of values that have already been dereferenced and styled.
+
+The Android resource compiler does a lot of work for you to make calling obtainStyledAttributes() easier. For each <declare-styleable> resource in the res directory, the generated R.java defines both an array of attribute ids and a set of constants that define the index for each attribute in the array. You use the predefined constants to read the attributes from the TypedArray. Here's how the PieChart class reads its attributes:
+public PieChart(Context context, AttributeSet attrs) {
+   super(context, attrs);
+   TypedArray a = context.getTheme().obtainStyledAttributes(
+        attrs,
+        R.styleable.PieChart,
+        0, 0);
+
+   try {
+       mShowText = a.getBoolean(R.styleable.PieChart_showText, false);
+       mTextPos = a.getInteger(R.styleable.PieChart_labelPosition, 0);
+   } finally {
+       a.recycle();
+   }
+}
+
+Note that TypedArray objects are a shared resource and must be recycled after use.
+
+public boolean isShowText() {
+   return mShowText;
+}
+
+public void setShowText(boolean showText) {
+   mShowText = showText;
+   invalidate();
+   requestLayout();
+}
+
+Notice that setShowText calls invalidate() and requestLayout(). These calls are crucial to ensure that the view behaves reliably. You have to invalidate the view after any change to its properties that might change its appearance, so that the system knows that it needs to be redrawn. Likewise, you need to request a new layout if a property changes that might affect the size or shape of the view. Forgetting these method calls can cause hard-to-find bugs.
+
+
+

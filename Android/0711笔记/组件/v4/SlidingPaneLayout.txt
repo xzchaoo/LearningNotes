@@ -1,0 +1,21 @@
+使用起来很简单 直接在它下面放2个元素
+绿色的那个是主要内容
+红色那个就好像是一个策划菜单一样
+	<android.support.v4.widget.SlidingPaneLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:background="#f00"
+			android:text="@string/hello_world"/>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="#0f0"
+			android:text="@string/hello_world"/>
+
+	</android.support.v4.widget.SlidingPaneLayout>

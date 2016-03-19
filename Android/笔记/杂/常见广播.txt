@@ -1,0 +1,5 @@
+用一个receiver
+	<action android:name="android.intent.action.BOOT_COMPLETED"/>
+屏幕开关
+	<action android:name="android.intent.action.SCREEN_OFF"/>
+	<action android:name="android.intent.action.SCREEN_ON"/>

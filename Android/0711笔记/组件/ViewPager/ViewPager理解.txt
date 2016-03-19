@@ -1,0 +1,6 @@
+ViewPager继承自ViewGroup 因此具有容纳子元素的能力
+得使用setAdapter方法 一般会写一个adapter继承自FragmentStatePagerAdapter
+
+因此是ViewPager+Fragment的使用方法
+
+

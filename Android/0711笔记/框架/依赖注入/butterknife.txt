@@ -1,0 +1,35 @@
+compile 'com.jakewharton:butterknife:7.0.1'
+使用很简单 但功能好像不太强 都是常用的功能
+
+public class MainActivity extends AppCompatActivity {
+
+	@Bind({R.id.tv, R.id.btn})
+	List<View> views;
+
+	//这些字段不能是私有的
+	@Bind(R.id.tv)
+	TextView tv;
+
+	@BindString(R.string.app_name)
+	String mAppName;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		ButterKnife.bind(this);
+		tv.setText("你好啊");
+
+		//可以使用@Nullable
+		//@OnItemSelected(R.id.list_view)
+		//@OnItemSelected(value = R.id.maybe_missing, callback = NOTHING_SELECTED)
+		//对于Fragment 一定要记得unbind 在 onDesctroyView中
+	}
+
+	@OnClick(R.id.btn)
+	public void onClick(Button b) {
+		Toast.makeText(this, b.getText(), Toast.LENGTH_SHORT).show();
+	}
+}
+

@@ -1,0 +1,16 @@
+https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh
+
+PtrFrameLayout下可以有1个或两个元素
+如果只有1个 那么它就是content
+如果有2个 那么会自动根据类型来判断哪个是header哪个是content
+也可以显式使用下面的属性来指定view的id
+ptr_header
+ptr_content
+
+
+ptr_resistance 阻尼系数 越大越难拉动
+ptr_ratio_of_header_height_to_refresh 一个浮点数(0~1) 要拉动多少的距离才会使得释放的时候去更新
+ptr_duration_to_close 当你拉得超过更新的程度的时候 你手放开 内容是会回到刚好使得header刚好完全露出来的地方的 这个过程花费的时间
+ptr_duration_to_close_header 更新完成之后,header要消失,这个过程花费的时间
+ptr_pull_to_fresh 是否拉超过一定程度就更新 一般是否false 这样只有释放了才会给更新
+ptr_keep_header_when_refresh 当更新的时候是否保持header显示

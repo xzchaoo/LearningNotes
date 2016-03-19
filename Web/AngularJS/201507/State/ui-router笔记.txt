@@ -1,0 +1,22 @@
+加载js, 如果是ionic的话就不用了 因为已经整合了
+依赖的名称是'ui.router'
+
+指令
+	ui-sref
+		ui-sref="mail.in"
+		表示这个a的地址是与 状态"mail.in" 相关的url
+		实际上会调用$state.go()函数
+		{page:2}
+		contacts.detail({ id: contact.id })
+		mail.facts({page : 2})
+			== mail/facts?page=2
+	ui-sref-opts
+		传给$state.go()的参数
+		Options are restricted to location, inherit, and reload.
+	ui-sref-active="classNames"
+		当所在元素或其子元素的state是活动的 就添加这些类
+	ui-sref-active-eq
+		当前所在的元素状态为活动就添加类
+	http://angular-ui.github.io/ui-router/site/
+
+案例的理由

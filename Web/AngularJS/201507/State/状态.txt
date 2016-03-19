@@ -1,0 +1,229 @@
+安装 npm install angular-ui-router
+在html文件里 <script src="node_modules/angular-ui-router/build/angular-ui-router.js"></script>
+加入依赖 angular.module('state',['ui.router'])
+
+一个状态有
+	url
+	template
+	和其他properties
+状态可以有父子关系
+	子状态可以用于父状态的 resolve data 其他都不继承
+	但其实其他部分好像是有继承一点的 比如下面的例子
+	注意一下s3的url和s3.c1的url 显然想要到达s3.c1的url状态
+	//传递的时候肯定也是连父状态的params都要写的 不然怎么可能过得去
+	<button ui-sref="s3.c1({id:1,name:'abb',age:22,password:'pp',mm:22})">去s3.c1</button>
+	state('s3',{
+		url:'/s3/{id:int}/{name:[a-c]+}?age&password',
+		templateUrl:'fs/s3.html',
+		controller:function($scope){}
+	}).state('s3.c1',{
+		url:'/c1?mm',子状态可以有自己额外的参数
+		templateUrl:'fs/s3.c1.html'
+	});
+
+	
+当一个状态被激活的时候 它的template被插入到父状态的ui-view中
+
+相对名
+	<div ui-view="abc"></div> abc就是一个相对名
+	它的绝对名是abc@这个语句所在的状态
+绝对名
+	形如 : viewName@stateName
+
+有了这两个信息之后,原本我们的自状态只能往父状态给我们留下的ui-view里面放东西
+而现在我们可以这样了
+	views:{
+		'abc@':{//这里修改了全局的ui-view="abc"的内容 当然如果你没有指定'abc@'这一项的话 默认就是不修改abc@的内容
+			templateUrl:...
+		}
+	}
+
+相关指令
+ui-view
+	它有一个属性 autoscroll 好像是用于控制滚动的 不过不太清楚
+	<div ui-view></div> 不写名字,默认就是""
+	<div ui-view="v1"></div>
+	views:{
+		"":{}
+		"v1":{}
+	}
+
+ui-sref
+ui-sref-active
+	可以加在某个元素上 将这个元素或其子元素有ui-sref 并且这个状态处于激活状态的话就会给当前元素加上classes
+	当s1.c1激活的时候 就会给div加上red blue类
+	<div ui-sref-active="red blue">
+		<a ui-sref="s1.c1">去s1.c1</a>
+	</div>
+
+ui-sref-opts
+	指定了$state.go()的第三个参数 options
+	{reload:true}
+$stateProvider.state('s1',{
+
+	如果ui-sref被放在一个a上 那么它会自动重写href
+	但放在一个button或东西上也是OK的哟
+	<button ui-sref="s3({id:1,name:'abb',age:22,password:'pp'})">去s3</button>
+	<a ui-sref="s3({id:1,name:'abb',age:22,password:'pp'})">去s3</a>
+	其中{id:1,name:'abb',age:22,password:'pp'}是带个s3这个状态的参数
+	参数可以长在url上或queryString上
+	url:'/s3/{id:int}/{name:[a-c]+}?age&password',
+	因此两者额不要重复哦(话说一半也不会重复的吧)
+
+	url:'/s1',
+		url还可以长得像这样 /detail/:id /detail/{id} /detail/{id:int}
+		正则 /detail/{:id:[0-9]{3,8}}
+		'/user/{id:[^/]*}' - Same as '/user/{id}' from the previous example.
+		'/user/{id:[0-9a-fA-F]{1,8}}' - Similar to the previous example, but only matches if the id parameter consists of 1 to 8 hex digits.
+		'/files/{path:.*}' - Matches any URL starting with '/files/' and captures the rest of the path into the parameter 'path'.
+		'/files/*path' - Ditto. Special syntax for catch all.
+		/detail?id&name 会匹配/detail?id=2&name=xzc
+		url默认是按照父状态的url拼凑出来的
+		但是你可以这样^/child 这样就是的 自状态和父状态的url平级
+
+		url还可以是
+		var urlMatcher = $urlMatcherFactory.compile("/home/:id?param1");
+		$stateProvider.state('myState', {
+			url: urlMatcher 
+		});
+
+	abstract:true,
+	resolve:{
+		us:'UserSerivce',请求UserSerivce服务
+		pi:function($stateParams){return 2*$stateParams.r*3.14159;},//常数
+		userInfo:function($http){//请求注入$http服务 返回一个promise对象 
+			return $http.get('...').then(function(data){return data.data;});
+		}
+	},
+	params:{
+		这里可以定义 不放在url上的参数
+	}
+	views:{
+	}
+	reloadOnSearch:true/false 当queryString或params改变的时候是否重新加载
+	controllerProvider:function(){}
+	controller:function($scope,$stateParams,us,ui,userInfo){
+		
+	}
+	data:{//这个data仅仅只是附加在这个state里的一些额外的数据而已 并没有什么特殊的含义
+		自己定义额外的数据
+		可以这样访问data里的数据
+		$state.current.data.customData1
+	},
+	onEnter:function(us,pi){//这里可以注入resolve的东西
+	},
+	onExit:function(){//这里也是
+	}
+	template:,
+	templateUrl
+	templateProvider:
+})
+
+
+$state.go(to,[toParams],[options])
+	这个函数是$state.transitionTo的一个简便封装
+	会返回一个promise
+
+	to的格式: 假设当前状态是 a.b
+		^ 的意思就是到a
+		^c 的意思就是到 a.c
+		.c 的意思就是到a.b.c
+		c 的意思就是到c
+		^.^.c 你懂的
+	toParams:
+	如果没记错的话只有在一个状态state的某处定义了的params才能被传过去
+	其他没有定义的你传了也没用 会被过滤掉的
+	{name:'xzc',password:'xzc'}
+
+	options:
+		location:默认是true
+			true:会修改url
+			false:不会修改url
+			'replace':修改url,并且替换掉最后一条历史记录
+				下面是一个格式化的例子 如果请求的url不是小写的就转成小写的
+				同时为了防止 "后退" 出现问题 采用replace替换掉了最后一个url,这样后退的时候就不是会到大写的url那里了
+				var path = $location.path(), normalized = path.toLowerCase();
+				if (path != normalized) {
+				//instead of returning a new url string, I'll just change the $location.path directly so I don't have to worry about constructing a new url string and so a new state change is not triggered
+					$location.replace().path(normalized);
+				}
+
+		inherit:默认是true
+			是否从当前的url里继承params
+		relative:默认是$state.$current
+			stateObject:当进行相对运动的时候的参照物
+		nofity:默认是true
+			是否除法$stateChangeStart和$stateChangeSuccess事件
+		reload:默认是false
+			true:即使state或params没有变化也要重新加载
+			比如你从 a状态 切换到a状态 ... 为false的话 就当没发生过
+
+
+$state.reload()
+	强制重新加载
+
+$state.includes(stateName [, params])
+	判断当前状态是否就是stateName或者是它的子状态
+	如果params不为空 那么当前状态必须要包含params所指定的参数,注意是包含就行了 不是要全部相等
+	如果stateName='contacts'那么可以匹配以下当前状态
+		contacts.list
+		contacts.details
+		contacts.details.item
+
+		So, e.g. if you were within contacts.details.item then:
+		$state.includes("contacts"); // returns true
+		$state.includes("contacts.details"); // returns true
+		$state.includes("contacts.details.item"); // returns true
+		$state.includes("contacts.list"); // returns false
+		$state.includes("about"); // returns false
+
+$state.is(stateOrName [, params])
+	这个就是要求名字和params完全相等了 完全相等! 不多也不好
+	可以传一个stateObject
+
+$state.href(stateOrName [, params] [, options])
+	返回这个状态下的url
+	expect($state.href("about.person", { person: "bob" })).toEqual("/about/bob");
+	没找到就null
+
+$state.get([stateName])
+	获得stateObject
+
+$state.current
+	
+
+技巧
+	将$state $stateParams注入到$rootScope里
+	这样在所有的scope(当然了,隔离除外)里都可以访问他们
+
+	Note: About using $state within a template
+
+	Since its very common to access $state in your templates, you need to bind $state to $rootScope (or any other accessible scope) to access it from a template/view. Typically you can do this on module run:
+
+	angular.module("myApp").run(function ($rootScope, $state, $stateParams) {
+		$rootScope.$state = $state;
+		$rootScope.$stateParams = $stateParams;
+	});
+	Now you can access state within a template:
+
+	<ul class="nav">
+		<li ng-class="{ active: $state.includes('contacts') }"><a href="#/contacts">Contacts</a></li>
+		<li ng-class="{ active: $state.includes('about') }"><a href="#/about">About</a></li>
+	</ul>
+
+
+$urlRouter.sync()
+	好像有点玄,去看看说明.
+
+
+事件
+$stateChangeSuccess - fired once the state transition is complete.
+$stateChangeStart - fired when the transition begins.
+	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 
+		if(...){
+			event.preventDefault();
+		}
+	})
+
+$stateNotFound - fired when a state cannot be found by its name.
+$stateChangeError - fired when an error occurs during transition.

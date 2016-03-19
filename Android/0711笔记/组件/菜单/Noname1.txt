@@ -1,0 +1,5 @@
+六、ActionBar的单击事件
+
+1、ActionBar中一个菜单项（即Action item）的触发像以前版本中的活动菜单回调方法（onOptionsItemSelected()）一样。
+2、当用户选择一个Fragment的菜单项时，首先会调用Activity的onOptionsItemSelected()方法，如果该方法返回false，则调用Fragment实现的onOptionsItemSelected()方
+FLAG_ACTIVITY_CLEAR_TOP

@@ -1,0 +1,10 @@
+获得actionBarSize
+TypedValue tv = new TypedValue();
+if (getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
+	int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+}
+
+http://www.2cto.com/kf/201307/227536.html
+StatusBarHeight 一般是24dp
+int status_bar_height = getResources().getDimensionPixelSize(com.android.internal.R.dimen.status_bar_height);
+这个包通常无法访问 需要用别的策略

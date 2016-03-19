@@ -1,0 +1,67 @@
+主题好像是这样的:
+	可以给整个程序定义一个主题:整个程序的基调
+	然后对于每个组件,只要有theme属性的地方均可以指定局部的主题
+	主题在values文件里定义
+	<style name="" parent=""> 多个<item> </style>
+	可以进行继承配置
+	可以去查看android自带的styles
+	一般是这样的: @android:style/Theme.Holo.Light是一个级别非常高的主题
+	去看它的定义的话可以发现它将android:actionBarStyle这个子项的值设置成了另外一个style的名字
+	所以我们这里也仿照它
+	<style name="mytabs" parent="@android:style/Theme.Holo.Light">
+		<item name="android:actionBarStyle">@style/myActionBar</item>
+		<item name="android:actionBarTabTextStyle">@style/myTitleTextStyle</item>
+	</style>
+	android:actionBarStyle原来是什么就继承什么 这样保证大部分效果不会被改动
+	<style name="myActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+		<!--我们在这里修改我们需要的颜色 -->
+		<item name="android:background">#f4842d</item>
+		<item name="android:backgroundStacked">#d27026</item>
+	</style>
+
+<application android:theme="@android:style/Theme.Holo.Light" ... />  
+Theme.Holo，这是一个深色系的主题。
+Theme.Holo.Light，这是一个浅色系的主题。
+<resources>  
+    <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo.Light">  
+        <item name="android:actionBarStyle">@style/MyActionBar</item>  
+    </style>  
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">  
+        <item name="android:background">#f4842d</item>  
+    </style>  
+</resources>  
+
+<resources>  
+    <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo.Light">  
+        <item name="android:actionBarStyle">@style/MyActionBar</item>  
+    </style>  
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">  
+        <item name="android:background">#f4842d</item>  
+        <item name="android:backgroundStacked">#d27026</item>  
+    </style>  
+</resources>
+
+
+
+	<style
+		name="mytabs"
+		parent="@android:style/Theme.Holo.Light"
+	>
+		<item name="android:actionBarStyle">@style/myActionBar</item>
+		<item name="android:actionBarTabTextStyle">@style/myTitleTextStyle</item>
+	</style>
+
+	<style
+		name="myActionBar"
+		parent="@android:style/Widget.Holo.Light.ActionBar"
+	>
+		<item name="android:background">#f4842d</item>
+		<item name="android:backgroundStacked">#d27026</item>
+	</style>
+	<style
+		name="myTitleTextStyle"
+		parent="@android:style/Widget.Holo.ActionBar.TabText"
+	>
+		<item name="android:textColor">#fff</item>
+	</style>
+

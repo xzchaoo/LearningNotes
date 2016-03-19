@@ -1,0 +1,14 @@
+可以被隐式意图打开的activity都必须要有category=default
+
+Uri number = Uri.parse( "tel:70862045" );
+Intent i = new Intent( Intent.ACTION_DIAL, number );
+startActivity( i );
+
+i = Intent.createChooser( i, "请选择你妹夫." );
+进行包装 如果找到唯一可以处理的就打开它
+如果找到多个就让你选
+如果找不到就提示你
+
+查看有多少个Activity可以处理你的intent
+List<ResolveInfo> list = getPackageManager().queryIntentActivities( i, PackageManager.MATCH_DEFAULT_ONLY );
+

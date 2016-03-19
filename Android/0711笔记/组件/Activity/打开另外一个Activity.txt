@@ -1,0 +1,17 @@
+在第一个Activity里 通过intent传参数
+Intent i=new Intent(this,Activity2.class);
+i.putExtra( EXTRA_MESSAGE, msg.getText().toString() );
+startActivity( i );
+
+在第二个Activity里
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate( savedInstanceState );
+		setContentView( R.layout.activity_activity2 );
+		TextView tv = (TextView) findViewById( R.id.show );
+		Intent intent = getIntent();
+		tv.setText( intent.getStringExtra( MainActivity.EXTRA_MESSAGE ) );
+	}
+	getIntent();可以获得这个Activity因为哪个Intent而启动
+
+startActivityForResult

@@ -1,0 +1,48 @@
+多点触控
+	事件
+	ACTION_DOWN
+		当第一个手指按下的时候
+	ACTION_MOVE
+		当有任意一个手指移动的时候,一定要注意是任意手指移动
+		此时event里包含了所有手指的位置信息
+		使用event.getX(index)获得pointerId对应的手指的位置
+			其中index是pointer的索引,注意index不是pointerId,这个index要通过findPointerIndex(pointerId)找出来
+	ACTION_UP
+		当最后一个手指释放的时候
+	ACTION_CANCEL
+		当最后一个手指取消的时候/处理的行为几乎和UP一样
+	ACTION_POINTER_DOWN
+		在有手指按下的情况下,又有手指按下了
+		此时通过getActionIndex可以获得新增的这个手指的索引
+		再通过getPointerId(index)可以获得这个新增的手指的pointerId
+		千万要注意是此时 getActionIndex只有在ACTION_POINTER_DOWN和ACTION_POINTER_UP时才有效,
+		其他的时候笔记本上都是返回0
+	ACTION_POINTER_UP
+		不是最后一个手指的释放
+
+	每个手指都有一个id,叫做pointerId
+	pointerId的分配方式是,尽量小
+	所以第1个手指来的时候肯定是0
+	假设第1个手指不放,第2个手指来的时候就是1
+	假设手指1和手指2都不释放,第3个手指再来就是2
+	假设第2个手指释放了,然后第4个手指再来,那么就是1
+	...
+
+	一个手指按下以后 就会分配唯一的pointerId,但是它的index可能变化,以为它前面的手指可能释放了,所以数组会错位,但是pointerId保持不变
+	然而要获取位置数据的时候都需要用到index,所以经常会使用findPointerIndex(pointerId)先找出索引再获取位置信息
+
+dispatchTouchEvent
+
+onTouch
+	如果返回true的话 就结束此次传递
+
+mTouchDelegate
+
+dispatchTouchEvent > OnTouchListener.onTouch > onTouchEvent> mTouchDelegate.onTouchEvent
+
+子元素中可以调用
+getParent().requestDisallowInterceptTouch(true)
+来请求父元素不要拦截子元素的事件
+用在ViewPager里可以达到这样的效果:
+	在第一页的时候允许侧滑菜单拉出
+	在其他页面的时候使用getParent().requestDisallowInterceptTouch(true)防止事件被拦截

@@ -1,0 +1,12 @@
+当你在Android API 19及其以上开启透明状态栏的时候
+通过以下代码开启透明状态栏 或者 使用style.xml文件进行设置
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+	getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+	getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+}
+默认情况下你的内容顶部会被statusBar盖住(重叠)
+如果你让根元素的fitsSystemWindow = true 那么该元素的内容就会位于statusBar的bottom之下
+如果令其为false(默认值) ...
+statusBar默认高度24dp
+如果想要修改statusBar的高度,可以考虑自己手动拿一个View,修改其背景色为colorPrimaryDark作为view的顶部
+或使用Materialize

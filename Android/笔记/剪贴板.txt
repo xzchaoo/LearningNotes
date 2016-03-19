@@ -1,0 +1,15 @@
+case R.id.button1: {
+	//获得剪贴板管理器
+	ClipboardManager cm = (ClipboardManager) getSystemService( CLIPBOARD_SERVICE );
+	//使用静态方法, 第一个参数说是一个label 目前感觉用不到
+	ClipData cd1 = ClipData.newPlainText( "lb", et1.getText().toString() );
+	cm.setPrimaryClip( cd1 );
+}
+	break;
+case R.id.button2: {
+	ClipboardManager cm = (ClipboardManager) getSystemService( CLIPBOARD_SERVICE );
+	String text = cm.getPrimaryClip().getItemAt( 0 ).getText().toString();
+	et2.setText( text );
+}
+	break;
+}

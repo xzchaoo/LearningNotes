@@ -1,0 +1,42 @@
+
+很多的页面总体上是一个RecyclerView
+
+然后对于里面的每一个比较大的item,我们称之为area
+	area一般是很明显的自成一派的一块区域
+		new QuickAdapter(R.layout.area_dajiadouzaikan, true) {//首先它是一个single
+			@Override
+			protected void onPostViewCreated(View view) {//对这个single view里面的内容进行初始化
+				LayoutManagerUtils.setFullSpan(view);
+				ButterKnife.findById(view, R.id.mhv_dajiadouzaikan).setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Toast.makeText(getContext(), "大家都在看-暂未实现", Toast.LENGTH_SHORT).show();
+					}
+				});
+				RecyclerView rv = ButterKnife.findById(view, R.id.rv);
+				new RecyclerViewHelper(getContext())
+					.layout(RecyclerViewHelper.LayoutType.GRID).full(true).spanCount(2).forceAddHeight(8)
+					.itemLayoutId(R.layout.item_pic_title_views_danmaku)
+					.maxItemCount(4)
+					.observe(BilibiliApi.index(), mCompositeSubscription)
+					.applyTo(rv);
+				rv.addItemDecoration(new RecyclerView.ItemDecoration() {
+				...
+				});
+			}
+		}.appendTo(mMyCompositeViewAdapter);
+
+
+简单的普通的项目都叫做item
+	new QuickAdapter<Object>(R.layout.mhv_single, true).viewPostCreatedListener(sSetFullSpanListener).appendTo(mMyCompositeViewAdapter);
+
+对于成批量出现的item:比如linear grid staggered 里的item
+	一个 itemLayout 通常是和一个Adapter是相关的
+
+对于符合当前RV的item
+	格式:
+		AdapterManager.create(R.layout.item_tuijianfanju)
+			.appendTo(mMyCompositeViewAdapter)
+			.observe(BilibiliApi.index(),mCompositeSubscription);
+		或
+		new DongTaiAdapter().observe(BilibiliApi.dongtai(), mCompositeSubscription).appendTo(mMyCompositeViewAdapter);

@@ -1,0 +1,28 @@
+https://github.com/vinc3m1/RoundedImageView
+使用很简单 跟普通的ImageView一样
+
+	<com.makeramen.roundedimageview.RoundedImageView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:scaleType="fitCenter"
+		android:src="@drawable/dal"
+		app:riv_border_color="#f00"
+		app:riv_border_width="4dp"
+		app:riv_corner_radius_top_left="30dp"
+		app:riv_corner_radius_top_right="30dp"
+		app:riv_mutate_background="true"
+		app:riv_oval="false"
+		app:riv_tile_mode="mirror"
+		/>
+
+	<com.makeramen.roundedimageview.RoundedImageView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:scaleType="center"
+		android:src="@drawable/cc_1"
+		app:riv_border_color="#f00"
+		app:riv_border_width="1dp"
+		app:riv_corner_radius="5dp"
+		app:riv_oval="false"
+		app:riv_tile_mode="mirror"
+		/>

@@ -1,0 +1,3 @@
+onClick="onhehe"
+	当按钮被点击的时候就调用当前所在的Activity的 void onehehe(View v) 方法 要是public哦 否则直接就异常了
+	很多其他的view都有onClick事件

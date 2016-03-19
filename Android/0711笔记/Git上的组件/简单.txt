@@ -1,0 +1,23 @@
+IOS风格的ActionAheet
+	https://github.com/saiwu-bigkoo/Android-AlertView
+	public void onClick1(View v) {
+		av = new AlertView("我是标题", "我是消息", "取消", new String[]{"破坏1", "破坏2"},
+			new String[]{"拍照", "从相册中选择"},
+			this, AlertView.Style.ActionSheet, new OnItemClickListener() {
+			public void onItemClick(Object o, int position) {
+				Toast.makeText(AlertViewActivity.this, "点击了第" + position + "个",
+					Toast.LENGTH_SHORT).show();
+			}
+		}).setCancelable(true);
+		av.show();
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (av != null && av.isShowing()) {
+			//特殊处理一下后退键
+			av.dismiss();//由于是使用dismiss 所以
+		} else {
+			super.onBackPressed();
+		}
+	}

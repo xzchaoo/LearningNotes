@@ -1,0 +1,2 @@
+要实现Swipe功能推荐使用 功能强劲 而且简单
+	https://github.com/daimajia/AndroidSwipeLayout

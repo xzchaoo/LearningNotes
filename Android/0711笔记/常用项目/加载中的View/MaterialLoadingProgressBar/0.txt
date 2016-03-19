@@ -1,0 +1,77 @@
+Material风格的进度条
+就是一个圆环在转动的那个
+
+https://github.com/lsjwzh/MaterialLoadingProgressBar
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:paddingBottom="@dimen/activity_vertical_margin"
+	android:paddingLeft="@dimen/activity_horizontal_margin"
+	android:paddingRight="@dimen/activity_horizontal_margin"
+	android:paddingTop="@dimen/activity_vertical_margin"
+	tools:context="org.xzc.appfortest.MaterialProgressBarActivity">
+
+	<com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+		android:id="@+id/progressBar"
+		android:layout_width="60dp"
+		android:layout_height="60dp"
+		android:layout_centerInParent="true"
+		app:mlpb_background_color="@color/google_red"
+		app:mlpb_inner_radius="20dp"
+		app:mlpb_progress_color="@color/google_blue"
+		app:mlpb_progress_stoke_width="4dp"
+		app:mlpb_progress_text_visibility="visible"
+		app:mlpb_show_arrow="true"
+	    app:mlpb_progress_text_color="#fff"
+	    app:mlpb_progress_text_size="18sp"
+	    app:mlpb_progress="60"
+	    app:mlpb_max="100"
+		app:mlpb_arrow_width="20dp"
+	    app:mlpb_arrow_height="10dp"
+		/>
+<!--
+	<declare-styleable name="CircleProgressBar">
+		圆环半径
+		<attr name="mlpb_inner_radius" format="dimension"/>
+
+		圆圈的背景色
+		<attr name="mlpb_background_color" format="color"/>
+
+		转动的圆环的颜色
+		<attr name="mlpb_progress_color" format="color"/>
+
+		笔画的宽度
+		<attr name="mlpb_progress_stoke_width" format="dimension"/>
+
+		显示箭头
+		<attr name="mlpb_show_arrow" format="boolean"/>
+
+		好像用了之后背景就变透明了
+		<attr name="mlpb_enable_circle_background" format="boolean"/>
+
+		箭头宽度和高度 一起控制箭头的大小
+		<attr name="mlpb_arrow_width" format="dimension"/>
+		<attr name="mlpb_arrow_height" format="dimension"/>
+
+		当前进度
+		<attr name="mlpb_progress" format="integer"/>
+		最大进度
+		<attr name="mlpb_max" format="integer"/>
+		进度文本的大小
+		<attr name="mlpb_progress_text_size" format="dimension"/>
+		进度文本的颜色
+		<attr name="mlpb_progress_text_color" format="color"/>
+		是否显示进度的数值 圆环依旧会显示
+		<attr name="mlpb_progress_text_visibility" format="enum">
+			<enum name="visible" value="0"/>
+			<enum name="invisible" value="1"/>
+		</attr>
+	</declare-styleable>
+	-->
+	
+</RelativeLayout>

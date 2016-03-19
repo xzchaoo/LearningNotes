@@ -1,0 +1,17 @@
+EFragment
+	如果你需要重载onCreateView的话(你想访问bundle)记得要最后返回null
+	如果你返回非null那么不会进行增强
+	可以使用forceLayoutInjection强制进行增强,这时候会替换掉你返回的view
+
+@OptionsMenu lets you specify the menu resource to use
+@OptionsItem marks methods that receives menu selection events
+
+@EActivity
+@ViewById
+@Bean
+@EBean
+@SystemService
+@Click
+@Background
+
+对Activity进行增强

@@ -1,0 +1,12 @@
+CoordinatorLayout (以下简称CL)
+	是一个高级的FrameLayout, 可以做到:
+	1. 一个顶级的容器
+	2. 可以让容器里的view提供动态依靠的功能(RelativeLayout只能静态)
+	3. 两view之间依赖关系
+
+Behvaoir
+	用来实现当CL(或CL的子元素)滑动的时候某个元素该做什么
+
+AppbarLayout
+
+

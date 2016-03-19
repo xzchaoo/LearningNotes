@@ -1,0 +1,214 @@
+HeadsUpManager
+LiteOrm
+Glide
+Picasso
+otto
+photoview
+TextSwitcher
+NumberProgressBar
+dao
+
+
+Once
+https://github.com/jonfinerty/Once
+所有的操作就是在 beenDone clearDone markDone todo needToDo clearToDo 和其他一些Once的静态方法里去绕
+记得要在APP的onCreate里初始化一下
+
+GreenDAO
+查询
+QueryBuilder
+List joes = userDao.queryBuilder()
+.where(Properties.FirstName.eq("Joe"))
+.orderAsc(Properties.LastName)
+.list();
+一个Query可以被执行多次 只要你先把它build出来 保存它的引用
+支持唯一结果 uniqueOrThrow
+list listLazy listLazyUncached listIterator
+有些方法返回的结果 读取完毕后会自动关闭游标 但你最好还是自己关
+重复利用Query 并且更换参数
+Query query = userDao.queryBuilder().where(
+Properties.FirstName.eq("Joe"), Properties.YearOfBirth.eq(1970))
+.build();
+List joesOf1970 = query.list();
+Using this Query object, we can search for Marias born in 1977 later:
+query.setParameter(0, "Maria"); //这里的索引是基于你创建Query时给的数据的
+query.setParameter(1, 1977);
+List mariasOf1977 = query.list();
+
+
+Query只能对当前线程使用 其他线程如果尝试修改它的话 可能会异常
+If other threads try to set parameters on the query or execute the query bound to another thread, an exception will be thrown
+最好一个线程使用自己的Query
+
+在Query上调用forCurrentThread
+To avoid those potential deadlocks completely, greenDAO 1.3 introduced the method forCurrentThread().
+This will return a thread-local instance of the Query, which is safe to use in the current thread. Every time,
+forCurrentThread() is called, the parameters are set to the initial parameters at the time the query was built using its builder.
+
+原生查询
+
+连接
+QueryBuilder<User> queryBuilder = userDao.queryBuilder();
+queryBuilder.join(Properties.addressId, Address.class)
+  .where(AddressDao.Properties.Street.eq("Sesame Street"));
+List<User> users = queryBuilder.list();﻿
+
+public <J> Join<T, J> join(Class<J> destinationEntityClass, Property destinationProperty)
+相当于 on _id=destinationEntityClass.destinationProperty
+
+public <J> Join<T, J> join(Property sourceProperty, Class<J> destinationEntityClass)
+相当于 on _sourceProperty=destinationEntityClass._id
+
+public <J> Join<T, J> join(Property sourceProperty, Class<J> destinationEntityClass, Property destinationProperty)
+相当于 on _sourceProperty=destinationEntityClass.destinationProperty
+package org.gradle;
+
+import java.io.File;
+import java.io.IOException;
+
+import de.greenrobot.daogenerator.DaoGenerator;
+import de.greenrobot.daogenerator.Entity;
+import de.greenrobot.daogenerator.Property;
+import de.greenrobot.daogenerator.Schema;
+import de.greenrobot.daogenerator.ToMany;
+
+public class Main {
+	public static void main(String[] args) throws Exception {
+		// 创建一个Schema用来描述 1是版本 第二个参数是报名
+		Schema schema = new Schema(1, "org.xzc.model");
+		// 可以用类似的方法修改生成的文件的位置
+		// schema.setDefaultJavaPackageDao();
+		/*
+		 * schema2.enableKeepSectionsByDefault();
+		 * schema2.enableActiveEntitiesByDefault();
+		 */
+		Entity user = schema.addEntity("User");
+		// 添加id 实际上是添加了一个名为_id的long型字段
+		user.addIdProperty();
+		user.addStringProperty("name");
+		user.addIntProperty("sex");
+		user.addDateProperty("birthday");
+
+		Entity card = schema.addEntity("Card");
+		card.addIdProperty();
+		card.addDoubleProperty("money");// 余额
+		// 一个人只能有一张卡 会在User里产生 get/set 方法 并且 得到的card对象是lazy的
+		// 也支持eager fetch
+		Property cardId = user.addLongProperty("cardId").getProperty();
+		// 说user和card有一个一对一的关系 其实还可以接受第三个参数表示这个关系的名字
+		// 因为user和card可能还有另外的关系 这时就会冲突
+		user.addToOne(card, cardId);
+		// 一张卡也对了一个用户 这样加起来就是双向了
+		Property card_userId = card.addLongProperty("userId").getProperty();
+		card.addToOne(user, card_userId);
+
+		Entity book = schema.addEntity("Book");
+		Property bookId = book.addIdProperty().getProperty();
+		book.addStringProperty("name");
+		book.addDoubleProperty("price");
+		// user.implementsSerializable();实现S接口
+
+		Property book_ownerId = book.addLongProperty("ownerId").notNull().getProperty();
+		// 每本书对了一个人
+		book.addToOne(user, book_ownerId);
+		// 一个人有多本书
+		ToMany userToManyBooks = user.addToMany(book, book_ownerId);
+		// userToManyBooks.setName("");
+		userToManyBooks.orderAsc(bookId);// 获得的是一个List 因此 你可以指定顺序
+											// 这里的意思就是按照bookId升序
+
+		// toMany 肯定是lazy的
+		// toMany得到的那个List是具有缓存功能的 比如你先list.get(0) 由于 是lazy 所以去加载一次
+		// 你再list.get(0)就不会去加载了
+		// 但是与此同时 如果另外一个地方更新了 某本Book 而这本book就是你的 list.get(0) 那么由于你具有缓存功能
+		// 你以后再list.get(0) 还是旧数据
+		// 所以要更新toMany关系中的一方时需要这样做:
+		/*
+		 * Get the to-many Java List (This has to be done this before persisting
+		 * the new entity, because we do not know if we get a cached for fresh
+		 * result. Like this, we know it’s cached now.) Create a new entity
+		 * object (on the many side) Set the foreign property of the new entity
+		 * to the target entity Persist the new object using insert Add the new
+		 * object to the to-many Java List
+		 */
+		/*
+		 * List orders = customer.getOrders();
+		 * newOrder.setCustomerId(customer.getId());
+		 * daoSession.insert(newOrder); orders.add(newOrder);
+		 */
+		/*
+		 * 手动清理掉orders 然后再获取一次最新的 customer.resetOrders(); List orders2 =
+		 * customer.getOrders();
+		 */
+		/*
+		 * List orders = customer.getOrders(); daoSession.delete(newOrder);
+		 * orders.remove(newOrder);
+		 */
+
+		/*
+		 * Modelling Tree Relations (Example)
+		 * 
+		 * 树形
+		 * You can model a tree relation by modelling an entity having a to-one
+		 * and a to-many relation pointing to itself: Entity treeEntity =
+		 * schema.addEntity("TreeEntity"); treeEntity.addIdProperty(); Property
+		 * parentIdProperty =
+		 * treeEntity.addLongProperty("parentId").getProperty();
+		 * treeEntity.addToOne(treeEntity, parentIdProperty).setName("parent");
+		 * treeEntity.addToMany(treeEntity,
+		 * parentIdProperty).setName("children"); The generated entity lets you
+		 * navigate to its parent and children: TreeEntity parent =
+		 * child.getParent(); List grandChildren = child.getChildren();
+		 */
+		// 当前路径是D:\java\eclipses\20150911\workspace\test1\.
+		File file = new File("./src-gen");
+		if (!file.exists())
+			file.mkdir();
+		new DaoGenerator().generateAll(schema, "./src-gen");
+
+	}
+}
+
+
+addToOneWithoutProperty 干嘛用的额?
+
+
+DAO里的常用方法:dao的每个操作被当成一个tx
+	insert(obj)
+	count() 数数
+	load
+	loadDeep
+	loadAll 懒加载全部
+	delete(obj)
+	deleteByKey
+	update(obj)
+	insertOrReplace
+	queryBuilder
+	queryRaw
+	loadByRowId
+	readEntity(cursor,rowId) 从这个cursor读一行 转换成一个obj
+	queryDeep
+	refresh(obj) 恢复这个obj的内容 为当前session里的最新
+
+
+
+Session里的常用方法
+	clear清空
+	事务,这两个进去看一下源代码就知道了!
+		callInTx
+		runInTx
+	除此之外还有一些 insert delete ... 之类的方法 不过都是泛型的
+	还可以启动一个AsyncSession
+
+Obj里的方法
+	除了get/set方法外 还有一些诸如 refresh delete update之类的方法 都很简单的
+	所有简单属性都是马上被读取出来的 然后关联的属性是lazy的
+
+QueryBuilder
+	功能看看就知道了
+
+目前无法进行比较复杂的操作
+	比如想要"一口气"找出最有钱的人(假设一个人有一张银行卡,银行卡上有钱)
+	要做这个的话只能考虑分成两步了
+	找出钱数最多的银行卡的id(假设只有一张银行卡满足)
+	找出这张银行卡的持卡人

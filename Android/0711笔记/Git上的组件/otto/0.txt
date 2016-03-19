@@ -1,0 +1,22 @@
+Bus bus=new Bus();
+bus.post(new XXXEvent(params)); 这是一个同步操作
+当它返回的时候所有的订阅者都执行完毕了
+订阅
+@Subscribe public void onXXXEvent(XXXEvent e){//必须是public的 参数只能有一个
+	...
+}
+还要在类中执行bus.register(this);//注册的时候只会检测当前类中的Annotation不会检测父类的
+unregister反注册
+
+还可以主动请求获得某信息
+@Produce public XXXEvent produceXXXEvent(){
+	return new XXXEvent(params);
+}
+在类中也需要register(this)
+每当有人订阅消息的时候 就会马上给一个XXXEvent事件
+
+线程
+Bus bus2 = new Bus(ThreadEnforcer.MAIN);
+
+与
+rxjava一起用?

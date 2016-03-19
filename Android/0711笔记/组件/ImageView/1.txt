@@ -1,0 +1,23 @@
+scaleType:
+	center:
+		图片不缩放 取图片的正中间的位置
+	centerCrop:
+		将图片居中 然后按比例放大 直到宽高都达到IV的最大值(或超过最大值)
+	centerInside:
+		保证图片一定在IV内, 如果图片太大高或宽达到最大值 否则不缩放并且居中
+	fitCenter
+		XY方向都进行拉伸
+		保证XY方向都不超过为最大限度
+		有一个方向会填满
+	fitXY
+		XY方向都进行拉伸 填满
+	fitStart
+		XY方向都进行拉伸
+		保证XY方向都不超过为最大限度
+		有一个方向会填满
+		并且将图片放在有剩余空间的方向start位置
+	fitEnd
+		在X方向进行拉伸 但是保证Y方向不会超过ListView的高度
+		并且将图片放在end位置
+	matrix
+		这个就不管了

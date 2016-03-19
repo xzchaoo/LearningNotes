@@ -1,0 +1,60 @@
+ion-pane
+	A simple container that fits content, with no side effects. Adds the 'pane' class to the element.
+
+
+ion-content
+	有了它内容就能滑动(x,y)
+	但它不能缩放
+
+ActionSheet
+	模仿ios中的ActionSheet
+Backdrop
+	制造一层蒙版
+$ionicLoading
+
+$ionicLoadingConfig
+	用于配置loading的默认配置
+
+$ionicModal
+
+
+手势
+onHold
+
+
+CSS
+button:
+	各种颜色
+	大小 small large
+	button-block
+	button-full
+	
+	button-outline
+		背景色透明 而border还是有颜色
+	button-clear
+		清除背景色和border
+	图标按钮
+	<div class="button-bar">
+		<a class="button">First</a>
+		<a class="button">Second</a>
+		<a class="button">Third</a>
+	</div>
+
+List
+	list item item-divider
+
+
+Javascript:
+
+Content系列
+	ion-content
+		提供了一个可以滚动的区域
+	ion-refresher
+		完成后请广播scroll.refreshComplete
+Side Menus
+	menuClose menuToggle
+	ion-side-menus
+		enable-menu-with-back-views=true 则有子状态的时候也可以打开侧滑菜单
+	
+		
+		

@@ -1,0 +1,15 @@
+一般情况下只有获得 audioFocus的应用才可以放音乐
+AudioManager am = mContext.getSystemService(Context.AUDIO_SERVICE);
+...
+
+// Request audio focus for playback
+int result = am.requestAudioFocus(afChangeListener,
+                                 // Use the music stream.
+                                 AudioManager.STREAM_MUSIC,
+                                 // Request permanent focus.
+                                 AudioManager.AUDIOFOCUS_GAIN);
+   
+if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+    am.unregisterMediaButtonEventReceiver(RemoteControlReceiver);
+    // Start playback.
+}

@@ -1,0 +1,22 @@
+private boolean safeCameraOpen(int id) {
+    boolean qOpened = false;
+  
+    try {
+        releaseCameraAndPreview();
+        mCamera = Camera.open(id);
+        qOpened = (mCamera != null);
+    } catch (Exception e) {
+        Log.e(getString(R.string.app_name), "failed to open Camera");
+        e.printStackTrace();
+    }
+
+    return qOpened;    
+}
+
+private void releaseCameraAndPreview() {
+    mPreview.setCamera(null);
+    if (mCamera != null) {
+        mCamera.release();
+        mCamera = null;
+    }
+}

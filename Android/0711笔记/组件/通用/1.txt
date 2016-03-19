@@ -1,0 +1,11 @@
+layout_weight
+	对剩余空间的权重
+
+让某个组件填充父亲的剩余宽度
+	layout_width="0dp"
+	layout_weight="1"
+	这样速度比较快 否则的话需要计算元素的宽度
+
+onClick="onhehe"
+	当按钮被点击的时候就调用当前所在的Activity的 void onehehe(View v) 方法 要是public哦 否则直接就异常了
+	很多其他的view都有onClick事件

@@ -1,0 +1,16 @@
+LocalBroadcastManager
+用于一个服务报告它的执行结果
+Report Status From an IntentService
+To send the status of a work request in an IntentService to other components, first create an Intent that contains the status in its extended data. As an option, you can add an action and data URI to this Intent. 
+Next, send the Intent by calling LocalBroadcastManager.sendBroadcast(). This sends the Intent to any component in your application that has registered to receive it. To get an instance of LocalBroadcastManager, call getInstance(). 
+
+To register the BroadcastReceiver and the IntentFilter with the system, get an instance of LocalBroadcastManager and call its registerReceiver() method. This next snippet shows how to register the BroadcastReceiver and its IntentFilter: 
+        // Instantiates a new DownloadStateReceiver
+        DownloadStateReceiver mDownloadStateReceiver =
+                new DownloadStateReceiver();
+        // Registers the DownloadStateReceiver and its intent filters
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                mDownloadStateReceiver,
+                mStatusIntentFilter);
+        ...
+

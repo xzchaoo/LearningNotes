@@ -1,0 +1,65 @@
+查询
+navigator.contacts.find(contactFields,success,error,contactFindOptions);
+ contactFields
+	通过哪些字段来查询(是一个数组)
+	不允许长度为0 允许使用['*'] 表示搜索全部的字段
+
+Contact{
+	id:就是id,
+	displayName:String,
+	phoneNumbers:ContactField[],
+	name:包含名字的多个成分,//这个感觉一般用不着
+	emails:ContactField[],
+	nickname,addresses,ims,organizations,birthday,note,photos,categories,urls,
+
+	clone:克隆属性,但id是null,
+	remove:删除,
+	save:保存到手机数据库,也可能是一个更新操作(当你先通过find方法获得一个contact的时候)
+}
+ContactField{
+	type:类型 可能是 'home' 表示是家里的电话号码
+	value:String,可能是一个电话号码或email
+	pref
+}
+ContactName{
+	
+}
+ContactAddress{
+The ContactAddress object stores the properties of a single address of a contact. A Contact object may include more than one address in a ContactAddress[] array.
+Properties
+    pref: Set to true if this ContactAddress contains the user's preferred value. (boolean)
+    type: A string indicating(表明) what type of field this is, home for example. (DOMString)
+    formatted: The full address formatted(格式化) for display. (DOMString)
+    streetAddress: The full street address. (DOMString)
+    locality: The city or locality(所在). (DOMString)
+    region: The state or region. (DOMString)
+    postalCode: The zip code or postal code. (DOMString)
+    country: The country name. (DOMString)
+}
+
+contactFindOptions
+	filter: default ''
+		要过滤的值(关键字) 比如 '姐'
+		如果你写 '' 那么将会返回所有联系人
+	multiple: default: false
+		true or false
+		如果找到多个是否返回多个还是返回第一个
+	desiredFields
+		希望返回哪些字段 好像有点问题 不过一般就不指定它了
+		可以这样
+		[navigator.contacts.fieldType.id,navigator.contacts.fieldType.displayName]
+		表示希望返回id和displayName
+
+navigator.contacts.pickContact(success,error);
+	navigator.contacts.pickContact(function(c){
+		var text=_.str.sprintf("displayName=%s,phoneNumber=%s",c.displayName,c.phoneNumbers[0].value);
+		alert(text);
+	});
+
+例子
+var c = navigator.contacts.create();
+c.displayName="xzchaoo";
+c.nickname="xzc";
+c.save(function(){
+	alert('添加成功');
+});

@@ -1,0 +1,69 @@
+简介:
+	允许你用HTML5+CSS3+JS的方式开发跨平台的移动应用
+
+cordova create dirname identifier ProjectTitle
+cordova platform update android
+cordova platform add/remove android
+cordova platform ls
+cordova build android
+	等价于 cordova prepare android + cordova compile android
+一旦prepare完毕后 platforms/android就被更新了 此时你就可以用eclipse对它进行修改
+修改完毕后 再compile
+cordova emulate android
+cordova run android --target YouDeviceId (you can use 'adb devices' to find out the id)
+
+cordova plugin ls/remove/add
+cordova plugin add xxx
+cordova plugin search xxx
+cordova plugin add cordova-plugin-device
+cordova plugin add cordova-plugin-console@latest
+cordova plugin add cordova-plugin-console@0.2.1
+cordova plugin add https://github.com/apache/cordova-plugin-console.git
+cordova plugin add https://github.com/apache/cordova-plugin-console.git#r0.2.0
+
+Alternately, specify a local path to the plugin directory that contains the plugin.xml file:
+cordova plugin add ../my_plugin_dir
+
+这里有一些插件描述
+http://cordova.apache.org/docs/en/5.0.0/guide_cli_index.md.html#The%20Command-Line%20Interface
+
+cordova help run
+
+低级命令
+
+在dirpath的位置创建一个项目 名字为HelloWorld
+path_to_your_cordova-android/bin/create.bat dirpath org.xzc.example1 HelloWorld
+build android --release 只生成release版本
+C:\path\to\project\cordova\build.bat --release
+
+run的低级命令是project/cordova/run.bat
+	--nobuild 不build就直接运行
+
+
+Using Plugman to Manage Plugins
+如果你在跨平台的工作区工作 那么直接使用 cordova plugin xxx就行
+如果在特定的平台那么就是用Plugman
+安装Plugman
+	npm install -g plugman
+$ plugman install --platform <ios|amazon-fireos|android|blackberry10|wp8> --project <directory> --plugin <name|url|path> [--plugins_dir <directory>] [--www <directory>] [--variable <name>=<value> [--variable <name>=<value> ...]]
+$ plugman --uninstall --platform <ios|amazon-fireos|android|blackberry10|wp8> --project <directory> --plugin <id> [--www <directory>] [--plugins_dir <directory>]
+plugman -help
+在plugiman上加上参数-d 启动debug模式其他的命令照抄 如:
+plugman -d --platform android --project myProject --plugin cordova-plugin-battery-status
+plugman search
+plugman info
+
+
+The config.xml File
+
+preference
+	Fullscreen:boolean
+	DisallowOverscroll:boolean
+	BackgroundColor
+	HideKeyboardFormAccessoryBar
+	Orientation 
+	landscape default portrait
+<platform name="android">
+	<preference name="Orientation" value="sensorLandscape" />
+</platform>
+

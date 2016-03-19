@@ -1,0 +1,61 @@
+Theme.Holo for a "dark" theme.
+Theme.Holo.Light for a "light" theme.
+
+<application android:theme="@android:style/Theme.Holo.Light" ... />
+
+
+一个style指定了 height, padding, font color, font size, background color, and much more ...
+
+一个style可以被用到view,activity,application上
+	如果style被用到view上,那么只有这个view有效果
+		如果这个view是一个viewgroup那么它的子元素不会继承
+<TextView
+    style="@style/CodeFont"
+    android:text="@string/hello" />
+<application android:theme="@style/CustomTheme">
+<activity android:theme="@android:style/Theme.Dialog">
+
+
+<color name="custom_theme_color">#b0b0ff</color>
+<style name="CustomTheme" parent="android:Theme.Light">
+    <item name="android:windowBackground">@color/custom_theme_color</item>这里只支持引用 所以要先定义一个color
+    <item name="android:colorBackground">@color/custom_theme_color</item>
+</style>
+
+
+继承性:
+<style name="GreenText" parent="@android:style/TextAppearance">
+	<item name="android:textColor">#00FF00</item>
+</style>
+也可以这样:
+<style name="CodeFont.Red">
+	<item name="android:textColor">#FF0000</item>
+</style>
+<style name="CodeFont.Red.Big">
+	<item name="android:textSize">30sp</item>
+</style>
+
+带每个类的Android官方可以查看这个类支持什么属性,比如:https://developer.android.com/reference/android/widget/TextView.html#lattrs
+不能用于view的属性:https://developer.android.com/reference/android/R.attr.html
+
+
+应用场景1.
+	简化元素的属性
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:textColor="#00FF00"
+    android:typeface="monospace"
+    android:text="@string/hello" />
+变成
+<TextView
+    style="@style/CodeFont"
+    android:text="@string/hello" />
+再加上你在xml文件里定义一个名为CodeFont的style
+    <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#00FF00</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+

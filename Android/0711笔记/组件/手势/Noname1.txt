@@ -1,0 +1,13 @@
+VelocityTracker 速度检测
+用法见https://developer.android.com/intl/zh-cn/training/gestures/movement.html
+
+新版本之后每个MotionEvent的action实际上由两部分组成
+一个是实际的action 另外一个是索引
+因为有可能多个手指进行操作 所以就是用来标识手指信息的
+
+Scroller
+OverScroller
+EdgeEffects
+ ViewCompat.postInvalidateOnAnimation
+ computeScroll
+ Zoomer 

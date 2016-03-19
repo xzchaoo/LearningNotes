@@ -1,0 +1,8 @@
+InsetDrawable
+	可以使得其他Drawable有内嵌的效果
+	比如我有一个drawable 大小10*10
+	new InsetDrawable(myDrawable,0,0,30,0) 的意思就是 将我原来的图片的右边垫上30像素的空白 然后形成一张新的图片
+
+乍看之下好像没什么用
+实际上可以和LayerDrawable配合起来 实现图像的并列效果
+多去看看官方给的例子

@@ -1,0 +1,22 @@
+不要将太大的文件放到资源里去 否则apk太大
+getResources()...
+<resources>
+	<color name="c1">#00FF0055</color>  #RGB #ARGB #RRGGBB #AARRGGBB
+	<dimen name="size1">30sp</..
+
+InputStream is = getResources().openRawResource(R.raw.a.mp3)
+getResources().getAssets().open("a.mp3")
+
+String path="file///android_asset/文件名"
+getClass().getResourceAsStream(/assets/文件名")
+
+android中自带了一些资源 包括 pause按钮图标等
+
+国际化
+values-zh-rCN
+values-en-r-US
+
+drawable也可以是国际化的
+
+还可以这样
+drawable-en-rUS-480x320

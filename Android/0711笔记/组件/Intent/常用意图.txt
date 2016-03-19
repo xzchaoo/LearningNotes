@@ -1,0 +1,6 @@
+Uri number = Uri.parse( "tel:70862045" );
+Intent i = new Intent( Intent.ACTION_DIAL, number );
+startActivity( i );
+
+Uri webpage = Uri.parse("http://www.android.com");
+Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);

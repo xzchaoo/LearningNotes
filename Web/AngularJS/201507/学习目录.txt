@@ -1,0 +1,6 @@
+htdocs/
+	a
+	angular1
+	angularAMD1
+	ionoic
+

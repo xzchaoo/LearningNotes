@@ -1,0 +1,24 @@
+通过SharedPreferences
+	通过Context getSharedPreferences
+		然后 调用sp的editor方法 然后进行 添加 删除 等操作 最后 editor.commit
+	比如可以在Activity的onStart和onStop 加载和保存数据
+
+XML XML PULL 解析
+
+私有文件
+通过Context.openFileOutput之类的方法
+
+SqlLite
+	可以自己去写一个 SQLiteOpenHelper
+	或使用Context.openOrCreateDatabase( , ,  ) 使用这个方法	数据库不存在会抛出异常
+	ContentValues
+
+ContentProvider
+
+Context.managedQuery
+startManagingCursor让一个Context开始管理一个尚未被管理的游标
+
+
+在onPause中可以考虑 快速 的保存一些数据
+在onStop中可以 比较耗时的保存数据
+注意两者的生命周期onPause触发的频率高

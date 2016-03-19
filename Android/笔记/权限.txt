@@ -1,0 +1,26 @@
+修改配置
+	<uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
+修改桌面壁纸
+	<uses-permission android:name="android.permission.SET_WALLPAPER"/>
+读写SD卡
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+读联系人
+	<uses-permission android:name="android.permission.READ_CONTACTS"/>
+写联系人 
+
+发短信
+	<uses-permission android:name="android.permission.SEND_SMS" />
+读取网络状态
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+修改网络状态
+	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+允许读取手机状态
+	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+使用网络,不允许在主线程里使用网络 否则仍异常 可以用异步任务
+	<uses-permission android:name="android.permission.INTERNET"/>
+照相机
+	<uses-permission android:name="android.permission.CAMERA"/>

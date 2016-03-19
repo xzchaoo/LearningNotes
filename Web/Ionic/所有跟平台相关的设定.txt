@@ -1,0 +1,6 @@
+ion-content
+	has-bouncing
+		ios为true android为false
+		当滚动到边界的时候是否继续滚动 然后弹回
+		建议设置为true
+

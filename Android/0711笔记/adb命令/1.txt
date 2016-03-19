@@ -1,0 +1,12 @@
+重启adb
+adb kill-server
+adb start-server
+
+adb devices
+查看设备
+
+连接上某设备
+adb connect 127.0.0.1:53001
+
+安装apk
+adb install app/build/outputs/MyFirstApp-debug.apk

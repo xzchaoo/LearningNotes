@@ -1,0 +1,29 @@
+因为Fragment在很多情况下会被销毁(从而降低内存使用吧?)
+因此Fragment的状态保存显得挺重要(在某些情况)
+比如想象一下:你在Activity里有一个 FrameLayout id=fl 然后你用 replace(R.id.fl,new F1())
+假设我在F1里有一个输入框和一个按钮 假设你在输入框里输入了123
+假设点击按钮后会调用 replace(R.id.fl,new F2()).addToBackStack(null)
+此时F1就会被销毁! 你可以观察它的 onDestroyView等函数
+然后你再按后退键 就会发现F1被重新createView 并且界面重新回到F1的界面
+这时候你的输入框里的值还是123吗?
+如果你给EditText设置了id,那么它会有值 因为在FragmentManager会进行一系列的保存状态操作 其中一个条件就是这个View要有id
+当然除此之外你的Fragment也可以自己保存状态
+
+
+生命周期
+
+动态 多pane
+
+
+onCreateView几乎是你的Fragment唯一需要的方法
+public class ArticleFragment extends Fragment {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.article_view, container, false);
+    }
+}
+Fragment也会受到相应的事件 onpause on...
+
+If your activity allows the fragments to be removed and replaced, you should add the initial fragment(s) to the activity during the activity's onCreate() method.

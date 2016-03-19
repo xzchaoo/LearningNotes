@@ -1,0 +1,357 @@
+在html元素上加上ng-app="..."
+$rootScope是顶级的作用域
+	适合于
+要配置$rootScope的话使用
+.run(function($rootScope){
+	$rootScope.p=1;
+})
+
+注册其他控制器
+module.controller('YourControllerName',function($scope,...){
+	...
+})
+
+$scope的生命周期
+创建
+	angularjs会使用$injector创建一个新的作用域
+链接
+更新
+	脏值检测
+销毁
+	主动清理使用$scope.$destroy()
+有些指令会创建自己的作用域
+
+
+5
+控制器并不用来执行 格式化数据的工作
+而是纯粹负责数据模型的存储和维护工作
+
+嵌套作用域
+作用域跟原型继承很像
+比如a是b的父作用域
+那么当在b作用域里想要访问x变量,而b作用域实际上没有x变量,那么就会从它的父作用域a里面找,
+但是执行b.x=3;的时候并不会影响到a.x
+因此往往x是一个对象 这样才能跨作用域修改
+
+
+第6章 表达式
+
+$scope.$watch()
+
+$parse 解析表达式
+$interpolate 插值
+	var template=$interpolate('{{a}}-{{b}}');
+	console.log(template({a:1,b:2}));
+可以使用$interpolateProvider修改插值的标记符{{}},但是不太推荐这样做 没什么好处 所有地方都要改
+
+第7章 过滤器
+	{{ 'xzc' | uppercase }}
+	{{'1.732' | number:2}}
+	{{70862045 | currency }}<br/>
+	{{ now | date:'yyyy-MM-dd HH:mm:ss'}}各种恶心的格式化有需要再去找来看吧...<br/>
+	//筛选出不包含e的元素
+	//筛选出包含e的元素
+	{{ ['Amy','Ben','Xzc'] | filter:'!e' }}
+	{{ ['Amy','Ben','Xzc'] | filter:'e' }}
+	//这里写了myfilter 注意没有单引号 此时会进行表达式求值
+	//我的myfilter是一个函数 filter会将 数组的每个元素扔进去给它 返回true者就输出
+	{{ ['Amy','Ben','xzc'] | filter:myfilter }}
+	json
+	limitTo
+	lowercase<br/>
+	orderBy:下面这个例子先按照name降序排列(由-决定) 然后扔给json
+	{{ [{name:'xzc1'},{name:'xzc2'}] | orderBy:'-name' | json}}
+	<br/>
+	//自定义过滤器
+	{{ 'abc' | toXzc }}
+	.filter('toXzc',function(){
+		return function(input){
+			return 'xzc';
+		}
+	})
+
+表单验证:这是比较麻烦的一块
+给form加上novalidate防止浏览器的默认行为
+required
+ng-minlength="5"
+ng-maxlength="10"
+ng-pattern='[a-zA-Z]{3}'
+type="email"
+type="number"
+type="url"
+
+$scope.formName.inputFieldName.$pristine $dirty $valid $invalid $error
+.ng-pristine .ng-dirty .ng-valid .ng-invalid
+
+自定义验证
+$parsers
+当用户修改了视图的值的时候 会调用 ngModelController的$setViewValue方法进行model的设置值
+此时$parsers数组中的函数会以流水线的形式被逐个调用,第一个parser的结果传递给第二个parser....
+通过$setValidity函数设置表单的合法性
+
+
+第8章 指令
+scope:
+	true:采用原型继承的方式创建一个新的scope
+	false,该scope就是父scope的引用(这是指令的默认行为)
+	obj,除了obj里指定的属性外,scope不具有其他属性
+第9章 内置指令
+
+第10章 指令详解
+几个常用的属性
+restrict proprity template templateUrl replace scope controller controllerAs require link compile transclude
+transclude内嵌
+
+require:字符串或字符串数组表示依赖
+ngModel如果在当前元素里找不到 就抛异常
+?ngModel
+?如果在当前元素里找不到 就以null代替
+^如果找不到就会往父元素找
+?^合起来用
+
+AngularJS声明周期:
+编译
+通常情况下，如果设置了compile函数，说明我们希望在指令和实时数据被放到DOM中之前
+进行DOM操作，在这个函数中进行诸如添加和删除节点等DOM操作是安全的。
+
+链接
+ngModel.$setViewValue()
+$viewValue $modelValue $parsers $formatters $error $pristine $dirty $valid $invalid
+
+
+10.5.1自定义渲染
+
+第11章 模块
+运行块通常用来注册全局的事件监听器。例如，我们会在.run()块中设置路由事件的监听器
+以及过滤未经授权的请求。
+$rootScope.$on('$routeChangeStart',...)
+
+
+12
+
+ng-view
+$routeChangeStart
+$rootScope.$on('$routeChangeStart', function(evt, next, current) {
+});
+
+$routeChangeSuccess
+$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
+});
+
+$routeChangeError
+$rootScope.$on('$routeChangeError', function(current, previous, rejection) {
+});
+
+$routeUpdate
+
+$viewContentLoaded
+$routeProvider.when('/',{
+	templateUrl:'views/index.html'
+}).when('/login',{
+	templateUrl:'views/login.html'
+});
+obj可以有
+template templateUrl controller resolve
+resolve: {
+	'data': ['$http', function($http) {
+		return $http.get('/api').then(function success(resp) {
+			return response.data;
+		},function error(reason) { 
+			return false;
+		});
+	}]
+}
+
+页面重新加载
+$location服务不会重新加载整个页面，它只会单纯地改变URL。如果我们想重新加载整个
+页面，需要用$window服务来设置地址。
+$window.location.href = "/reload/page";
+
+第12章 依赖注入
+injector.annotate(function($q, greeter) {})会输出["$q", "greeter"]
+
+var githubDecorator = function($delegate,$log) {
+	var events = function(path) {
+		var startedAt = new Date();
+		var events = $delegate.events(path);
+		// 事件是一个promise events.finally(function() {
+		$log.info("Fetching events" +
+				  " took " +
+				  (new Date() - startedAt) + "ms");
+	});
+	return events;
+};
+return {
+	events: events
+};
+};
+angular.module('myApp')
+	.config(function($provide) {
+	$provide.decorator('githubService',githubDecorator);
+});
+
+第15章 $http
+$http({
+	method:'GET',
+	url:'aaa.php'
+}).success(function(data,status,header,config){
+})
+then success error
+拦截器四种 request response requestError responseError
+
+
+
+第17章 promise
+$q服务
+var d = $q.defer()
+d.resolve(value);
+d.reject(reason)
+d.notify(value)
+$q.all([promise数组])
+$q.reject()
+可以井一个对象包装promise对象
+$q.when()
+
+
+第22章 动画
+
+transition: all 10s;的意思是该元素上的所有属性(因为指定了all,也可以指定width)的CSS变化都是10s 默认是ease
+因为对于同一个dom元素只能有一个transition的设置
+因此transition那个CSS选择器里无所谓,比如为了达到fade-in的效果
+可以设置两个类 然后给元素添加完第一个类之后 再给元素添加第二个类
+.a1{opacity: 0;transition: all 10s;}
+.a2{opacity: 1;}
+或
+.a1{opacity: 0;}
+.a2{opacity: 1;transition: all 10s;}
+注意如果用jQuery要这样:
+a.addClass('a1');
+setTimeout(function(){
+	a.addClass('a2');
+},0);
+而不要一口气add两个不然没效果
+
+但是在angular-animate使用了第一种方式
+因为angular-animate用第一个类来获得动画的持续时间
+
+也可以使用动画 注意跨浏览器的问题
+@keyframes ani1{
+	0%{
+		opacity:0;
+	}
+	100%{
+		opacity:1;
+	}
+}
+.ng-enter{
+	animation:2s ani1;
+}
+
+与Animate.css整合
+Greensock
+
+第23章
+$watch $evalAsync
+$watchCollection会返回一个注销函数
+
+25
+ui-router
+restangular
+
+26章
+onTap onSwipe
+Hammer.js
+angular-gestures
+
+28缓存
+ie可能会缓存ajax
+$httpProvider.defaults.headers.common['Cache-Control'] = 'no-cache';
+
+$cacheFactory
+创建一个新的缓存
+var c=$cacheFactory('myCache',{capacity:20});
+c.info()
+c.put('a','b')
+var b=c.get('a')
+var b=c.remove('a')
+c.removeAll()
+c.destroy()
+$http请求可以接受一个cache参数
+true false 或 一个cache对象
+// 获取上一次请求的缓存
+var usersCache = cache.get('http://example.com/api.users.json');
+// 删除上一次请求的缓存入口
+cache.remove('http://example.com/api.users.json');
+// 重新开始并移除全部缓存
+cache.removeAll();
+设置$http的默认缓存,$http默认已经有一个了
+$httpProvider.defaults.cache = $cacheFactory('myCache', {capacity: 20});
+
+
+优化
+$watch
+unwatch
+bindonce
+	<ul>
+		<li ng-repeat="u in users" bindonce="u">
+			{{u.id}}--{{u.name}}
+		</li>
+	</ul>
+最新版的Angular在找到恒定值时（比如，表达式解析为布尔值或者静态的整数）会自动移
+除$watch函数。
+// 下面这些监控器会被自动移除
+// 因为Angular的$watches会检测到这些值都是不会改变的值
+$scope.$watch('true', function() {});
+$scope.$watch('2 + 2', function() {});
+
+$templateCache grunt-angular-templates
+
+
+
+
+常用ng-属性
+ng-model
+ng-click="add(2)"
+ng-if
+	当条件成立的时候 对应元素的一个克隆会被插入到dom里,并且重新执行link,
+	因为克隆只是有骨架而已,并没有相应的事件绑定,因此在link里要执行事件绑定相关的工作
+	相关的作用域会跟着重建和销毁
+ng-show ng-hide
+ng-href ng-src
+ng-repeat
+	$index $first $middle $last $even $odd
+ng-init
+ng-controller
+ng-include='xxx.html'
+ng-view
+ng-style
+ng-class
+	如果even为true就为div加上.even
+	<div ng-class="{even:even}"></div>
+
+ng-selected ng-readonly ng-checked ng-disabled
+<option ng-selected='currentValue=1' value='...'>...</option>
+ng-switch="choice"
+<div ng-switch-when='a'>...</div>
+<div ng-switch-default>...</div>
+
+ng-bind与{{}}
+	ng-bind可以避免闪烁问题(如果有的话)
+ng-cloak指令会将内部元素隐藏，直到路由调用对应的页面时才显示出来。
+ng-bind-template
+ng-change
+ng-form
+ng-select
+ng-options
+ng-submit
+
+
+常用服务
+$rootScope $scope $http $timeout $interval $state
+$parse用于eval操作
+$filter 过滤器 $filter('json')(obj)
+
+杂
+$timeout.cancel(timeout)
+
+

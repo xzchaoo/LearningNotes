@@ -1,0 +1,78 @@
+对话框的View的根元素最好是RelativeLayout,否则会有很多问题
+
+package org.xzc.learn_20151009;
+
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.graphics.Point;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+
+import butterknife.ButterKnife;
+
+public class BlurDialogFragmentActivity extends AppCompatActivity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_blur_dialog_fragment);
+		ButterKnife.bind(this);
+	}
+
+	public void f1(View v) {
+		F1 f1 = (F1) getSupportFragmentManager().findFragmentByTag("F1");
+		if (f1 != null) {
+			getSupportFragmentManager().beginTransaction().attach(f1).commit();
+		} else {
+			F1 f = new F1();
+			f.setStyle(F1.STYLE_NO_FRAME, android.R.style.Theme_Panel);//设置成Panel,那么不会有背景的灰色和标题,你可以想象弹出了一个广告
+			f.show(getSupportFragmentManager(), "F1");
+		}
+	}
+
+	public static class F1 extends DialogFragment {
+		@Nullable
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+			View view = inflater.inflate(R.layout.dialog_1, container, false);
+			return view;
+		}
+
+		@NonNull
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			Dialog d = super.onCreateDialog(savedInstanceState);
+			//d.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+			d.setOnShowListener(new DialogInterface.OnShowListener() {
+				@Override
+				public void onShow(DialogInterface dialog) {//这个动作放到fragment的onResume里去做也行
+					Log.i("zas", "onShow");
+					Window w = getDialog().getWindow();
+					Point p = new Point();
+					w.getWindowManager().getDefaultDisplay().getSize(p);
+					WindowManager.LayoutParams lp = w.getAttributes();
+					//lp.dimAmount = 0;
+					lp.width = (int) (p.x * 0.8f);//宽高屏幕的0.8
+					lp.height = (int) (p.y * 0.8f);//可以用于弹出一个广告,占屏幕宽高0.8
+					w.setAttributes(lp);
+				}
+			});
+			return d;
+		}
+
+		@Override
+		public void onResume() {
+			super.onResume();
+			Log.i("zas", "onResume");
+		}
+	}
+}

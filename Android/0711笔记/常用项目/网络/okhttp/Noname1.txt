@@ -1,0 +1,47 @@
+RequestBody
+	FormEncodingBuilder
+	MultipartBuilder
+
+
+缓存
+    int cacheSize = 10 * 1024 * 1024; // 10 MiB
+    Cache cache = new Cache(cacheDirectory, cacheSize);
+
+    client = new OkHttpClient();
+    client.setCache(cache);
+
+response
+	可以判断是否从缓存读取
+
+取消
+	Call.cancel()
+超时
+    client = new OkHttpClient();
+    client.setConnectTimeout(10, TimeUnit.SECONDS);
+    client.setWriteTimeout(10, TimeUnit.SECONDS);
+    client.setReadTimeout(30, TimeUnit.SECONDS);
+
+拦截器
+OkHttpClient client = new OkHttpClient();
+client.interceptors().add(new LoggingInterceptor());
+
+class LoggingInterceptor implements Interceptor {
+  @Override public Response intercept(Chain chain) throws IOException {
+    Request request = chain.request();
+
+    long t1 = System.nanoTime();
+    logger.info(String.format("Sending request %s on %s%n%s",
+        request.url(), chain.connection(), request.headers()));
+
+    Response response = chain.proceed(request);
+
+    long t2 = System.nanoTime();
+    logger.info(String.format("Received response for %s in %.1fms%n%s",
+        response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+
+    return response;
+  }
+}
+
+The specified message queue synchronization  barrier token has not been posted or has already been removed.
+

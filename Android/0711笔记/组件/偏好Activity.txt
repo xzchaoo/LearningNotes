@@ -1,0 +1,6 @@
+boolean float int long String
+
+PreferenceActivity
+	checkbox
+	list
+	EditTextPreference

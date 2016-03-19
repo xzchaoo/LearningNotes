@@ -1,0 +1,47 @@
+Alpha
+Scale
+Translate
+Rotate
+Interpolator
+	Linear
+	Accelerate
+	AccelerateDecelerate
+	Cycle
+	Decelerate
+
+	ValueAnimator
+	ObjectAnimator
+	AnimatorSet
+
+	LayoutTransition
+	<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:id="@+id/verticalContainer"
+    android:animateLayoutChanges="true" />
+
+
+
+Keyframe kf0 = Keyframe.ofFloat(0f, 0f);
+Keyframe kf1 = Keyframe.ofFloat(.5f, 360f);
+Keyframe kf2 = Keyframe.ofFloat(1f, 0f);
+PropertyValuesHolder pvhRotation = PropertyValuesHolder.ofKeyframe("rotation", kf0, kf1, kf2);
+ObjectAnimator rotationAnim = ObjectAnimator.ofPropertyValuesHolder(target, pvhRotation)
+rotationAnim.setDuration(5000ms);
+
+
+ViewPropertyAnimator
+ObjectAnimator animX = ObjectAnimator.ofFloat(myView, "x", 50f);
+ObjectAnimator animY = ObjectAnimator.ofFloat(myView, "y", 100f);
+AnimatorSet animSetXY = new AnimatorSet();
+animSetXY.playTogether(animX, animY);
+animSetXY.start();
+
+One ObjectAnimator
+PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat("x", 50f);
+PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat("y", 100f);
+ObjectAnimator.ofPropertyValuesHolder(myView, pvhX, pvyY).start();
+
+ViewPropertyAnimator
+myView.animate().x(50f).y(100f);

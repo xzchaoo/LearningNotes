@@ -1,0 +1,7 @@
+   Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+    startActivityForResult(takeVideoIntent, ACTION_TAKE_VIDEO);
+
+private void handleCameraVideo(Intent intent) {
+    mVideoUri = intent.getData();
+    mVideoView.setVideoURI(mVideoUri);
+}

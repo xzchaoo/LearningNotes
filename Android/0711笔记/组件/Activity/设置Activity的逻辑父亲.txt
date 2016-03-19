@@ -1,0 +1,125 @@
+当使用actionbar上的back按钮回到父activity的时候
+如果父activity是standard的 那么它会被杀死 重建
+如果父activity是singleTop的 那么它会被带到前面 并且受到 onNewIntent()
+
+如果是使用物理按键backbutton的话 则是不会
+	会调用父亲的 reRestart onstart onresume
+		PendingIntent pi = TaskStackBuilder.create( this )
+		// add all of DetailsActivity's parents to the stack,
+		// followed by DetailsActivity itself
+				.addNextIntentWithParentStack( i ).getPendingIntent( 0, PendingIntent.FLAG_UPDATE_CURRENT );
+
+
+
+
+https://developer.android.com/training/implementing-navigation/ancestral.html
+
+建议两个都写
+
+低级的版本需要这样 支持库
+<meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.example.learn0711.MainActivity" />
+
+比较高级的版本可以这样 要求api16
+<activity android:name=".Activity2" android:label="@string/title_activity_activity2" android:parentActivityName="com.example.learn0711.MainActivity">
+</activity>
+
+The android:parentActivityName attribute declares the name of this activity's parent activity within the app's logical hierarchy. The system uses this value to implement default navigation behaviors, such as Up navigation on Android 4.1 (API level 16) and higher. You can provide the same navigation behaviors for older versions of Android by using the Support Library and adding the <meta-data> element as shown here.
+
+
+
+相关的类NavUtils navigateUpFromSameTask()
+相关函数
+	getActionBar().setDisplayHomeAsUpEnabled(true);
+	这会导致在actionbar上产生一个id=android.R.id.home的action
+	它的点击会被onOptionsItemSelected()所接受到
+
+如果你的Activity是别的程序打开的 那么这个规则不适用? 是吗?
+	比如我的程序打开了QQ,然后我点击后退 就退回到我的程序了 而不是QQ的上一页
+	问题就出在于当前栈是别人的
+	你可以考虑重新建立栈shouldUpRecreateTask()这个方法可以告诉你是否应该重建栈(即是不是从别人那里过来的),如果返回false的话 那么就说明不用(你是从自己的应用到这个activity的)
+	TaskStackBuilder navigateUpFromSameTask()
+
+
+一般情况下当你点击Home的时候会采用以下规则
+To navigate up when the user presses the app icon, you can use the NavUtils class's static method, navigateUpFromSameTask(). When you call this method, it finishes the current activity and starts (or resumes) the appropriate parent activity. If the target parent activity is in the task's back stack, it is brought forward. The way it is brought forward depends on whether the parent activity is able to handle an onNewIntent() call:
+If the parent activity has launch mode <singleTop>, or the up intent contains FLAG_ACTIVITY_CLEAR_TOP, the parent activity is brought to the top of the stack, and receives the intent through its onNewIntent() method.
+If the parent activity has launch mode <standard>, and the up intent does not contain FLAG_ACTIVITY_CLEAR_TOP, the parent activity is popped off the stack, and a new instance of that activity is created on top of the stack to receive the intent.
+
+而当你直接点硬件的back button的时候则是直接退回上个页面 不会recreate
+
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+    // Respond to the action bar's Up/Home button
+    case android.R.id.home:
+        Intent upIntent = NavUtils.getParentActivityIntent(this);
+        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+            // This activity is NOT part of this app's task, so create a new task
+            // when navigating up, with a synthesized back stack.
+            TaskStackBuilder.create(this)
+                    // Add all of this activity's parents to the back stack
+                    .addNextIntentWithParentStack(upIntent)
+                    // Navigate up to the closest parent
+                    .startActivities();
+        } else {
+            // This activity is part of this app's task, so simply
+            // navigate up to the logical parent activity.
+            NavUtils.navigateUpTo(this, upIntent);
+        }
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
+}
+
+
+建立新栈的目的是这样的:
+	用户从Navigation进入了你的APP,用户点击了回退 那到底是退到哪里?建立新站的目的是让用户退回你的继承树
+https://developer.android.com/training/implementing-navigation/temporal.html
+
+// Intent for the activity to open when user selects the notification
+Intent detailsIntent = new Intent(this, DetailsActivity.class);
+
+// Use TaskStackBuilder to build the back stack and get the PendingIntent
+PendingIntent pendingIntent =
+        TaskStackBuilder.create(this)
+                        // add all of DetailsActivity's parents to the stack,
+                        // followed by DetailsActivity itself
+                        .addNextIntentWithParentStack(upIntent)
+                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+builder.setContentIntent(pendingIntent);
+
+
+getSupportFragmentManager().beginTransaction()
+                           .add(detailFragment, "detail")
+                           // Add this transaction to the back stack
+                           .addToBackStack()
+                           .commit();
+当用户点击了回退按钮,碎片管理器就会回退上一个事务(如果他有addtobackstack)
+	
+
+Master/Detail Flows 的意思是一个页面作为List,另一个页面作为详细内容 你在List里选择一项 然后跳到相应的Detail页面
+	通常是点击了一项之后 发出一个Intent 打开详细Activity 或通过碎片的方式
+	如果是宽屏的话 那么就分左右两边显示 FragmentTransaction
+
+
+在BackStackChangeListener做UI更新
+https://developer.android.com/training/implementing-navigation/temporal.html
+
+一个场景 当你的应用打卡了图片选择器让用户去选一张图(或类似操作)的时候,
+然后用户按了Home硬件,所以用户退回桌面了,然后用户再次点击你的图标
+结果进去的时候正好现实你在选择一张图片这样不好,因为点了你的图却进了别人的程序
+可以使用下面的intent清除这个选择图片的activity
+Intent externalActivityIntent = new Intent(Intent.ACTION_PICK);
+externalActivityIntent.setType("image/*");
+externalActivityIntent.addFlags(
+        Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+startActivity(externalActivityIntent);
+
+
+android:taskAffinity
+	Combined with the FLAG_ACTIVITY_NEW_TASK flag that you set in code, this ensures that this Activity doesn't go into the application's default task. Any existing tasks that have the application's default affinity are not affected.
+android:excludeFromRecents="true"
+	不会显示在任务栏里面
+	任务栏应该就是指你长按home键出现的那个吧?

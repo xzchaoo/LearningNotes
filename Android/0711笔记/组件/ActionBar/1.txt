@@ -1,0 +1,23 @@
+public class MainActivity extends ActionBarActivity { ... }
+指定样式
+<activity android:theme="@style/Theme.AppCompat.Light" ... >
+
+Support Android 3.0 and Above Only
+旧版本需要支持库
+
+
+
+如果你是用的支持库的 那么你需要像下面这样做 否则 showAsAction不起作用
+actionbar和配置和普通的option menu 一样
+显示不出来的action会在你按了 menu button的时候进行显示
+If your app is using the Support Library for compatibility on versions as low as Android 2.1, the showAsAction attribute is not available from the android: namespace. Instead this attribute is provided by the Support Library and you must define your own XML namespace and use that namespace as the attribute prefix. (A custom XML namespace should be based on your app name, but it can be any name you want and is only accessible within the scope of the file in which you declare it.) For example:
+res/menu/main_activity_actions.xml
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
+    <!-- Search, should appear as action button -->
+    <item android:id="@+id/action_search"
+          android:icon="@drawable/ic_action_search"
+          android:title="@string/action_search"
+          yourapp:showAsAction="ifRoom"  />
+    ...
+</menu>

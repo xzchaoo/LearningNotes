@@ -1,0 +1,10 @@
+ActionMode
+	当你对一个元素long press之后
+	会出现contextual menu 上下文菜单 一般就是弹出一个list
+	还有另外一种就是 action mode 这个会使得 你的actionbar/toolbar 上面的menu item 变成其他的
+
+QuickReturn 或 QuickReturnHeader
+	用于实现这样一种情况:当你下拉内容时(比如ListView RecyclerView ScrollView WebView等)某些内容会进行隐藏(或缩小)
+	比如考虑有一个TabStrip在最上面,然后它的下面是内容,当我们对内容进行下滑的时候,就逐渐地隐藏TabStrip
+	一旦我们上滑,就逐渐的显示TabStrip
+	

@@ -1,0 +1,7 @@
+SmsManager sm = SmsManager.getDefault();
+String address = et1.getText().toString();
+String content = et2.getText().toString();
+PendingIntent pi = PendingIntent.getActivity( this, 111, getIntent(), PendingIntent.FLAG_CANCEL_CURRENT );
+sm.sendTextMessage( address, null, content, pi, null );
+
+记得设置SEND_SMS权限

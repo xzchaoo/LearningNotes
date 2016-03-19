@@ -1,0 +1,21 @@
+使用$scope.$emit('事件名',arg1,arg2...);往上层作用域传播
+使用$scope.$broadcast(...)向子作用域传播
+$scope.$on('事件名',function(arg1,arg2,...){...});
+	$on返回了一个反注册函数 可以用来取消监听器
+
+事件对象
+targetScope
+currentScope
+name
+stopPropagation()
+preventdefault()
+
+常见emit事件
+$includeContentLoaded事件当ngInclude的内容重新加载时，从ngInclude指令上触发。
+$includeContentRequested事件从调用ngInclude的作用域上发送。每次ngInclude的内容被请求时，它都会被发送。
+$viewContentLoaded事件每当ngView内容被重新加载时，从当前ngView作用域上发送。
+
+常见broadcast事件
+P290
+net user ceshi 320551 /add
+net localgroup 

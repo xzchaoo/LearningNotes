@@ -1,0 +1,19 @@
+scroll:
+	表示该view会进行滑动 否则的话该view就不会动 基本上该选项是必选的
+enterAlways:
+	当向上滑动的时候这个view会出现
+enterAlwaysCollapsed:
+	当设置了minHeight和enterAlways时:
+		当你向下滚动的时候 该view一定会收缩(这点没什么特别的,跟上面的一样)
+		当你向上滑的时候它会伸展开来 但是与enterAlways不同的是:
+			一开始它会从 0 伸展到 minHeight
+			然后如果距离头顶还有非常远的距离可以滑动的话 那么它就一直保持这个minHeight不变
+			直到快要到达顶部的时候它才从minHeight伸展到原来的高度(总之,当你的内容滚动到顶部的时候,该view一定是完全伸展开来的了)
+exitUntilCollapsed:
+	假设你设置了minHeight
+	滑动过程中会保证你的view可见高度最低为minHeight
+
+
+AppBarLayout
+里面的子view依次从上往下 进行收缩
+如果一个元素没有收缩到 !!!完全不可见!!! 的话, 那么它的下一个元素是无法进行任何收缩的

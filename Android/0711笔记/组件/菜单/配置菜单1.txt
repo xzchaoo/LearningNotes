@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:context="com.example.learn0711.MainActivity">
+
+	<item
+		android:id="@+id/action_settings"
+		android:orderInCategory="100"
+		android:title="@string/action_settings"
+		app:showAsAction="never"/>
+
+</menu>
+放在res/menu下
+
+在Activity里做相应的处理
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+	getMenuInflater().inflate( R.menu.main, menu );
+	return true;
+}
+@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected( item );
+	}

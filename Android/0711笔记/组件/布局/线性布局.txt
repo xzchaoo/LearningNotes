@@ -1,0 +1,3 @@
+LinearLayout
+
+	orientation Ë®Æ½vertical ´¹Ö±horizontal

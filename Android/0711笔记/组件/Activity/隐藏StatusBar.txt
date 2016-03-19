@@ -1,0 +1,28 @@
+<application
+    ...
+    android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+    ...
+</application>
+
+
+  if (Build.VERSION.SDK_INT < 16) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+When you set WindowManager flags (whether through an activity theme or programmatically), the flags remain in effect unless your app clears them.
+
+You can use FLAG_LAYOUT_IN_SCREEN to set your activity layout to use the same screen area that's available when you've enabled FLAG_FULLSCREEN. This prevents your content from resizing when the status bar hides and shows.
+
+
+View decorView = getWindow().getDecorView();
+// Hide the status bar.
+int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+decorView.setSystemUiVisibility(uiOptions);
+// Remember that you should never show the action bar if the
+// status bar is hidden, so hide that too if necessary.
+ActionBar actionBar = getActionBar();
+actionBar.hide();
+
+
+•Where you set the UI flags makes a difference. If you hide the system bars in your activity's onCreate() method and the user presses Home, the system bars will reappear. When the user reopens the activity, onCreate() won't get called, so the system bars will remain visible. If you want system UI changes to persist as the user navigates in and out of your activity, set UI flags in onResume() or onWindowFocusChanged().
+

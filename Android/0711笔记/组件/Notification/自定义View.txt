@@ -1,0 +1,4 @@
+Notification使用自定义的View的时候 是通过RemoteViews的
+new RemoteViews(getPackageName(),R.layout....)就可以创建一个RV了
+但是千万注意RemoteViews只支持一些简单的子元素,
+所以是别想在RV下使用自定义的View了,否则会报异常,而异常信息里没有提到这一点,会让人很困扰

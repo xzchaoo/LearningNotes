@@ -1,0 +1,21 @@
+cardview下只能有一个cardview
+因为它是一个FrameLayout
+	<android.support.v7.widget.CardView
+		android:id="@+id/cv"
+		xmlns:cv="http://schemas.android.com/apk/res-auto"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		cv:cardBackgroundColor="#f3f3fc"
+		cv:cardCornerRadius="8dp"
+		cv:cardElevation="20dp"
+		cv:contentPadding="8dp"
+		>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_gravity="center"
+			android:text="TextView in CardView1"
+			android:textColor="#f00"
+			android:textSize="26sp"/>
+	</android.support.v7.widget.CardView>

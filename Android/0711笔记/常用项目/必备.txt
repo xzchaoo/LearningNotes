@@ -1,0 +1,17 @@
+compile 'com.jakewharton:butterknife:7.0.1'
+compile 'de.greenrobot:eventbus:2.4.0'
+
+ButterKnife
+	https://github.com/JakeWharton/butterknife
+	compile 'com.jakewharton:butterknife:7.0.1'
+	简单易用的findVIew工具
+
+EventBus
+	https://github.com/greenrobot/EventBus
+	compile 'de.greenrobot:eventbus:2.4.0'
+
+NineOldAndroids
+	compile 'com.nineoldandroids:library:2.4.0'
+
+泄露检查
+	https://github.com/square/leakcanary

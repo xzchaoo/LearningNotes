@@ -1,0 +1,101 @@
+	AddFloatingActionButton 带+号的fab
+		fab_plusIconColor +号的颜色
+	FloatingActionButton
+		fab_title
+		fab_colorNormal 平时的颜色
+		fab_colorPressed 按住的颜色
+		fab_icon指定一个图像
+	FloatingActionsMenu menu下可以套多个fab menu被点击后他们将会展开
+		fab_addButtonColorNormal 平时的颜色
+		fab_addButtonColorPressed 按压后的颜色
+		fab_addButtonPlusIconColor +号的颜色
+		fab_addButtonSize 大小 有normal和mini
+		fab_expandDirection 按钮展开的方向
+		fab_labelsPosition 标签的位置
+		fab_labelStyle 用于控制label的颜色 记得对他进行设置否则 展开fab们后 不会显示label
+		menu需要手动关闭
+	属性
+	https://github.com/futuresimple/android-floating-action-button/blob/master/library/src/main/res/values/attrs.xml
+	
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:fab="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	tools:context="learn.org.xzc.learn_observablescrollview.FAB1Activity"
+	>
+
+	<com.getbase.floatingactionbutton.FloatingActionButton
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		fab:fab_colorNormal="#4ccc"
+		fab:fab_colorPressed="#aaa"
+		fab:fab_icon="@mipmap/ic_launcher"
+		fab:fab_size="normal"
+		fab:fab_stroke_visible="true"
+		fab:fab_title="fab1"
+		/>
+
+	<com.getbase.floatingactionbutton.AddFloatingActionButton
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		fab:fab_colorNormal="#4ccc"
+		fab:fab_colorPressed="#aaa"
+		fab:fab_plusIconColor="#f0f"
+		fab:fab_size="mini"
+		fab:fab_stroke_visible="true"
+		fab:fab_title="fab1"
+		/>
+
+	<com.getbase.floatingactionbutton.FloatingActionsMenu
+		android:id="@+id/fam"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		fab:fab_expandDirection="down"
+		fab:fab_labelStyle="@style/menu_labels_style"
+		fab:fab_labelsPosition="right"
+		>
+
+		<com.getbase.floatingactionbutton.AddFloatingActionButton
+			android:id="@+id/fab1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			fab:fab_colorNormal="#4ccc"
+			fab:fab_colorPressed="#aaa"
+			fab:fab_plusIconColor="#f0f"
+			fab:fab_size="mini"
+			fab:fab_stroke_visible="true"
+			fab:fab_title="fab1"
+			/>
+
+		<com.getbase.floatingactionbutton.AddFloatingActionButton
+			android:id="@+id/fab2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			fab:fab_colorNormal="#4ccc"
+			fab:fab_colorPressed="#aaa"
+			fab:fab_plusIconColor="#f0f"
+			fab:fab_size="mini"
+			fab:fab_stroke_visible="true"
+			fab:fab_title="fab2"
+			/>
+
+		<com.getbase.floatingactionbutton.AddFloatingActionButton
+			android:id="@+id/fab3"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			fab:fab_colorNormal="#4ccc"
+			fab:fab_colorPressed="#aaa"
+			fab:fab_plusIconColor="#f0f"
+			fab:fab_size="mini"
+			fab:fab_stroke_visible="true"
+			fab:fab_title="fab3"
+			/>
+
+	</com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+</LinearLayout>

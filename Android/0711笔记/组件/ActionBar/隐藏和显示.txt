@@ -1,0 +1,22 @@
+getActionBar().show hide
+但是默认情况下会导致你的布局发生变化 因为你的 高度变了
+
+避免这种情况 使用重叠模式
+找到你的style文件
+	加入一个item
+	<!-- Application theme. -->
+	<style name="AppTheme" parent="AppBaseTheme">
+		<!-- All customizations that are NOT specific to a particular API-level can go here. -->
+		<item name="android:windowActionBarOverlay">true</item>
+	</style>
+	但是简单这样做会导致Actionbar直接叠加在你的内容上
+	你需要: 给它一个paddingTop
+	<LinearLayout android:paddingTop="?attr/actionBarSize">
+	public void toggleAB(View v) {
+		ActionBar ab = getSupportActionBar();
+		if(ab.isShowing()){
+			ab.hide();
+		}else{
+			ab.show();
+		}
+	}

@@ -1,0 +1,167 @@
+MyProject/
+    res/
+        layout/              # default (portrait)
+            main.xml
+        layout-land/         # landscape
+            main.xml
+        layout-large/        # large (portrait)
+            main.xml
+        layout-large-land/   # large landscape
+            main.xml
+
+To generate these images, you should start with your raw resource in vector format and generate the images for each density using the following size scale:
+xhdpi: 2.0
+hdpi: 1.5
+mdpi: 1.0 (baseline)
+ldpi: 0.75
+
+MyProject/
+    res/
+        drawable-xhdpi/
+            awesomeimage.png
+        drawable-hdpi/
+            awesomeimage.png
+        drawable-mdpi/
+            awesomeimage.png
+        drawable-ldpi/
+            awesomeimage.png
+
+layout-sw600dp/main.xml
+	屏幕宽度至少600dp 3.2以上版本才有效
+
+small, normal, large and xlarge
+
+
+
+res/layout/main.xml, single-pane layout
+•res/layout/main_twopanes.xml, two-pane layout
+
+And add these two files:
+
+•res/values-large/layout.xml: <resources>
+    <item name="main" type="layout">@layout/main_twopanes</item>
+</resources>
+
+•res/values-sw600dp/layout.xml: <resources>
+    <item name="main" type="layout">@layout/main_twopanes</item>
+</resources>
+
+
+
+res/layout/onepane.xml:
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment android:id="@+id/headlines"
+              android:layout_height="fill_parent"
+              android:name="com.example.android.newsreader.HeadlinesFragment"
+              android:layout_width="match_parent" />
+</LinearLayout>
+
+res/layout/onepane_with_bar.xml:
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent" 
+                  android:id="@+id/linearLayout1"  
+                  android:gravity="center"
+                  android:layout_height="50dp">
+        <ImageView android:id="@+id/imageView1" 
+                   android:layout_height="wrap_content"
+                   android:layout_width="wrap_content"
+                   android:src="@drawable/logo"
+                   android:paddingRight="30dp"
+                   android:layout_gravity="left"
+                   android:layout_weight="0" />
+        <View android:layout_height="wrap_content" 
+              android:id="@+id/view1"
+              android:layout_width="wrap_content"
+              android:layout_weight="1" />
+        <Button android:id="@+id/categorybutton"
+                android:background="@drawable/button_bg"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:layout_width="120dp"
+                style="@style/CategoryButtonStyle"/>
+    </LinearLayout>
+
+    <fragment android:id="@+id/headlines" 
+              android:layout_height="fill_parent"
+              android:name="com.example.android.newsreader.HeadlinesFragment"
+              android:layout_width="match_parent" />
+</LinearLayout>
+
+res/layout/twopanes.xml:
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal">
+    <fragment android:id="@+id/headlines"
+              android:layout_height="fill_parent"
+              android:name="com.example.android.newsreader.HeadlinesFragment"
+              android:layout_width="400dp"
+              android:layout_marginRight="10dp"/>
+    <fragment android:id="@+id/article"
+              android:layout_height="fill_parent"
+              android:name="com.example.android.newsreader.ArticleFragment"
+              android:layout_width="fill_parent" />
+</LinearLayout>
+
+res/layout/twopanes_narrow.xml:
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal">
+    <fragment android:id="@+id/headlines"
+              android:layout_height="fill_parent"
+              android:name="com.example.android.newsreader.HeadlinesFragment"
+              android:layout_width="200dp"
+              android:layout_marginRight="10dp"/>
+    <fragment android:id="@+id/article"
+              android:layout_height="fill_parent"
+              android:name="com.example.android.newsreader.ArticleFragment"
+              android:layout_width="fill_parent" />
+</LinearLayout>
+
+Now that all possible layouts are defined, it's just a matter of mapping the correct layout to each configuration using the configuration qualifiers. You can now do it using the layout alias technique:
+
+res/values/layouts.xml:
+<resources>
+    <item name="main_layout" type="layout">@layout/onepane_with_bar</item>
+    <bool name="has_two_panes">false</bool>
+</resources>
+
+res/values-sw600dp-land/layouts.xml:
+<resources>
+    <item name="main_layout" type="layout">@layout/twopanes</item>
+    <bool name="has_two_panes">true</bool>
+</resources>
+
+res/values-sw600dp-port/layouts.xml:
+<resources>
+    <item name="main_layout" type="layout">@layout/onepane</item>
+    <bool name="has_two_panes">false</bool>
+</resources>
+
+res/values-large-land/layouts.xml:
+<resources>
+    <item name="main_layout" type="layout">@layout/twopanes</item>
+    <bool name="has_two_panes">true</bool>
+</resources>
+
+res/values-large-port/layouts.xml:
+<resources>
+    <item name="main_layout" type="layout">@layout/twopanes_narrow</item>
+    <bool name="has_two_panes">true</bool>
+</resources>
+
+xhdpi: 2.0 
+•hdpi: 1.5 
+•mdpi: 1.0 (baseline) 
+•ldpi: 0.75 
+
+
+This means that if you generate a 200x200 image for xhdpi devices, you should generate the same resource in 150x150 for hdpi, 100x100 for mdpi and finally a 75x75 image for ldpi devices.

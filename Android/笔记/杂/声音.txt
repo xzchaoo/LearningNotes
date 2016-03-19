@@ -1,0 +1,14 @@
+MediaPlayer
+SoundPool 提供低延迟支持 用于音效
+AudioTrack ...
+
+录音
+MediaRecorder
+AudioRecord
+
+语音识别
+Text-To-Speech
+SpeechReconizer
+
+MediaCodec
+MediaMuxer

@@ -1,0 +1,13 @@
+protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate( savedInstanceState );
+	this.setTitle( "当前的Activity列表" );
+	ActivityManager am = (ActivityManager) getSystemService( ACTIVITY_SERVICE );
+	runningAppProcesses = am.getRunningAppProcesses();
+	List<String> data = new ArrayList<String>();
+	for (Iterator<RunningAppProcessInfo> i = runningAppProcesses.iterator(); i.hasNext();) {
+		RunningAppProcessInfo r = i.next();
+		data.add( r.uid + " " + r.pid + " " + r.processName );
+	}
+	ArrayAdapter<String> aa = new ArrayAdapter<String>( this, android.R.layout.simple_list_item_1, data );
+	setListAdapter( aa );
+}

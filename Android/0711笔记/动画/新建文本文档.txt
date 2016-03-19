@@ -1,0 +1,15 @@
+组级别
+过度动画
+内置动画
+资源文件支持
+生命周期
+
+
+Scene
+	一个场景保存了一个View hierarchy的状态
+
+过度
+Transition
+TransitionManager
+
+移动 resize fade

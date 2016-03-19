@@ -1,0 +1,18 @@
+		kswOnDrawable: on状态的背景 就是那个凹槽
+		kswOffDrawable: off状态的背景
+		kswOnColor: 优先级比kswOnDrawable低
+		kswOffColor: 优先级比kswOffDrawable低
+
+		kswThumbDrawable: 就是那个圆
+		kswThumbColor:
+		kswThumbPressedColor: like the thumbColor, but for pressed status
+
+		kswThumb_margin kswThumb_marginLeft/Top/Bottom/Right kswThumb_width kswThumb_height
+
+		kswAnimationVelocity: distance of animation per frame
+		kswRadius: used for color version, radius of corner of background and thumb.
+		kswMeasureFactor: factor limit the minimum width equals almost (the height of thumb * measureFactor)
+		kswInsetLeft: left size for shrinking (1.2)
+		kswInsetRight: right size for shrinking (1.2)
+		kswInsetTop: top size for shrinking (1.2)
+		kswInsetBottom: bottom size for shrinking (1.2)

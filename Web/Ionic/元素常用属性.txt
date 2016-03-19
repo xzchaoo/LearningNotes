@@ -1,0 +1,7 @@
+ion-list
+	delegate-handle
+	type
+		list-inset or card
+	show-delete
+	show-reorder
+	can-swipe

@@ -1,0 +1,112 @@
+https://github.com/lzyzsd/CircleProgress
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="center_horizontal"
+	android:orientation="vertical"
+	android:paddingBottom="@dimen/activity_vertical_margin"
+	android:paddingLeft="@dimen/activity_horizontal_margin"
+	android:paddingRight="@dimen/activity_horizontal_margin"
+	android:paddingTop="@dimen/activity_vertical_margin"
+	tools:context="org.xzc.appfortest.CircleProgressActivity"
+	>
+
+
+	<com.github.lzyzsd.circleprogress.ArcProgress
+		android:id="@+id/arc_progress"
+		android:layout_width="100dp"
+		android:layout_height="100dp"
+		android:background="#214193"
+		app:arc_bottom_text="MEMORY"
+		app:arc_progress="55"/>
+
+	<!--    <declare-styleable name="ArcProgress">
+        <attr name="arc_progress" format="integer"/>
+        <attr name="arc_angle" format="float"/>
+        <attr name="arc_stroke_width" format="dimension"/>
+        <attr name="arc_max" format="integer"/>
+        <attr name="arc_unfinished_color" format="color"/>
+        <attr name="arc_finished_color" format="color"/>
+        <attr name="arc_text_size" format="dimension"/>
+        <attr name="arc_text_color" format="color"/>
+        <attr name="arc_suffix_text" format="string"/>
+        <attr name="arc_suffix_text_size" format="dimension"/>
+        <attr name="arc_suffix_text_padding" format="dimension"/>
+        <attr name="arc_bottom_text" format="string"/>
+        <attr name="arc_bottom_text_size" format="dimension"/>
+    </declare-styleable>-->
+	
+
+	<com.github.lzyzsd.circleprogress.CircleProgress
+		android:id="@+id/circle_progress"
+		android:layout_width="100dp"
+		android:layout_height="100dp"
+		app:circle_max="70"
+		app:circle_prefix_text="前"
+		app:circle_progress="20"
+		app:circle_suffix_text="后""
+	/>
+
+	<!--  <declare-styleable name="CircleProgress">
+        <attr name="circle_progress" format="integer"/>
+        <attr name="circle_max" format="integer"/>
+        <attr name="circle_unfinished_color" format="color"/>
+        <attr name="circle_finished_color" format="color"/>
+        <attr name="circle_text_size" format="dimension"/>
+        <attr name="circle_text_color" format="color"/>
+        <attr name="circle_prefix_text" format="string"/>
+        <attr name="circle_suffix_text" format="string"/>
+    </declare-styleable>-->
+
+
+	<com.github.lzyzsd.circleprogress.DonutProgress
+		android:id="@+id/donut_progress"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:donut_background_color="@android:color/black"
+		app:donut_finished_color="@color/google_green"
+		app:donut_finished_stroke_width="10dp"
+		app:donut_max="50"
+		app:donut_prefix_text="前"
+		app:donut_progress="30"
+		app:donut_suffix_text="后"
+		app:donut_text_color="#f00"
+		app:donut_text_size="18sp"
+		app:donut_unfinished_color="@color/google_red"
+		app:donut_unfinished_stroke_width="2dp"
+		/>
+	<!---
+	    <declare-styleable name="DonutProgress">
+        <attr name="donut_progress" format="integer"/>
+        <attr name="donut_max" format="integer"/>
+        <attr name="donut_unfinished_color" format="color"/>
+        <attr name="donut_finished_color" format="color"/>
+        <attr name="donut_finished_stroke_width" format="dimension"/>
+        <attr name="donut_unfinished_stroke_width" format="dimension"/>
+        <attr name="donut_text_size" format="dimension"/>
+        <attr name="donut_text_color" format="color"/>
+        <attr name="donut_text" format="string"/>
+        <attr name="donut_prefix_text" format="string"/>
+        <attr name="donut_suffix_text" format="string"/>
+        <attr name="donut_background_color" format="color"/>
+    </declare-styleable>
+		最大值
+		当前值
+		未完成部分的颜色
+		完成部分的颜色
+		未完成部分的笔画宽度
+		完成部分的笔画跨单独
+		    <attr name="donut_text" format="string"/>
+        <attr name="donut_prefix_text" format="string"/>
+        <attr name="donut_suffix_text" format="string"/>
+		...
+	->
+
+
+</LinearLayout>

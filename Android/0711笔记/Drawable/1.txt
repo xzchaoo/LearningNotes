@@ -1,0 +1,181 @@
+一个color资源也可以用在需要drawable的地方
+
+1.Bitmap 位图 BitmapDrawable
+将图片放在res/drawable/filename.png (.png, .jpg, or .gif)
+然后通过id引用就行了
+
+2.通过XML描述一个Drawable
+res/drawable/filename.xml
+The filename is used as the resource ID.
+
+<bitmap
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@[package:]drawable/drawable_resource"
+    android:antialias=["true" | "false"]
+    android:dither=["true" | "false"]
+    android:filter=["true" | "false"]
+    android:gravity=["top" | "bottom" | "left" | "right" | "center_vertical" |
+                      "fill_vertical" | "center_horizontal" | "fill_horizontal" |
+                      "center" | "fill" | "clip_vertical" | "clip_horizontal"]
+    android:mipMap=["true" | "false"]
+    android:tileMode=["disabled" | "clamp" | "repeat" | "mirror"] />
+
+
+
+Nine-Patch File
+file location:res/drawable/filename.9.png
+ The filename is used as the resource ID.
+<nine-patch
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@[package:]drawable/drawable_resource"
+    android:dither=["true" | "false"] />
+
+
+
+Layer List
+用于层叠一堆drawable
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@[package:]drawable/drawable_resource"
+        android:id="@[+][package:]id/resource_name"
+        android:top="dimension"
+        android:right="dimension"
+        android:bottom="dimension"
+        android:left="dimension" />
+</layer-list>
+
+State List
+当处于不同的状态的时候提供不同的drawable
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:constantSize=["true" | "false"]
+    android:dither=["true" | "false"]
+    android:variablePadding=["true" | "false"] >
+    <item
+        android:drawable="@[package:]drawable/drawable_resource"
+        android:state_pressed=["true" | "false"]
+        android:state_focused=["true" | "false"]
+        android:state_hovered=["true" | "false"]
+        android:state_selected=["true" | "false"]
+        android:state_checkable=["true" | "false"]
+        android:state_checked=["true" | "false"]
+        android:state_enabled=["true" | "false"]
+        android:state_activated=["true" | "false"]
+        android:state_window_focused=["true" | "false"] />
+</selector>
+
+Level List setLevel()
+管理了一堆drawable
+当设置不同的level的时候 会显示对应的drawable
+比如质量高低的时候...
+<level-list
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@drawable/drawable_resource"
+        android:maxLevel="integer"
+        android:minLevel="integer" />
+</level-list>
+
+
+Transition Drawable
+在两个drawable之间进行过渡
+Each drawable is represented by an <item> element inside a single <transition> element. No more than two items are supported. To transition forward, call startTransition(). To transition backward, call reverseTransition().
+<?xml version="1.0" encoding="utf-8"?>
+<transition
+xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@[package:]drawable/drawable_resource"
+        android:id="@[+][package:]id/resource_name"
+        android:top="dimension"
+        android:right="dimension"
+        android:bottom="dimension"
+        android:left="dimension" />
+</transition>
+
+<?xml version="1.0" encoding="utf-8"?>
+<transition xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/on" />
+    <item android:drawable="@drawable/off" />
+</transition>
+
+This layout XML applies the drawable to a View:
+<ImageButton
+    android:id="@+id/button"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:src="@drawable/transition" />
+
+ImageButton button = (ImageButton) findViewById(R.id.button);
+TransitionDrawable drawable = (TransitionDrawable) button.getDrawable();
+drawable.startTransition(500);
+
+
+Inset Drawable
+给另一个drawable加上inset
+<inset
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/drawable_resource"
+    android:insetTop="dimension"
+    android:insetRight="dimension"
+    android:insetBottom="dimension"
+    android:insetLeft="dimension" />
+
+Clip Drawable 剪裁 具体去看例子
+<?xml version="1.0" encoding="utf-8"?>
+<clip
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/drawable_resource"
+    android:clipOrientation=["horizontal" | "vertical"]
+    android:gravity=["top" | "bottom" | "left" | "right" | "center_vertical" |
+                     "fill_vertical" | "center_horizontal" | "fill_horizontal" |
+                     "center" | "fill" | "clip_vertical" | "clip_horizontal"] />
+
+Scale Drawable 缩放
+<scale
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/drawable_resource"
+    android:scaleGravity=["top" | "bottom" | "left" | "right" | "center_vertical" |
+                          "fill_vertical" | "center_horizontal" | "fill_horizontal" |
+                          "center" | "fill" | "clip_vertical" | "clip_horizontal"]
+    android:scaleHeight="percentage"
+    android:scaleWidth="percentage" />
+
+Shape Drawable
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape=["rectangle" | "oval" | "line" | "ring"] >
+    <corners
+        android:radius="integer"
+        android:topLeftRadius="integer"
+        android:topRightRadius="integer"
+        android:bottomLeftRadius="integer"
+        android:bottomRightRadius="integer" />
+    <gradient
+        android:angle="integer"
+        android:centerX="integer"
+        android:centerY="integer"
+        android:centerColor="integer"
+        android:endColor="color"
+        android:gradientRadius="integer"
+        android:startColor="color"
+        android:type=["linear" | "radial" | "sweep"]
+        android:useLevel=["true" | "false"] />
+    <padding
+        android:left="integer"
+        android:top="integer"
+        android:right="integer"
+        android:bottom="integer" />
+    <size
+        android:width="integer"
+        android:height="integer" />
+    <solid
+        android:color="color" />
+    <stroke
+        android:width="integer"
+        android:color="color"
+        android:dashWidth="integer"
+        android:dashGap="integer" />
+</shape>

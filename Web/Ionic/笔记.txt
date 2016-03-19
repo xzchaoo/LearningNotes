@@ -1,0 +1,127 @@
+$ionicActionSheet
+	show(cfg)
+		显示一个actionSheet
+		这个函数会返回一个函数
+		调用它就可以隐藏这个actionSheet
+		
+		$scope.onClick=function(){
+			var hideFunc=$ionicActionSheet.show({
+				buttons:[
+					{text:'item1'},
+					{text:'item2'},
+					{text:'item3'},
+				],
+				titleText:'请选择你喜欢的选项',
+				cancelText:'取消',
+				//destructiveText:'destructiveText',
+				cancel:function(){
+					//hideFunc();
+					return true;
+				},
+				buttonClicked:function(index,btn){//return true to close the action sheet
+					$scope.choice=btn.text;
+					return true;
+					//hideFunc();
+				},
+				//destructiveButtonClicked:function(){//true to close
+				//}
+				//{boolean=} cancelOnStateChange Whether to cancel the actionSheet when navigating to a new state. Default true.
+				//{string} cssClass The custom CSS class name.
+
+			});
+			//hideFunc();
+		};
+
+
+	
+$ionicBackdrop
+	retain()
+		创建一层mask
+	release()
+		删除一层模板
+
+$ionicScrollDelegate
+	resize()
+		如果内容大小动态变化,则需要...
+	
+ion-content 
+	是一个ScrollView
+
+
+显示蒙版+loadding
+$ionicLoading
+$scope.show=function(){
+	$ionicLoading.show({
+		scope:$scope,
+		template:'<h1>Loading...<button class="button button-clear button-assertive" ng-click="hide()">Close{{hide}}</button></h1>',
+		//templateUrl
+		//noBackdrop
+		//hideOnStateChange
+		//delay
+		//duration
+	});
+};
+$scope.hide=function(){
+	$ionicLoading.hide();
+};
+或
+}).constant('$ionicLoadingConfig',{//在这里设置默认配置
+   template:'<h1>Loading...<button class="button button-clear button-assertive" ng-click="hide()">Close{{hide}}</button></h1>',
+}).controller('c1',function($scope,$ionicModal,$timeout,$ionicSideMenuDelegate,$ionicActionSheet,$ionicLoading){
+    $scope.show=function(){
+        $ionicLoading.show({
+            scope:$scope,
+            //templateUrl
+            //noBackdrop
+            //hideOnStateChange
+            //delay
+            //duration
+        });
+    };
+    $scope.hide=function(){
+        $ionicLoading.hide();
+    };
+});
+
+
+To disable the tap for an element and all of its children elements, add the attribute data-tap-disabled="true".
+
+$ionicConfigProvider
+	修改全局默认配置,也可以通过$ionicConfig
+	$ionicConfigProvider.views.maxCache(10);
+	修改android平台的全局默认配置
+	$ionicConfigProvider.platform.android.views.maxCache(5);
+	myApp.config(function($ionicConfigProvider) {
+		$ionicConfigProvider.views.maxCache(5);
+		$ionicConfigProvider.backButton.text('Go Back').icon('ion-chevron-left');
+	});
+	view的transition maxCache forwardCache
+	jsScrolling
+		Whether to use JS or Native scrolling. Defaults to JS scrolling. Setting this to false has the same effect as setting each ion-content to have overflow-scroll='true'.
+	backButton的icon text previousTitleText
+	form的checkbox的形状 toggle大小
+	tabs的style position
+
+
+Platform
+	跟平台相关的信息 比如判断设备类型 系统 版本
+	ready函数 设置设备等级 exitApp()
+	showStatusBar(true of false)
+		Requires cordova plugin add org.apache.cordova.statusbar
+	fullScreen(需要有Cordova)
+
+
+
+开屏锁屏
+电量
+音量
+闹钟
+字体大
+亮度
+上网/WIFI 开关
+回桌面主页
+常用应用
+	QQ
+	拨打电话
+	联系人
+	无关的APP隐藏

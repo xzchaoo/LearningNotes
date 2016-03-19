@@ -1,0 +1,11 @@
+Cordova 5.0.0版本已经不再处理menubutton事件了
+
+解决方案:在CordovaWebViewImpl.java里 修改成:
+@Override
+public void onPageStarted(String newUrl) {
+	LOG.d(TAG, "onPageDidNavigate(" + newUrl + ")");
+	boundKeyCodes.clear();
+	boundKeyCodes.add( KeyEvent.KEYCODE_MENU );//重点是这里
+	pluginManager.onReset();
+	pluginManager.postMessage("onPageStarted", newUrl);
+}

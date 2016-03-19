@@ -1,0 +1,98 @@
+style_theme_attrs详解
+
+总而言之优先级: 布局文件 > style > 主题里的defStyleAttr指定的style > 默认 > theme里的属性
+
+getTheme().resolveAttribute(id,tv,true)
+
+TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MTV, R.attr.MTVStyle, R.style.MTVStyleDefault);
+
+attrs.xml里一般是放:
+
+	下面元素的意思是:为MTV类添加如下的属性
+	<declare-styleable name="MTV">
+		<attr name="m1" format="string"/>
+		<attr name="m2" format="string"/>
+		<attr name="m3" format="string"/>
+		<attr name="m4" format="string"/>
+		<attr name="m5" format="string"/>
+		<attr name="m6" format="string"/>
+	</declare-styleable>
+
+	这里纯粹说明MTVStyle是一个attr,将会生成R.attr里,下面会有用处
+	<attr name="MTVStyle" format="reference"/>
+	
+由于已经为MTV声明了属性了 所以可以这样
+<org.xzc.daswmusicplayer_0831.ui.view.MTV
+	android:id="@+id/tv"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="center"
+	android:text="我是内容"
+	android:textSize="40sp"
+	app:m1="布局的1"
+	style="@style/MTVStyle"
+	/>
+这里只给他分配了m1属性
+
+然后再看styles.xml:
+	<style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
+		<item name="m1">主题里的m1</item>
+		<item name="m2">主题里的m2</item>
+		<item name="m3">主题里的m3</item>
+		<item name="m4">主题里的m4</item>
+		<item name="m5">主题里的m5</item>
+		<item name="MTVStyle">@style/MTVStyleInTheme</item>
+	</style>
+
+	<style name="MTVStyle">
+		<item name="m1">style的m1</item>
+		<item name="m2">style的m2</item>
+		<item name="m3">style的m3</item>
+	</style>
+
+	<style name="MTVStyleInTheme">
+		<item name="m1">主题里的style的m1</item>
+		<item name="m2">主题里的style的m2</item>
+		<item name="m3">主题里的style的m3</item>
+		<item name="m4">主题里的style的m4</item>
+	</style>
+
+	<style name="MTVStyleDefault">
+		<item name="m1">默认的m1</item>
+		<item name="m2">默认的m2</item>
+		<item name="m3">默认的m3</item>
+		<item name="m4">默认的m4</item>
+		<item name="m5">默认的m5</item>
+		<item name="m6">默认的m6</item>
+	</style>
+由于在元素上指定了style="MTVStyle" 所以m2,m3也会被分配(m1不会分配因为布局文件里的优先级比较高)
+接下来再看到当前元素所在的主题是 AppTheme2 它里面指定了<item name="MTVStyle">@style/MTVStyleInTheme</item>,因此我们的obtainStyledAttributes的第三个参数就是这个用途,让它发挥作用
+如果我们没有第三个参数,或者第三个参数对应的style不存在 那么就会使用AppTheme2下的m4,m5
+如果在当前的 theme 里没有找到任何(注意这句话) 那么就会使用MTVStyleDefault
+[上面这段话有点错误,直接看结论吧]
+
+
+
+<resources>
+    <style name="CustomText" parent="@style/Text">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#008</item>
+    </style>
+</resources>
+
+
+style用于直接修改元素的外观
+
+theme用于Activity或Application 而不是单个view
+Activity或Application下的view都会应用上这个theme
+
+1.xml布局文件
+2.元素的style属性
+3.如果指定了defStyleAttr
+	那么就从当前theme里寻找由defStyleAttr所标识的style
+4.元素所在的theme
+5.如果defStyleAttr为0 或者不为0但是没找到
+	如果指定了defStyleRes(它指向一个style)
+		那么由它提供
+	否则它不会提供任何
+	

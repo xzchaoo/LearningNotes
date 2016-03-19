@@ -1,0 +1,8 @@
+将一个Handler与Binder结合起来用
+	在Service端的onBind里
+		保存messenger=new Messenger(mHandler)
+		返回 messenger.getBinder()
+	在Acitivity的onServiceConnectted里
+		messenger=new Messenger(iBinder)
+	然后双方互相使用格子的messenger发信息
+	就可以被对面的handler的handleMessage收到

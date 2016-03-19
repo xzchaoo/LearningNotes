@@ -1,0 +1,9 @@
+在activity里
+	android:configChanges="orientation|keyboardHidden|screenSize"
+	加入这个配置之后 当屏幕切换的时候 android就不会自动杀掉你的 activity
+		所以此时你的layout需要自己重新配置
+
+android:screenOrientation="landscape" 锁定为横屏
+	portrait
+
+setRequestOrientation

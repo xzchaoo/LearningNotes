@@ -1,0 +1,28 @@
+http://www.google.com/design/spec/material-design/introduction.html
+
+431218009
+xczhao
+Public
+
+阅读https://www.google.com/design/spec/material-design/introduction.html的笔记
+
+常用组件的elevation和shadow
+https://www.google.com/design/spec/what-is-material/elevation-shadows.html#elevation-shadows-elevation-android-
+Softer, larger shadows indicate the floating action button is at a higher elevation than the blue sheet, which has a crisper shadow.
+The shadow grows softer and larger as the object’s elevation increases and grows crisper and smaller as the elevation decreases.
+
+Bottom sheet
+
+https://www.google.com/design/spec/animation/responsive-interaction.html#responsive-interaction-user-input
+
+如何搭配颜色
+https://www.google.com/design/spec/style/color.html#color-color-palette
+
+工作流程管理
+
+各处的颜色
+http://developer.android.com/intl/zh-cn/training/material/theme.html#ColorPalette
+
+字体大小
+https://www.google.com/design/spec/style/typography.html#typography-styles
+

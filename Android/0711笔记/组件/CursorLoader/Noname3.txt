@@ -1,0 +1,28 @@
+LoaderManager.LoaderCallbacks<Cursor>
+LoaderManager.initLoader()
+getLoaderManager().initLoader(URL_LOADER, null, this);
+
+Note: The method getLoaderManager() is only available in the Fragment class. To get a LoaderManager in a FragmentActivity, call getSupportLoaderManager(). 
+@Override
+public Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle)
+{
+    /*
+     * Takes action based on the ID of the Loader that's being created
+     */
+    switch (loaderID) {
+        case URL_LOADER:
+            // Returns a new CursorLoader
+            return new CursorLoader(
+                        getActivity(),   // Parent activity context
+                        mDataUrl,        // Table to query
+                        mProjection,     // Projection to return
+                        null,            // No selection clause
+                        null,            // No selection arguments
+                        null             // Default sort order
+        );
+        default:
+            // An invalid id was passed in
+            return null;
+    }
+}
+onLoadFinished()

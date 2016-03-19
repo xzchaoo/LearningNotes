@@ -1,0 +1,563 @@
+可以模仿IOS的overscroll
+	compile 'me.everything:overscroll-decor-android:1.0.0'
+
+提供大量的Material组件
+	https://github.com/navasmdc/MaterialDesignLibrary
+
+用于API 19及其以上
+	使得statusbar透明并且修改其颜色
+	https://github.com/mikepenz/Materialize
+	https://github.com/jgilfelt/SystemBarTint
+
+手势检测
+	https://github.com/Almeros/android-gesture-detectors
+
+百分比布局
+	https://github.com/hongyangAndroid/android-percent-support-extend
+	这个框架似乎比Android提供的百分比支持库好很多
+
+用于Activity打开之后,view们的动画
+	https://github.com/geftimov/android-player
+
+输入字数固定的内容
+	https://github.com/glomadrian/material-code-input
+	看看效果就行了 但是好像不能用作密码
+
+Toast的一种,只能在界面的上方进行弹出 带有转圈进度的效果
+	https://github.com/code-mc/loadtoast
+
+显示三个弹跳的小店,用于 LOADDING... 然后3个点在弹跳
+	https://github.com/tajchert/WaitingDots
+
+TextView的一种
+	https://github.com/quiqueqs/BabushkaText
+
+可以让TextView的字体自动匹配
+	https://github.com/grantland/android-autofittextview
+	它提供TextView的实现,然后可以设置最小的textSize,当空间足够的时候使用的是普通的TextSize,当空间不够的时候,就慢慢缩小字体,直到达到最小
+
+用RecyclerView实现的多行卡片布局
+	https://github.com/florent37/MaterialLeanBack
+
+显示步骤的View
+	https://github.com/anton46/Android-StepsView
+	直接去看图就知道效果了
+
+可以为VP创建视差特效
+	https://github.com/xgc1986/ParallaxPagerTransformer
+	
+垂直的VP
+	https://github.com/castorflex/VerticalViewPager
+
+进度条
+	https://github.com/akexorcist/Android-RoundCornerProgressBar
+带进度的按钮
+	https://github.com/dmytrodanylyk/android-process-button
+SP
+	https://github.com/tumblr/Remember
+加密的SP
+	https://github.com/scottyab/secure-preferences
+
+图片placeholder在线生成
+	http://lorempixel.com/
+
+调色盘
+	v7里也有一个调色盘
+	功能就是从一张图片里抽出一些具有代表性的颜色
+	Palette.VIBRANT
+	Palette.VIBRANT_DARK
+	Palette.VIBRANT_LIGHT
+	Palette.MUTED
+	Palette.MUTED_DARK
+	Palette.MUTED_LIGHT
+	然后你就可以动态的改变你其他view的颜色 以和这些颜色进行配合
+	https://github.com/florent37/PicassoPalette
+
+icepick
+	将常见的数据类型保存到Bundle里(当Activity被意外销毁和恢复的时候用)
+
+ListBuddies
+	https://github.com/jpardogo/ListBuddies
+	就是放两列的ListView
+	然后分别滚动
+
+
+图像裁剪
+	https://github.com/IsseiAoki/SimpleCropView
+	这个也不错 并且可以设置圆形截取(需要用到反射) 功能和下面那个差不多
+	这个作者好像更新挺频繁的啊 而且功能也不错 推荐用这个
+
+	https://github.com/edmodo/cropper
+	这个是直接给你一个View,然后这个会显示一个剪裁框
+	你可以做的就是设置宽高比 是否固定宽高 是否显示网格线 旋转 图片drawable 和 获得最终剪裁得到的bitmap
+	获得bitmap之后你可能需要自己再去缩放一下 以免图片太大
+	
+	https://github.com/jdamcd/android-crop
+	使用起来还算简单 见网站
+	https://github.com/lvillani/android-cropimage
+	两者几乎相同
+
+
+AndroidAnnotations
+	配置起来好像挺麻烦的
+	实际上最常用的功能还是注入view...
+
+activity之间 fragment之间的过度 允许1个view的过度 使用起来很简单
+	建议clone一个下来 然后自己可以修改代码 这样就可以修改interpolator了 可以实现一些好看的效果
+	https://github.com/xzchaoo/PreLollipopTransition
+
+Transition
+	https://github.com/andkulikov/transitions-everywhere
+	compile "com.andkulikov:transitionseverywhere:1.6.0"
+
+	https://github.com/XMFE-TEAM/TransitionPlayer
+	这个也是个不错的东西,特别是它里面自己实现了一些功能
+
+DiskLruCache
+	https://github.com/JakeWharton/DiskLruCache
+	耐心看完简介就会知道其实很简单 使用上 只支持字符串的存储
+
+对象缓存
+	Reservoir
+	将对象序gson到磁盘上
+	https://github.com/anupcowkur/Reservoir 支持RxJava 方式读取
+	
+	Secure Simple Key-Value Storage for Android
+	https://github.com/orhanobut/hawk
+
+Rebound/SpringSystem
+	http://facebook.github.io/rebound/
+
+后台执行队列
+	https://github.com/path/android-priority-jobqueue
+
+TitleIndicator
+	用于替代普通的Toolbar上的Title,这个Title可以有一些动画效果 比如上下切换
+	https://github.com/MoshDev/AndroidIndicators
+
+NumberProgressBar
+	带数字的进度条
+	https://github.com/daimajia/NumberProgressBar
+
+AndroidViewAnimations
+	https://github.com/daimajia/AndroidViewAnimations
+	compile 'com.nineoldandroids:library:2.4.0'
+	compile 'com.daimajia.easing:library:1.0.1@aar'
+	compile 'com.daimajia.androidanimations:library:1.1.3@aar'
+	
+	https://github.com/2359media/EasyAndroidAnimations
+
+FlipView
+	翻页效果
+	https://github.com/emilsjolander/android-FlipView
+
+时间日期选择
+	https://github.com/code-troopers/android-betterpickers
+
+Preference/Setting
+	使用 AppCompatActivity + PreferenceFragment + Toolbar(官方没有AppCompat版本,github上有)
+	注意不要使用PreferenceScreen 因为它会将你代入一个Dialog,而这个Dialog目前你无法定制(要的话好像也是行的,麻烦)
+	如果想要点击一个Preference进入更详细的设置要这样:
+	<Preference
+	android:fragment="1"
+	android:title="另外一个屏"/>
+	fragment里可以写一个任意字符串 然后当这个Preference被点击了之后就会触发onPreferenceStartFragment这个函数
+	Activity可以实现相应的接口 以获得这个函数 然后在里面你可以拿到 fragment="1"
+	然后你可以开一个映射 决定 fragment="1" 对应了哪个新的 xml preference 然后使用 FragmentManager 替换掉当前fragment
+	并且addToBackStack 值得注意的是
+	@Override AppCompat 的onBackPressed函数里调用的是getSupportFragmentManager 而我们这里要用getFragmentManager
+	public void onBackPressed() {
+		Log.i("zas", "这里");
+		if (!getFragmentManager().popBackStackImmediate()) {
+			super.onBackPressed();
+		}
+		getSupportActionBar().setTitle(mTitleStack.pop());
+	}
+	另外toolbar的title也要跟着做一下变化(当进入不同的fragment的时候)
+	另外可以多去看看PreferenceFragment的代码
+
+	https://github.com/jenzz/Android-MaterialPreference
+	compile 'com.jenzz:materialpreference:1.3'
+	提供了Preference,PreferenceCategory,Checkbox,switch(这个不知道有没有),然后秋天的要和material-dialogs搭配使用
+	
+	https://github.com/AndroidDeveloperLB/MaterialPreferenceLibrary
+	compile 'com.github.AndroidDeveloperLB:MaterialPreferenceLibrary:5'
+	
+	SeekBar
+	https://github.com/MrBIMC/MaterialSeekBarPreference
+
+ChangeLog
+	https://github.com/gabrielemariotti/changeloglib
+	用一个RecyclerView+xml文件显示changelog
+	比较简单的,其实想要的话也可以自己去做一个... 岂不是更好?
+
+SwitchBotton
+	https://github.com/kyleduo/SwitchButton
+		有空多选想想这些参数的意思 然后自己搭配一下
+		只用到一个类SwitchButton 但是参数很多 可以形成不同的效果
+	
+	https://github.com/Leaking/SlideSwitch
+
+CircularReveal
+	https://github.com/ozodrukh/CircularReveal
+	做一个将内容揭开的效果
+	
+FAB
+	支持普通的FAB,带加号的FAB,和FAMenu(被点击后可以朝上或下或左或右展开一些列的fab)
+	https://github.com/futuresimple/android-floating-action-button
+	
+	https://github.com/Clans/FloatingActionButton 功能和上面那个差不多
+		fab支持阴影 进度条
+		famenu 按钮间距 label间距 动画 圆角
+
+	https://github.com/konifar/fab-transformation
+		当你点击了FAB的时候,就用CircularReveal 展开一个隐藏的区域
+
+颜色
+	Material Design Colors
+		https://github.com/wada811/Android-Material-Design-Colors
+	colorize
+		很多预定义的颜色
+		https://github.com/cesarferreira/colorize
+
+FlowLayout 简单易用
+	FlowLayout有若干个项目 建议选择一个比较好的 好好研究一下
+	https://github.com/ApmeM/android-flowlayout
+	compile 'org.apmem.tools:layouts:1.10@aar'
+
+	
+为MenuItem添加Badge
+	https://github.com/mikepenz/Android-ActionItemBadge
+
+轮播图片
+	https://github.com/daimajia/AndroidImageSlider
+	使用起来够简单 很方便
+
+	https://github.com/Trinea/android-auto-scroll-view-pager
+	也简单 不过没有indicator
+
+展示图片
+	很多的展示图片的组件都支持一些常见的额操作,比如缩放等,但是一般都不支持旋转手势
+	但是他们又有方法可以让你调用 让图片旋转一定的角度,有的库只能支持90倍数的旋转
+	可以考虑和上面的手势检测库一起使用,
+
+	https://github.com/davemorrissey/subsampling-scale-image-view
+	从各种地方拉取图片 允许手缩放图片 并且不会内存溢出 使用起来挺简单 手动旋转 90度 180 270
+	
+	https://github.com/chrisbanes/PhotoView
+	跟上面差不多 有例子看看就学会使用了
+
+TextDrawable
+	https://github.com/amulyakhare/TextDrawable
+	可以将文字做成Drawable
+
+	https://github.com/pavlospt/RoundedLetterView
+
+文字特效
+	Shimmer-android
+	效果看网站 使用起来非常简单用ShimmerFrameLayout将你的内容包住
+	然后执行ShimmerFrameLayout.startShimmerAnimation();就行 额外有一些参数可以制定动画的效果看网站吧
+	http://facebook.github.io/shimmer-android/
+	好像损性能?
+
+	shimmer-android
+	https://github.com/RomainPiel/Titanic
+
+ViewPager
+	https://github.com/ongakuer/CircleIndicator
+	指示器,不局限与原型,选中和非选中可以有drawable提供 并且还有相应的动画
+	用这个东西可以达到下列效果:
+	1. 普通的原点指示器
+	2. 长方形指示器,当切换到某个页面的时候,对应的长方形会旋转360度
+
+	ViewPagerTransforms
+		这个效果相当不错,不过不要弄得太炫,否则反而反感
+		就是ViewPager在切换的时候显示的效果
+		默认的ViewPager就是平滑的移动
+		https://github.com/ToxicBakery/ViewPagerTransforms
+		立方体切换
+		compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+		pager = (ViewPager) findViewById(R.id.container);
+		pager.setAdapter(mAdapter);
+		pager.setPageTransformer(true, new RotateUpTransformer());
+
+LabelView
+	https://github.com/linger1216/labelview
+	对一个View的四个角(丝带)添加标签 比如 "热门"
+	这个东西其实实现起来应该还算是挺简单的
+	compile 'com.wangqiang.libs:labelviewlib:1.0.1' 它的版本更新到1.0.1了 不够页面上还是写1.0.0 新版修复了一些bug
+	
+RecyclerView.ItemAnimator
+	https://github.com/wasabeef/recyclerview-animators
+	简单易用 只要根据名字选好自己要用的Animator然后设置就行了
+	compile 'jp.wasabeef:recyclerview-animators:1.3.0'
+	也可以模仿它的ItemAnimator类的写法自己定制
+
+Item侧滑
+	https://github.com/daimajia/AndroidSwipeLayout
+	compile "com.daimajia.swipelayout:library:1.2.0@aar"
+	E:\Android\0711笔记\常用项目\SwipeLayout里有详细的使用
+
+TwoWay
+	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+	这个项目其实是很强大的,主要是提供了各种RecyclerView的LayoutManager
+
+mikepenz/Materialize
+	compile 'com.mikepenz:materialize:0.2.7@aar'
+	将app Material化
+
+EditText
+	MaterialEditText
+	https://github.com/rengwuxian/MaterialEditText
+
+	可以伸缩的输入框 其实好像不仅局限于EditText?
+	https://github.com/florent37/MaterialTextField
+	
+	https://github.com/wrapp/floatlabelededittext
+	有悬浮label效果的输入框
+
+Drawer
+	MaterialDrawer
+	https://github.com/mikepenz/MaterialDrawer
+
+Ripple
+	使用它可以很轻松的创建水纹效果
+	https://github.com/traex/RippleEffect
+	compile 'com.github.traex.rippleeffect:library:1.3'
+	只要用com.andexert.library.RippleView将你的元素包住就行了 参数见官网
+	
+	https://github.com/balysv/material-ripple
+	跟上面一个用户几乎一样
+
+	水纹背景动画 就是可以为某一个view播放水纹效果的背景
+	https://github.com/skyfishjy/android-ripple-background
+	compile 'com.skyfishjy.ripplebackground:library:1.0.1'
+	参数见官网
+
+Toast
+	增强版 可以定制 出入动画 背景颜色 字体颜色
+	https://github.com/johnkil/Android-AppMsg
+	compile 'com.github.johnkil.android-appmsg:appmsg:1.2.0'
+
+	功能 用法 效果 几乎和上面一样 它还可以定制view
+	https://github.com/keyboardsurfer/Crouton
+
+UndoBar
+	https://github.com/jenzz/Android-UndoBar
+	用法很简单
+	new UndoBar.Builder(this)
+				.setAlignParentBottom(true)
+				.setAnimationDuration(500)
+				.setDuration(2000)
+				.setMessage("要恢复吗")
+				.setStyle(UndoBar.Style.DEFAULT)
+				.setUndoColorResId(R.color.google_blue)
+				.setUndoToken(null)
+				.setListener(new UndoBar.Listener() {
+					@Override
+					public void onHide() {
+						Log.i("zas", "hide");
+					}
+
+					@Override
+					public void onUndo(Parcelable parcelable) {
+						Log.i("zas", "p=" + parcelable);
+					}
+				}).show();
+
+RecyclerView相关
+	FlexableDivider
+		https://github.com/yqritc/RecyclerView-FlexibleDivider
+		compile 'com.yqritc:recyclerview-flexibledivider:1.2.6'
+
+
+	Dividers
+		https://github.com/Karumi/Dividers compile 'com.karumi:dividers:1.0.1'
+		可以为RecyclerView添加分割(通过ItemDecoration)
+
+PopupMenu
+	v7里自带一个弹出菜单, 但是没有办法自定义条目的样式,复杂的样式可以考虑使用Droppy这个项目
+	用法很简单:
+		PopupMenu pm = new PopupMenu(this, v, Gravity.BOTTOM);//在v的下面弹出一个菜单
+		pm.inflate(R.menu.main);
+		pm.show();
+
+Dialog/对话框: 见MusicPlayer测试项目的对话框大比拼
+	Material Dialogs
+	材料风格的对话框
+	标题 图标 文本内容 三种按钮 list单选/多选 颜色选择 输入框 定制 进度(不确定的圈圈旋转,不确定的水平线,确定的水平线)
+	https://github.com/afollestad/material-dialogs
+	
+	DialogPlus
+	主要是弹出的gravity可以指定 内容可以指定 并且是可以拉伸的 有空再具体测试一番
+	https://github.com/orhanobut/dialogplus
+
+	IOS风格的ActionSheet和简单对话框
+	https://github.com/saiwu-bigkoo/Android-AlertView
+	https://github.com/baoyongzhang/android-ActionSheet
+
+	PostOffice
+	也可以制造出一些Material的效果 并且具有水纹效果, 感觉它不如Material Dialogs好用 不过是目前具有水纹效果的!
+	https://github.com/r0adkll/PostOffice
+
+	
+	https://github.com/pedant/sweet-alert-dialog
+		主要是用于显示loadding的对话框
+
+SwipeBackLayout
+	建议有空的时候去学一下他们的原理
+
+	https://github.com/r0adkll/Slidr
+	这个是用起来比下面那个简单得多
+	需要配合overridePendingTransition(0,0);使用,否则打开activity的动画不好看
+	另外,底下的activity只会调用onPause方法,不会调用onStop方法
+
+	仿照微信的侧滑关闭Activity功能 用法:
+	compile 'me.imid.swipebacklayout.lib:library:1.0.0'
+	设置你要使用关闭侧滑功能的Activity所在的theme:
+	<item name="android:windowIsTranslucent">true</item>
+	继承SwipeBackActivity 不继承也行 可以参照着里面的代码复制一份就行
+	默认是左边侧滑关闭Activity
+	https://github.com/ikew0ng/SwipeBackLayout
+
+
+
+
+
+material 颜色 配色
+	https://github.com/HozakaN/MaterialDesignColorPalette/blob/master/app/src/main/res/values/material_colors.xml
+	http://www.materialpalette.com/
+
+ORM
+	ormlite 轻量级 应该还算容易上手的, 不过还没有试过在Android环境下使用
+		http://ormlite.com/
+
+	GreenDAO
+	https://github.com/greenrobot/greenDAO
+	Gradle dependency for your Android app:
+	    compile 'de.greenrobot:greendao:2.0.0'
+	Gradle dependency for your Java generator project:
+		compile 'de.greenrobot:greendao-generator:2.0.0'
+	详情看教程
+
+RxAndroid + RxJava + RxBinding
+	compile 'io.reactivex:rxandroid:1.0.1'
+	compile 'io.reactivex:rxjava:1.0.14'
+	https://github.com/JakeWharton/RxBinding
+	RxBinding:
+		将android的事件和Observable关联起来
+		对于某些事件比如click,rxbinding是对相应的View设置了一个listener,然后将事件转接到Observable里的
+		命名约定:
+			android.xxx -> com.jakewarton.rxbinding.Rxxxx
+			android.widget.TextView -> com.jakewarton.rxbinding.widget.RxTextView
+
+Once
+	https://github.com/jonfinerty/Once
+	compile 'com.jonathanfinerty.once:once:0.4.1'
+	用于处理那种在某种条件下只执行一次的事
+
+CardView:
+	如果只是简单的CardView效果的话可以直接使用v7的CardView
+
+	Cardslib
+		然而对于这个库的话有点麻烦了,为了构造一张卡片,需要花费不少的代价,因为我们常常需要修改他卡片的具体布局,所以会显得很麻烦,还不如直接使用V7的CardView,然后自己布局
+		https://github.com/gabrielemariotti/cardslib
+		例子请看Appfortest项目里的 org/xzc/appfortest/cardslib
+		这个页面是一个介绍
+			https://github.com/gabrielemariotti/cardslib/blob/master/doc/OVERVIEW.md
+			https://github.com/gabrielemariotti/cardslib/blob/master/doc/EXAMPLE.md
+
+下拉更新
+	没意外的话可以使用 v4里的 SwipeRefreshLayout
+	或使用UPTR
+
+Tab面板
+	没有复杂要求的话就是用design里的 TabLayout
+	这个TabLayout 最好只用于显示文字 可以设置各种颜色 指示器高度 和滚动等
+	
+	PagerSlidingTabStrip
+		compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+	https://github.com/astuetz/PagerSlidingTabStrip
+	这个是上面那个的一个fork
+	https://github.com/jpardogo/PagerSlidingTabStrip
+
+图片处理
+	RoundedImageView 圆角 可以指定成椭圆形(宽高相等就圆形了)
+	compile 'com.makeramen:roundedimageview:2.2.0'
+	主要利用com.makeramen.roundedimageview.RoundedImageView这个类,它是一个ImageView
+	
+	取各种形状 用法类似
+	https://github.com/siyamed/android-shape-imageview 比如圆形 爱心 圆角矩形
+	https://github.com/hdodenhof/CircleImageView
+
+图片加载
+http://square.github.io/picasso/
+compile 'com.squareup.picasso:picasso:2.5.2'
+这个用法相当简单:好像这样就可以了 当然有更复杂的配置 这里很多都使用了默认配置
+	Picasso.with(context)
+	  .load(url)
+	  .resize(50, 50)
+	  .centerCrop()
+	  .into(imageView)
+
+图标
+	https://github.com/mikepenz/Android-Iconics
+	compile 'com.mikepenz:iconics-core:1.7.6@aar'
+	compile 'com.mikepenz:google-material-typeface:1.2.0.1@aar'
+	compile 'com.mikepenz:fontawesome-typeface:4.4.0.1@aar'
+	compile 'com.mikepenz:octicons-typeface:3.0.0.1@aar'
+	compile 'com.mikepenz:meteocons-typeface:1.1.0.1@aar'
+	compile 'com.mikepenz:community-material-typeface:1.2.64.1@aar'
+
+	menu.findItem(R.id.action_setting).setIcon(new IconicsDrawable(this).icon(FontAwesome.Icon.faw_android).color(Color.WHITE).actionBar());
+	com.mikepenz.iconics.view.IconicsImageView
+	com.mikepenz.iconics.view.IconicsTextView
+	com.mikepenz.iconics.view.IconicsButton
+	Button btn = (Button) findViewById(R.id.btn);
+	if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+		btn.setAllCaps(false);
+	}
+	SpannableString ss = new Iconics.IconicsBuilder()
+		.ctx(this)
+		.style(new UnderlineSpan(), new RelativeSizeSpan(2.0f))
+		.on(btn.getText())
+		.build();
+	btn.setText(ss);
+
+	https://github.com/code-mc/material-icon-lib
+	可以在AS中预览看Step 0
+	主要是Material的图标
+
+	material-design-icons
+	https://github.com/code-mc/material-icon-lib
+	
+	https://github.com/theDazzler/droidicon
+	<com.thedazzler.droidicon.badges.DroidiconBadge
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:db_bg_color="@color/google_blue"
+		app:db_icon="fa-user"
+		app:db_icon_color="@color/white"
+		app:db_icon_padding="3dp" 这里padding至少位3 否则图片显示不出来
+		/>
+
+	下面这个也简单
+	https://github.com/JoanZapata/android-iconify
+
+进度
+	加载中的View/Loading View 用于 "正在加载中..." 时 显示的view 一般是一些表示等待的动画
+	MaterialLoadingProgressBar
+	
+	WaveView水纹view:有问题显示不出来
+	https://github.com/gelitenight/WaveView
+
+网络访问
+	Retrofit okhttp
+	https://github.com/square/retrofit
+	https://github.com/square/okhttp
+	compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
+	compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
+	如果需要和rxjava整合的话 记得加上这个包
+	compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta3'
+
+

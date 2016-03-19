@@ -1,0 +1,461 @@
+factory provider service constant value的区别
+service是通过构造函数的 如果你了解在js中怎么使用new创建新对象的话 那么它几乎和factory一样 所以不讲它
+
+constant和value的话都是用于放置常量但是constant的话可以被注入到config,而value不行
+
+.facotry('xzc',function($timeout){//这里可以注入服务
+	return{
+		name:123
+	};
+}).controller('BodyController',function($timeout,xzc){
+	//现在你的服务可以被别的控制器使用了
+	//xzc.name==123
+})
+
+接下来是provider了 它的独特之处就是可以配置
+	有人可能会想 配置还不简单 拿到 service后直接 service.config.url="..." 不就行了么
+	但是我们要保证这个配置必须在这个真正service被使用之前来做
+	因此只能在config里去做(或run里呢?)
+		config是先于run执行的
+			而run应该是其他的函数执行的
+			但是实际上run里已经进入了$rootScope的领域了 意思就是说 有些服务已经开始运行了 因此你的做法是错的
+				想想$interpolateProvider吧
+
+.provider('myPro',function(){
+                var self=this;
+                self.name="default";
+                this.$get=function($http){
+                    //这里真正返回服务的实例
+                    return{
+                        name:self.name
+                    };
+                    //alert($http);
+                };
+            })
+	在provider的例子里
+		通过this.$get函数返回的值是真正的service
+		而this 叫做这个service的 的Provider
+		你可以通过 myProProvider 获得 这个this
+			注意这个Provider只能被注入到config里
+			因此你可以在config里进行配置,太棒了
+			}).config(function($stateProvider,$urlRouterProvider,$injector,myProProvider){
+				myProProvider.url="...";
+				//注意这个myProProvider是那个provider函数里的this
+			}
+	
+
+带有ng-click的按钮被点的时候会开始Angular的事件循环(此时会先对$scope求值,然后执行)
+
+ng-if
+	成立才会将该元素插入dom否则会移除该元素
+	并不是隐藏
+ng-niew
+	
+ng-class
+	{red: x>6, blue y>1}
+	当x>6的时候加上red类...
+ng-init
+	当渲染这个元素的时候执行的一些动作
+	<div ng-init="a=1">...</div> 会导致该div所在的scope的a=1
+	ng-init="v2=['a','b','c','d'];cls1=true;cls2=true;"
+ng-bind
+{{}}
+ng-cloak
+	防止呈现出未渲染的结果
+	比如<button>{{name}}</button>
+	但是在渲染button之前你却执行了alert() 这会阻塞 这时你看到的屏幕里就会有{{name}}
+ng-bind-template
+
+ng-model
+ng-copy
+	可以监视input等元素的复制
+ng-cut
+	监视剪切
+还可以监视相当多的事件
+ng-show
+ng-hide
+ng-change="onChange()"
+	在change方法里并没有办法捕获到是哪个元素触发的
+	最多只能这样:
+		ng-change="onChange(m12)"
+		其中某个元素有 ng-model="m12"
+	而且 ng-change和$scope.$watch(...)好像有点不太一样
+	主要是发生在chagne在初始值时不会触发
+	而$watch是会的
+ng-loop
+
+$scope.$watch('',function(){})
+	注意你可以监视 a.b.c.d
+	但是一旦你 a.b.c=newObj;之后你对a.b.c.d的监视就没了!
+		除非newObj 为 undefined
+	下面的例子
+	<input ng-model="a.b.c.d"/>
+	<input ng-model="a.b.c"/>
+	当你在第一个框输入值的时候第二个框显示的是 object
+	当你在第二个框输入值的时候第一个框就没值了 而且 你无法输入新的值
+	当你把第二个框的值删掉 第一个框又可以输入值了 而且第二个框又变成object了
+
+	[[[[所以你进行监视的值最好它的上级是不会变的!]]]]
+	
+
+ng-attr-(auffix)
+
+
+ng-form
+	如果表单没有指定action 那么不会被提交到服务器上
+ng-submit
+	但是依旧会触发 submit
+ng-click
+	ng-click="onClick()"
+	被点击后会调用当前$scope的onClick方法
+
+$timeout取代js的setTimeout这样angularjs才知道你更新了$scope
+
+尽量将变量绑定在二级范围 比如 person.name 而不是 name
+
+4.
+	ng-app与$rootScope绑定
+	$scope是视图和HTML之间的桥梁
+	//对rootScope要这样做
+	.run(function($rootScope){
+		做一些比较全局的事件
+	})
+	.controller('xxxController',function($scope,$element,$attrs){});
+	如果你在两个元素上都说 ng-controller="c1"
+		那么实际上是对这两个元素都运用控制器c1
+		但他们之间是不共享的
+	$scope
+	$element
+	$attrs是当前元素的组成的对象
+	$transclude
+
+5.
+	控制器用于将逻辑相近的业务封装在一个容器里
+	作用域嵌套的结果类似于原型继承
+		所以你可以访问父元素的成员 但你没法修改(指的是直接修改)
+	
+	$http({
+		method:'post',
+		url:'/login'
+		data:{
+			user:user
+		}
+	}).success(function(data){});
+
+ng-repeat="(index, object) in people"
+ng-repeat
+ng-repeat-start
+ng-repeat-end
+<div ng-init="aa=[1,2,3,4]">
+	${aa}
+	<div ng-repeat-start="i in aa">${i}</div>
+	<div ng-repeat-end>${i}</div>
+</div>
+	$index $first $middle $last $even $odd
+
+ng-attr-cx="{{cx}}"
+	可能因为svg的语法比较严格
+
+指令
+app.directive('xzcDirective1',function(){
+	return{
+		restrict:'A'
+	};
+});
+
+@
+	<div name="xzc"></div>
+	username:'@name' 表示currentScope.username=你在属性上所写的name 所以   ="xzc"
+	如果 <div name="{{name}}"></div> 那么你的username也是会变的
+=
+	如果属性不存在会仍异常
+	可以使用=?避免
+	还有=* =*?选项 有需要再去看一下
+	username:'=name' 表示currentScope.username=outerScope[你在属性上所写的name]
+												=outerScope['xzc'] {注意不是name而是'xzc'}
+	你的修改currentScope.xzc='newName';会影响到outerScope
+
+&
+	用于关联相同的函数操作的
+	<div on-click="onClick()"></div>
+	onClick:'&onClick' 那么你的作用域里的onClick也绑定到outer的onClick这个函数了
+		注意如果你使用@的话是不行的 因为它获得是字符串
+			而你是没有权限访问outer的值的(此时,因为你的scope是一个obj)
+		如果你想使用=也是可以的 但是你的写法就要变成 on-click="onClick" 而不是 onClick()
+			=是将引号内的表达式和你的 key关联起来
+				如果你写的是 onClick()那么表示是将 这个函数调用的结果同你的key绑定起来
+	
+
+^ngModel 从父scope们里找 如果没找到ngModel就扔异常
+
+
+directive
+	priority
+		默认是0 越高优先级越高
+		当多个directive在一个元素上的时候 用于决定directive执行的顺序
+	terminal
+		所有低于该元素等级的元素都不执行,同级及以上都会执行
+	scope:
+		true 通过原型继承的方式创建新的scope
+		false 和 outer scope 完全相同 这是默认的行为
+		一个对象
+			^@& 三种方式 看上面
+			注意这个scope会影响 通过 template 或 templateUrl加载的内容 而不是当前元素的内容
+			当前元素的子内容还是通过 outer scope来处理
+			如果你想要子元素的内容由当前的scope来处理的话可以这样
+			template:function(ele,attrs){
+				return ele.html();
+			},
+
+	require
+		请求注入别的directive的controller
+		格式 prefixName 在prefix指定的地方里面找
+			找不到时
+				如果prefix以?开头就用null代替 否则异常
+		(no prefix) - 当前找 异常
+		? - 当前 null
+		^ - 当前+父亲们 异常
+		^^ - 父亲们 异常
+		?^ - 当前+父亲 null
+		?^^ - 父亲们 null
+	controllerAs
+		别名
+	link
+		只有compile没定义的时候才有效
+		function(scope,ele,attrs,你require的对象){}
+		用link可以构造当前指令元素的功能性
+			比如你给它绑定一下事件
+			或scope.$watch
+	template
+		字符串或function(ele,attrs)
+	templateUrl
+		字符串或function(ele,attrs)
+	transclude
+	compile
+	Transclusion
+
+
+$scope.$apply(function(){
+	...
+});
+作用是执行完你给的函数之后进行数据的更新
+问题是这样的
+	当你在某些函数里修改了模型的值之后angular并不知道
+	因此没法保证数据的一致
+	而将你的函数包在$apply里就可以让angular知道这件事 因次它会调用$digest
+
+注意要有单引号再包一次
+<div ng-include="'f1.html'"></div>
+
+
+ng-messages的用法
+npm install angular-messages
+var app=angular.module('app5',['ngMessages']);
+选项
+	ng-messages-multiple
+	ng-messages-include="errors.html" 即将三条 span ng-message 导入进来而已(你还可以自己再写一写span在元素下)
+<!--<span ng-show="form.age.$dirty && form.age.$invalid">
+	<small ng-show="form.age.$error.bigThan1">违反bigThan1</small>
+	<small ng-show="form.age.$error.smallThan10">违反small-than-10</small>
+</span>-->
+<span ng-messages="form.age.$error">
+	<span ng-message="required">required</span>
+	<span ng-message="bigThan1">bigThan1</span>
+	<span ng-message="smallThan10">smallThan10</span>
+</span>
+
+自定义验证器
+在$parsers里添加
+$parsers.push(function(newVal){})
+
+
+8.指令
+
+
+编译
+	在对DOM树进行构建
+		但此时还没有数据绑定 可能只是一个骨架吧
+编译完成后返回一个函数
+link
+	事件监听
+	数据变化
+	实时操作
+
+ngModel
+	$setViewValue
+		这个操作之后会被送到$paresrs流水线
+		但并不触发$digest
+	$viewChangeListeners()
+	$render=func
+		怎样渲染对象
+	$viewValue
+	$modelValue
+	$parsers
+		
+	$formatters
+		
+scope.$apply(func)
+
+
+
+模块配置
+可以修改{{}}为${}
+//这里只能注入由provider创建的服务
+app.config(function($provide,$compileProvider){
+	//...
+});
+
+
+ng-view
+	是一个优先级为1000的终极指令
+		比所有内置的优先级都高
+		再由terminal,知 有ng-view在的话 其他指令都无效
+	$routeChangeSuccess
+	$viewContentLoaded
+
+	$location.path()是当前的url
+		但是是以你主页为起点的
+		http://127.0.0.1/a/6.html#/index
+		你的主页是http://127.0.0.1/a/6.html
+		因此path()的结果是/index
+		zheyagn keyi zuodao yemian bushuaxin 
+
+
+ngRoute
+	template
+	templateUrl
+	controller
+	resolve
+	reloadOnSearch
+		当queryString发生改变的时候要不要reload
+		默认是true
+
+路由模式
+	标签模式
+		P125
+	<base href="...">
+路由事件
+	$routeChangeStart
+	$routeChangeSuccess
+	$routeChangeError
+		在$rootScope上监听
+		$rootScope.$on('$...',func);
+	
+
+$location
+	path()
+	http://127.0.0.1/a/6.html#/index则返回/index
+	path('/index2')
+	path('/index2').replace()
+		不能回退
+	url()
+		url('newUrl')
+		这个就是我们平时的url 不是path
+	absUrl()
+	hash()
+	host()
+	port()
+	protocol()
+	search()
+		获得queryString
+		search('name=xzc&age=21')
+		search({name:'xzc',value:21})
+$window
+	locafion.href="/sfdf"
+		这个会改变url 重新加载整个页面
+
+依赖注入
+	$injector
+		annotate(func) 返回这个函数依赖的对象名数组
+		get
+		has
+		instantiate
+		invoke
+	$q
+
+	在很多地方(具体哪些不太清楚 不过有特征)
+	function($scope){}会自动注入$scope
+		通过annotate
+	但是有很多代码压缩会...
+	因此要这样
+	['$scope',function($s){...}]
+	因此在很多需要一个函数的地方
+		可以用一个数组来代替
+		最后一个是函数 前面的字符串是表示依赖
+
+$http
+	.then(function(res){
+		//res里包含了返回的很多东西 比如header data等等 有需要可以再看
+	})
+	.success(function(data,status,header,config){
+		//这个是从res里抽出来的
+	})
+	params是指出现在url里的键值对(queryString)
+	data:是post的payload
+	config
+		cache
+			true 使用默认的$cacheFactory
+			flase 禁用
+			对象
+				用$cacheFacotry创建
+				如果你的站点是通过ajax加载html拼凑出你的网站的话
+				那么可以考虑自己创建一个cacheFaotory用于缓存你的页面(如果你的页面并不是动态的)
+		拦截
+			可以对ajax的request response 及其错误状态进行拦截
+			主要是修改config
+				app.config(function($provide,$httpProvider){
+					$provide.factory('ajaxInterceptor1',function($q,$filter){
+						return{
+							request:function(cfg){
+								//alert($filter('json')(cfg));
+								cfg.params=cfg.params || {};
+								cfg.params.token="233";
+								return cfg;
+							}
+						};
+					});
+					$httpProvider.interceptors.push('ajaxInterceptor1');
+				});
+			这样也行
+				var func=function($q,$filter){
+					return{
+						request:function(cfg){
+							//alert($filter('json')(cfg));
+							cfg.params=cfg.params || {};
+							cfg.params.token="233";
+							return cfg;
+						}
+					};
+				};
+				$httpProvider.interceptors.push(func);
+
+
+
+			
+授权令牌
+uuid库
+
+
+<select
+	ng-model="s"
+	ng-options="p as p.name for p in persons track by p.id">
+</select>
+意思是 select的模型是s 它的值是p (注意是一个对象)
+然后它的option的text是p.name
+	option的key是p.id
+http://docs.angularjs.cn/api/ng/directive/select
+
+
+$scope.$watch('s1',function(newValue,oldValue,objEquality){});
+	注意 初始化(即初始值会触发一次改变)的时候会有newValue=oldValue
+	其他时候都不会相等
+
+$watchCollection
+
+$scope.$apply
+	可以传入一个函数或一个字符串在$scope的上下文执行 并且会触发$scope.$digest
+$scope.$evalAsync
+	这个还是没怎么理解
+Angular的事件循环被称作$digest循环。这个$digest循环由两个小型的循环组成，分别是evalAsync循环和$watch列表。
+
+bower

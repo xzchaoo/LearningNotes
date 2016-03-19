@@ -1,0 +1,20 @@
+用于shared preferences与属性的绑定(监听变化)
+https://github.com/denley/preferencebinder
+
+用于比较方便地获取sp的属性
+https://github.com/Alexrs95/Prefs
+
+https://github.com/pwittchen/prefser
+
+加密存储sp
+https://github.com/orhanobut/hawk
+https://github.com/scottyab/secure-preferences
+http://android-arsenal.com/details/1/2051
+
+https://github.com/tumblr/Remember
+https://github.com/jug6ernaut/saber
+
+https://github.com/martino2k6/StoreBox
+
+https://github.com/grandcentrix/tray
+http://android-arsenal.com/details/1/929

@@ -1,0 +1,26 @@
+ImageLoader
+	根据URI加载图片到某个view上
+	根据URI加载图片到Bitmap上
+	暂停 恢复 清楚任务
+	各种进度监听
+配置
+	ImageLoaderConfiguration ImageLoaderConfiguration.Builder
+		配置ImageLoader
+	默认的DisplayImageOptions
+	设置各种缓存参数 大小数量 临时文件名格式
+		图片解码器 下载器 任务执行器 池大小 线程优先级
+
+
+	DisplayImageOptions 配置图片的显示
+		正在加载的时候显示的图片
+		空URL的图片
+		是啊比的图片
+		是否从内存缓存读
+		是否从硬盘缓存读
+		图片规模
+		解码模式
+		显示器(
+			表示如何将图片显示出来
+			可以fade in等...
+		)
+		等

@@ -1,0 +1,13 @@
+主要是对res/values/strings.xml进行处理
+提供
+MyProject/
+    res/
+       values/
+           strings.xml
+       values-es/
+           strings.xml
+       values-fr/
+           strings.xml
+
+当你需要字符串的时候
+String hello = getResources().getString(R.string.hello_world);

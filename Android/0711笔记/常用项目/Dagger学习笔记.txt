@@ -1,0 +1,40 @@
+Dragger笔记
+
+在需要注入的地方使用
+
+字段上:
+@Inject
+User user;
+
+然后调用og.inject(this);就可以注入了
+
+那么user是由谁提供的呢?
+是由各种模块提供的
+创建og的时候:
+ObjectGraph og = ObjectGraph.create(
+	new Module1("xzc")
+);
+这里只指定了一个模块,其实可以指定多个的
+然后这个模块长这样:
+@Module(
+	injects = {MyApplication.class}
+)
+public class Module1 {
+	private String username;
+
+	public Module1(String username) {
+		this.username = username;
+	}
+
+	@Provides
+	@Singleton
+	public User provideUser() {
+		return new User(username);
+	}
+}
+
+
+
+
+classpath 'com.squareup.dagger:dagger-compiler:1.2.2'
+compile 'com.squareup.dagger:dagger:1.2.2'

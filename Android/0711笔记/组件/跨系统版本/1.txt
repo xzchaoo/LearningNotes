@@ -1,0 +1,10 @@
+Check System Version at Runtime
+Android provides a unique code for each platform version in the Build constants class. Use these codes within your app to build conditions that ensure the code that depends on higher API levels is executed only when those APIs are available on the system.
+
+private void setUpActionBar() {
+    // Make sure we're running on Honeycomb or higher to use ActionBar APIs
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+}

@@ -1,0 +1,6 @@
+AndroidSwipeLayout
+模式
+	LayDown(揭开)和PullOut(带出)
+方向
+	上下左右 都支持
+

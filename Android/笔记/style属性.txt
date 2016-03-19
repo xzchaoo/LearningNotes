@@ -1,0 +1,14 @@
+在values/styles.xml编写一个style项
+例如
+<style name="btn1">
+	<item name="android:text">@string/btn1</item>
+</style>
+然后在
+<Button
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:onClick="onClick"
+	style="@style/btn1"
+	/>
+这样Button就有了text
+有点类似CSS的作用吧
