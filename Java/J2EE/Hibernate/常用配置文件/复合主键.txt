@@ -1,0 +1,38 @@
+<class name="User">
+   <composite-id name="id" class="UserId">
+      <key-property name="firstName" column="fld_firstname"/>
+      <key-property name="lastName"/>
+   </composite-id>
+</class>
+
+
+
+
+
+<class name="Customer">
+   <composite-id name="id" class="CustomerId">
+      <key-property name="firstName" column="userfirstname_fk"/>
+      <key-property name="lastName" column="userfirstname_fk"/>
+      <key-property name="customerNumber"/>
+   </composite-id>
+
+   <property name="preferredCustomer"/>
+
+   <many-to-one name="user">
+      <column name="userfirstname_fk" updatable="false" insertable="false"/>
+      <column name="userlastname_fk" updatable="false" insertable="false"/>
+   </many-to-one>
+</class>
+
+<class name="User">
+   <composite-id name="id" class="UserId">
+      <key-property name="firstName"/>
+      <key-property name="lastName"/>
+   </composite-id>
+
+   <property name="age"/>
+</class>
+
+
+
+

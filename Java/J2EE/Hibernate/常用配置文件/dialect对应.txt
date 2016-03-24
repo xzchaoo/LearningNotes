@@ -1,0 +1,268 @@
+
+CUBRID 8.3 and later
+
+org.hibernate.dialect.CUBRIDDialect
+
+
+
+DB2
+
+org.hibernate.dialect.DB2Dialect
+
+
+
+DB2 AS/400
+
+org.hibernate.dialect.DB2400Dialect
+
+
+
+DB2 OS390
+
+org.hibernate.dialect.DB2390Dialect
+
+
+
+Firebird
+
+org.hibernate.dialect.FirebirdDialect
+
+
+
+FrontBase
+
+org.hibernate.dialect.FrontbaseDialect
+
+
+
+H2
+
+org.hibernate.dialect.H2Dialect
+
+
+
+HyperSQL (HSQL)
+
+org.hibernate.dialect.HSQLDialect
+
+
+
+Informix
+
+org.hibernate.dialect.InformixDialect
+
+
+
+Ingres
+
+org.hibernate.dialect.IngresDialect
+
+
+
+Ingres 9
+
+org.hibernate.dialect.Ingres9Dialect
+
+
+
+Ingres 10
+
+org.hibernate.dialect.Ingres10Dialect
+
+
+
+Interbase
+
+org.hibernate.dialect.InterbaseDialect
+
+
+
+InterSystems Cache 2007.1
+
+org.hibernate.dialect.Cache71Dialect
+
+
+
+JDataStore
+
+org.hibernate.dialect.JDataStoreDialect
+
+
+
+Mckoi SQL
+
+org.hibernate.dialect.MckoiDialect
+
+
+
+Microsoft SQL Server 2000
+
+org.hibernate.dialect.SQLServerDialect
+
+
+
+Microsoft SQL Server 2005
+
+org.hibernate.dialect.SQLServer2005Dialect
+
+
+
+Microsoft SQL Server 2008
+
+org.hibernate.dialect.SQLServer2008Dialect
+
+
+
+Microsoft SQL Server 2012
+
+org.hibernate.dialect.SQLServer2012Dialect
+
+
+
+Mimer SQL
+
+org.hibernate.dialect.MimerSQLDialect
+
+
+
+MySQL
+
+org.hibernate.dialect.MySQLDialect
+
+
+
+MySQL with InnoDB
+
+org.hibernate.dialect.MySQLInnoDBDialect
+
+
+
+MySQL with MyISAM
+
+org.hibernate.dialect.MySQLMyISAMDialect
+
+
+
+MySQL5
+
+org.hibernate.dialect.MySQL5Dialect
+
+
+
+MySQL5 with InnoDB
+
+org.hibernate.dialect.MySQL5InnoDBDialect
+
+
+
+Oracle 8i
+
+org.hibernate.dialect.Oracle8iDialect
+
+
+
+Oracle 9i
+
+org.hibernate.dialect.Oracle9iDialect
+
+
+
+Oracle 10g and later
+
+org.hibernate.dialect.Oracle10gDialect
+
+
+
+Oracle TimesTen
+
+org.hibernate.dialect.TimesTenDialect
+
+
+
+Pointbase
+
+org.hibernate.dialect.PointbaseDialect
+
+
+
+PostgreSQL 8.1
+
+org.hibernate.dialect.PostgreSQL81Dialect
+
+
+
+PostgreSQL 8.2
+
+org.hibernate.dialect.PostgreSQL82Dialect
+
+
+
+PostgreSQL 9 and later
+
+org.hibernate.dialect.PostgreSQL9Dialect
+
+
+
+Progress
+
+org.hibernate.dialect.ProgressDialect
+
+
+
+SAP DB
+
+org.hibernate.dialect.SAPDBDialect
+
+
+
+SAP HANA (column store)
+
+org.hibernate.dialect.HANAColumnStoreDialect
+
+
+
+SAP HANA (row store)
+
+org.hibernate.dialect.HANARowStoreDialect
+
+
+
+Sybase
+
+org.hibernate.dialect.SybaseDialect
+
+
+
+Sybase 11
+
+org.hibernate.dialect.Sybase11Dialect
+
+
+
+Sybase ASE 15.5
+
+org.hibernate.dialect.SybaseASE15Dialect
+
+
+
+Sybase ASE 15.7
+
+org.hibernate.dialect.SybaseASE157Dialect
+
+
+
+Sybase Anywhere
+
+org.hibernate.dialect.SybaseAnywhereDialect
+
+
+
+Teradata
+
+org.hibernate.dialect.TeradataDialect
+
+
+
+Unisys OS 2200 RDMS
+
+org.hibernate.dialect.RDMSOS2200Dialect 

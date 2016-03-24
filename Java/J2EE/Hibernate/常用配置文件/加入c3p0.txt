@@ -1,0 +1,21 @@
+		<!-- C3P0连接池设定 -->
+		<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+		<!-- 最小连接数 -->
+
+		<property name="c3p0.min_size">5</property>
+		<!-- 最大连接数 -->
+
+		<property name="c3p0.max_size">20</property>
+		<!-- 当连接池里面的连接用完时，C3P0一下获取的新连接数 -->
+
+		<property name="c3p0.acquire_increment">2</property>
+		<!-- 最大的PreparedStatement的数量 -->
+
+		<property name="c3p0.max_statements">100</property>
+		<!-- 获得连接的超时时间，如果超过这个时间，会抛出异常，单位毫秒 -->
+
+		<property name="c3p0.idle_test_period">120</property>
+		<!-- 每隔一段时间检查连接池里的空闲连接，单位是秒 -->
+
+		<property name="c3p0.timeout">120</property>
+

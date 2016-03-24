@@ -1,0 +1,63 @@
+
+IDENTITY: supports identity columns in DB2, MySQL, MS SQL Server, Sybase and HypersonicSQL. The returned identifier is of type long, short or int.
+
+
+SEQUENCE (called seqhilo in Hibernate): uses a hi/lo algorithm to efficiently generate identifiers of type long, short or int, given a named database sequence.
+
+
+TABLE (called MultipleHiLoPerTableGenerator in Hibernate) : uses a hi/lo algorithm to efficiently generate identifiers of type long, short or int, given a table and column as a source of hi values. The hi/lo algorithm generates identifiers that are unique only for a particular database.
+
+
+AUTO: selects IDENTITY, SEQUENCE or TABLE depending upon the capabilities of the underlying database.
+
+
+increment
+generates identifiers of type long, short or int that are unique only when no other process is inserting data into the same table. Do not use in a cluster.
+identity
+supports identity columns in DB2, MySQL, MS SQL Server, Sybase and HypersonicSQL. The returned identifier is of type long, short or int.
+sequence
+uses a sequence in DB2, PostgreSQL, Oracle, SAP DB, McKoi or a generator in Interbase. The returned identifier is of type long, short or int
+hilo
+
+
+uses a hi/lo algorithm to efficiently generate identifiers of type long, short or int, given a table and column (by default hibernate_unique_key and next_hi respectively) as a source of hi values. The hi/lo algorithm generates identifiers that are unique only for a particular database.
+seqhilo
+uses a hi/lo algorithm to efficiently generate identifiers of type long, short or int, given a named database sequence.
+uuid
+Generates a 128-bit UUID based on a custom algorithm. The value generated is represented as a string of 32 hexidecimal digits. Users can also configure it to use a separator (config parameter "separator") which separates the hexidecimal digits into 8{sep}8{sep}4{sep}8{sep}4. Note specifically that this is different than the IETF RFC 4122 representation of 8-4-4-4-12. If you need RFC 4122 compliant UUIDs, consider using "uuid2" generator discussed below.
+uuid2
+Generates a IETF RFC 4122 compliant (variant 2) 128-bit UUID. The exact "version" (the RFC term) generated depends on the pluggable "generation strategy" used (see below). Capable of generating values as java.util.UUID, java.lang.String or as a byte array of length 16 (byte[16]). The "generation strategy" is defined by the interface org.hibernate.id.UUIDGenerationStrategy. The generator defines 2 configuration parameters for defining which generation strategy to use: 
+
+uuid_gen_strategy_class
+Names the UUIDGenerationStrategy class to use
+uuid_gen_strategy
+Names the UUIDGenerationStrategy instance to use
+
+Out of the box, comes with the following strategies: 
+
+
+org.hibernate.id.uuid.StandardRandomStrategy (the default) - generates "version 3" (aka, "random") UUID values via the randomUUID method of java.util.UUID
+
+
+org.hibernate.id.uuid.CustomVersionOneStrategy - generates "version 1" UUID values, using IP address since mac address not available. If you need mac address to be used, consider leveraging one of the existing third party UUID generators which sniff out mac address and integrating it via the org.hibernate.id.UUIDGenerationStrategy contract. Two such libraries known at time of this writing include 
+
+
+
+http://johannburkard.de/software/uuid/ and http://commons.apache.org/sandbox/id/uuid.html
+
+guid
+uses a database-generated GUID string on MS SQL Server and MySQL.
+native
+selects identity, sequence or hilo depending upon the capabilities of the underlying database.
+assigned
+lets the application assign an identifier to the object before save() is called. This is the default strategy if no <generator> element is specified.
+select
+retrieves a primary key, assigned by a database trigger, by selecting the row by some unique key and retrieving the primary key value.
+foreign
+uses the identifier of another associated object. It is usually used in conjunction with a <one-to-one> primary key association.
+sequence-identity
+a specialized sequence generation strategy that utilizes a database sequence for the actual value generation, but combines this with JDBC3 getGeneratedKeys to return the generated identifier value as part of the insert statement execution. This strategy is only supported on Oracle 10g drivers targeted for JDK 1.4. Comments on these insert statements are disabled due to a bug in the Oracle drivers.
+
+
+
+ÏêÇé¼ûÎÄµµ

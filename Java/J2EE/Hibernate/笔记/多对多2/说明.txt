@@ -1,0 +1,8 @@
+与 "多对多相比"
+由于在Wife处
+指定了
+<set name="husbandWifes" inverse="true">
+或
+mappedBy="wifes"
+从而少了2个类
+和一个配置文件

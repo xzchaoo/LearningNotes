@@ -1,0 +1,34 @@
+@Entity
+@Table(name="TBL_FLIGHT", 
+       schema="AIR_COMMAND", 
+       uniqueConstraints=
+           @UniqueConstraint(
+               name="flight_number", 
+               columnNames={"comp_prefix", "flight_number"} ) )
+public class Flight implements Serializable {
+    @Column(name="comp_prefix")
+    public String getCompagnyPrefix() { return companyPrefix; }
+
+    @Column(name="flight_number")
+    public String getNumber() { return number; }
+}
+
+
+
+
+
+
+
+
+@Column(
+    name="columnName";                                     
+    boolean unique() default false;                        
+    boolean nullable() default true;                       
+    boolean insertable() default true;                     
+    boolean updatable() default true;                      
+    String columnDefinition() default "";                  
+    String table() default "";                             
+    int length() default 255;                              
+    int precision() default 0; // decimal precision        
+    int scale() default 0; // decimal scale
+

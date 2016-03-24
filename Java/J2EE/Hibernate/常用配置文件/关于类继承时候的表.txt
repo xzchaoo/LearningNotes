@@ -1,0 +1,148 @@
+package eg;
+
+@Entity 
+@Table(name="cats") @Inheritance(strategy=SINGLE_TABLE)
+@DiscriminatorValue("C") @DiscriminatorColumn(name="subclass", discriminatorType=CHAR)
+public class Cat {
+   
+   @Id @GeneratedValue
+   public Integer getId() { return id; }
+   public void setId(Integer id) { this.id = id; }
+   private Integer id;
+
+   public BigDecimal getWeight() { return weight; }
+   public void setWeight(BigDecimal weight) { this.weight = weight; }
+   private BigDecimal weight;
+
+   @Temporal(DATE) @NotNull @Column(updatable=false)
+   public Date getBirthdate() { return birthdate; }
+   public void setBirthdate(Date birthdate) { this.birthdate = birthdate; }
+   private Date birthdate;
+
+   @org.hibernate.annotations.Type(type="eg.types.ColorUserType")
+   @NotNull @Column(updatable=false)
+   public ColorType getColor() { return color; }
+   public void setColor(ColorType color) { this.color = color; }
+   private ColorType color;
+
+   @NotNull @Column(updatable=false)
+   public String getSex() { return sex; }
+   public void setSex(String sex) { this.sex = sex; }
+   private String sex;
+
+   @NotNull @Column(updatable=false)
+   public Integer getLitterId() { return litterId; }
+   public void setLitterId(Integer litterId) { this.litterId = litterId; }
+   private Integer litterId;
+
+   @ManyToOne @JoinColumn(name="mother_id", updatable=false)
+   public Cat getMother() { return mother; }
+   public void setMother(Cat mother) { this.mother = mother; }
+   private Cat mother;
+
+   @OneToMany(mappedBy="mother") @OrderBy("litterId")
+   public Set<Cat> getKittens() { return kittens; }
+   public void setKittens(Set<Cat> kittens) { this.kittens = kittens; }
+   private Set<Cat> kittens = new HashSet<Cat>();
+}
+
+@Entity @DiscriminatorValue("D")
+public class DomesticCat extends Cat {
+
+   public String getName() { return name; }
+   public void setName(String name) { this.name = name }
+   private String name;
+}
+
+@Entity
+public class Dog { ... }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="eg">
+
+        <class name="Cat"
+            table="cats"
+            discriminator-value="C">
+
+                <id name="id">
+                        <generator class="native"/>
+                </id>
+
+                <discriminator column="subclass"
+                     type="character"/>
+
+                <property name="weight"/>
+
+                <property name="birthdate"
+                    type="date"
+                    not-null="true"
+                    update="false"/>
+
+                <property name="color"
+                    type="eg.types.ColorUserType"
+                    not-null="true"
+                    update="false"/>
+
+                <property name="sex"
+                    not-null="true"
+                    update="false"/>
+
+                <property name="litterId"
+                    column="litterId"
+                    update="false"/>
+
+                <many-to-one name="mother"
+                    column="mother_id"
+                    update="false"/>
+
+                <set name="kittens"
+                    inverse="true"
+                    order-by="litter_id">
+                        <key column="mother_id"/>
+                        <one-to-many class="Cat"/>
+                </set>
+
+                <subclass name="DomesticCat"
+                    discriminator-value="D">
+
+                        <property name="name"
+                            type="string"/>
+
+                </subclass>
+
+        </class>
+
+        <class name="Dog">
+                <!-- mapping for Dog could go here -->
+        </class>
+
+</hibernate-mapping>
+
+
+
+
+
+
+
+
+

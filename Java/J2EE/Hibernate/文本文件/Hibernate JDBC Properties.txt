@@ -1,0 +1,43 @@
+
+Table 3.1. Hibernate JDBC Properties
+
+
+
+
+
+
+
+Property name
+
+Purpose
+
+
+
+
+hibernate.connection.driver_class
+
+JDBC driver class
+
+
+
+hibernate.connection.url
+
+JDBC URL
+
+
+
+hibernate.connection.username
+
+database user
+
+
+
+hibernate.connection.password
+
+database user password
+
+
+
+hibernate.connection.pool_size
+
+maximum number of pooled connections
