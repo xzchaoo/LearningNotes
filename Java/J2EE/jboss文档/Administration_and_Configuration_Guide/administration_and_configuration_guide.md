@@ -10,14 +10,14 @@
 然后启动jboss, 再去配置数据源, 此时就可以看到mysql的驱动被识别出来了!
 
 
-
 # 7. 模块 #
 一个模块是一组类
 
-## 静态类 ##
+## 静态模块 ##
 在EAP_HOME/modules/下
 每个子目录代表了一个模块 , 每个模块的目录的main子目录要包含一个module.xml和相关的jar包.
 module.xml里定义了模块的名字
+比如在EAP_HOME/modules/com/mysql/main下建立module.xml, 在这里目录同时放上:mysql-connector-java-5.1.15.jar
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <module xmlns="urn:jboss:module:1.0" name="com.mysql">
@@ -30,5 +30,8 @@ module.xml里定义了模块的名字
   </dependencies>
 </module>
 ```
+这样就算添加了一个静态模块
 
-## 动态类 ##
+## 动态模块 ##
+
+
