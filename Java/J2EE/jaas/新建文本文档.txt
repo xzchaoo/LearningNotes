@@ -1,0 +1,2 @@
+可以配置 jaas.config
+或直接使用 Configuration 类进行配置

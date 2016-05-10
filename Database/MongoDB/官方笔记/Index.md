@@ -17,6 +17,7 @@
 1. Unique Index 是否唯一
 	1. 只允许一个文档缺少索引字段, 如果有多个 那就会出错
 	2. 新版似乎支持多个文档缺少索引字段
+	3. {unique:true}
 2. Partial Index(new in 3.2)
 	1. 只对满足某个表达式的文档做索引
 	2. 比稀疏索引更强大
@@ -58,3 +59,27 @@ https://docs.mongodb.org/manual/tutorial/build-indexes-on-replica-sets/
 db.user.reIndex()重新建立索引
 db.currentOp(), db.killOp()
 explain hint 评估索引
+
+创建索引
+	后台创建索引 db.users.ensureIndex({'username':1},{background:true})
+	db.currentOp() db.killOp()
+	内嵌属性作为索引
+	唯一索引(分片的时候有障碍)
+重建索引
+	reindex 集合大量删除的时候, 索引的空间并不会被回收, 产生了大量的碎片 重建索引提高空间效率
+获得索引
+删除索引
+检查是否使用索引
+	explain hint(提示使用索引)
+
+Profilier
+-profile=级别
+db.setProfilingLevel(级别)
+db.getProfilingLevel()
+
+0 不开启
+1 记录
+2 记录所有命令
+
+
+

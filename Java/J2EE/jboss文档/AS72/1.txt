@@ -1,0 +1,13 @@
+至少要有一个管理员账号才能访问
+http://localhost:9990/console
+
+<management-interfaces>
+	暴露本地接口
+   <native-interface security-realm="ManagementRealm">
+      <socket-binding native="management-native"/>
+   </native-interface>
+   暴露http接口
+   <http-interface security-realm="ManagementRealm">
+      <socket-binding http="management-http"/>
+   </http-interface>
+</management-interfaces>

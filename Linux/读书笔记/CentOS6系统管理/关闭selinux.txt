@@ -1,0 +1,5 @@
+getenforce 可以查看到selinux的状态
+
+/etc/sysconfig/selinux
+SELINUX=disabled 就关闭了
+需要重启

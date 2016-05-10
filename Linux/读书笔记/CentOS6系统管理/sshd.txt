@@ -1,0 +1,3 @@
+vim /etc/ssh/sssh_config
+允许或禁止某些用户登陆
+

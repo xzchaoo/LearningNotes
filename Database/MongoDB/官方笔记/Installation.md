@@ -9,3 +9,6 @@ mongos.exe		|	路由器
 mongo.exe		|	客户端
 
 其他工具暂时不介绍
+
+
+"C:\mongodb\bin\mongod.exe" --config "C:\mongodb\mongod.cfg"

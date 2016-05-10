@@ -1,0 +1,5 @@
+ctrl + alt +delete 就虎日自动关机
+/etc/init/config-alt-delete.conf
+
+将
+exec开头的那句话 注释 就行

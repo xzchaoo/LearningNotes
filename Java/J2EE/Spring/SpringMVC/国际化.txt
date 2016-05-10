@@ -1,0 +1,29 @@
+简介:
+1. 国际化是基于 ResourceBundle 的
+2. 在Spring中, 提供了 MessageSource 接口, 及其实现类来帮助使用ResourceBundle
+3. 想要做到国际化, 就是通过访问 MessageSource 接口, 拿到不同 locale 对应的字符串罢了
+4. 在SpringMVC下, 标签 <fmt:message> 会自动使用 MessageSource 提供的字符串
+5. 还有Spring自己的标签 <spring:message> 也是这样
+
+如何判断当前用户的语言?
+LocaleResolver 接口, 根据当前的request, 返回对应的locale
+
+locale可以存在哪里?
+1. HTTP请求的 Accept-Language 里, 体验不是太好
+2. Session, session会失效
+3. Cookie, cookie会失效
+4. 自己实现一个 resolve, 然后你就可以从其他地方获取, 比如你的session里有一个User类, 它有一个属性就是 locale, 这样即使cookie和dession都失效了依旧可以记住用户的语言选项
+
+如何改变当前的语言?
+还是通过LocaleResolver, 根据不同的实现可能会产生不同的效果, 比如 cookie 的话, 就会产生一个 Set-Cookie 的响应头
+session的话, 就会 session.setAttribute(...)
+
+public interface LocaleResolver {
+	Locale resolveLocale(HttpServletRequest request);
+	void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale);
+}
+
+LocaleChangeInterceptor 拦截器帮你处理语言的改变
+你用它拦截所有的请求, 然后它一旦发现url有带参数locale, 比如 xxx?a=b&locale=zh_CN
+它就会自动帮你调用 setLocale 方法
+

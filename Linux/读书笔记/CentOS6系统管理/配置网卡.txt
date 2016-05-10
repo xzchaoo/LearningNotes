@@ -1,0 +1,26 @@
+/etc/sysconfig/network-scripts 下很有很多网卡的配置文件
+形如 ifcfg-eth0 是第一块网卡的配置文件
+修改 onboot = yes 才能使得网卡在开机的时候自动启动
+
+bootproto=dhcp 采用DHCP模式
+
+固定IP:
+
+ipaddr=192.168.1.6
+bootproto=none
+
+netmask=255.255.255.0
+type=Ethernet
+gatway=192.168.1.254
+DNS1=192.168.1.1
+IPV6INIT=no
+
+
+
+配置DNS服务器
+/etc/resolv.conf
+其内容形如:
+nameserver 192.168.1.1 表示第一台DNS服务器...
+
+
+service network restart 重启网络服务

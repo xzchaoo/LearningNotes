@@ -1,0 +1,63 @@
+#!/bin/bash
+#chkconfig: 2345 10 90
+
+# 请放在 /etc/init.d 下 适用于 centos 6.x
+
+NGINX=/usr/local/tengine/sbin/nginx
+PID=/usr/local/tengine/logs/nginx.pid
+
+
+function isRunning(){
+	if [ -e $PID ]
+	then
+		return 0;
+	else
+		return 1;
+	fi
+}
+
+function status(){
+	isRunning && echo 'Running' || echo 'Not Run';
+}
+
+function start(){
+	isRunning && echo 'Already Running' || $NGINX;
+}
+
+function stop(){
+	isRunning && $NGINX -s stop || echo 'Not Run';
+}
+
+function reload(){
+	isRunning && $NGINX -s reload || echo 'Not Run';
+}
+
+function restart(){
+	isRunning && stop && start || echo 'Not Run';
+}
+
+if [ $# -gt 0 ]
+then
+	case $1 in
+	status)
+		status;
+	;;
+	start)
+		start;
+	;;
+	stop)
+		stop;
+	;;
+	reload)
+		reload;
+	;;
+	restart)
+		restart;
+	;;
+	*)
+		echo 'Unsupported option: $1'
+	;;
+	esac;
+else
+	echo 'Usage: service nginx [status|start|stop|reload|restart].'
+fi

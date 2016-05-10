@@ -1,0 +1,16 @@
+setup 后进入图形界面 在里面就可以控制服务的懂
+
+chkconfig httpd on 打开httpd服务
+chkconfig httpd off 关闭
+chkconfig --list httpd 查看httpd服务在不同等级的启动情况
+
+chkconfig --level 35 httpd on 让httpd在3和5等级下是启动的
+
+0 关机
+1 单用户模式
+2 多用户命令行模式 没有网络
+3 多用户命令行模式 有网络
+4 保留
+5 有图形界面的多用户模式
+6 重启
+

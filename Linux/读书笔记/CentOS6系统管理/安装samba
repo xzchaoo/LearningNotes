@@ -1,0 +1,39 @@
+1. 安装samba yum install -y samba
+2. 创建一个目录, 比如 /test 用于共享目录
+3. chown nobody /test, 使得每个人都可以使用
+4. 配置samba
+	1. vim /etc/samba/smb.conf
+	2.
+		workgroup= MYGROUP
+		serverstring= Samba Server Version %v
+		security = share #share模式 user模式的话需要账号密码才能登陆 share模式已经废弃, 不过我们学习用的时候还是很方便的
+		passdb backend = tdbsam
+		local master = yes
+	3. 配置一个节
+		[test]
+		comment = test
+		path = /test
+		read only = false
+		guest ok = yes
+		browseable = yes
+
+5.放行:
+	-A INPUT -p tcp --dport 137 -j ACCEPT
+	-A INPUT -p tcp --dport 138 -j ACCEPT
+	-A INPUT -p tcp --dport 139 -j ACCEPT
+	-A INPUT -p tcp --dport 445 -j ACCEPT
+	
+6.
+	service smb start
+	chkconfig smb on
+	service iptables restart
+
+	如果出现其他问题 最好将selinux关掉 看其他的教程
+	
+当然想要安全一点的话需要再深入连接一下了
+令 security = user
+
+pdbedit -L 列出当前的所有samba用户
+先保证linux下有一个账号叫做xzc, 用 useradd 创建, 必须保证它的home目录存在
+然后 使用 pdbedit -a xzc 创建一个samba账号
+service smb restart 然后登陆的时候就要账号和密码了

@@ -89,7 +89,9 @@ https://docs.mongodb.org/manual/administration/analyzing-mongodb-performance/
 
 # Evaluate Performance of Current Operations #
 评估当前操作的性能
-db.currentOp()
+db.currentOp() 查看当前正在执行的操作 我在另外一个客户端写100W个文档, 然后在另外一个客户端使用这个命令就可以看到当前正在执行insert操作
+不过有的时候执行currentOp看不到任何操作, 可能是由于插入100W个文档, 是分100W次插的, 而每一次的时间很短
+多执行几次还是可以看到的
 explain(true)
 
 # Optimize Query Performance #
@@ -101,3 +103,9 @@ explain(true)
 5. 使用$inc 而不是写入新值
 
 # Design Notes #
+
+
+
+
+
+第三方的MongoDB监控插件

@@ -1,0 +1,4 @@
+yum install setuptool ntsysv sysstem-config-firewall-tui system-config-network-tui
+
+然后执行 setup 就可以有简单的图形界面 来控制一些系统配置了
+

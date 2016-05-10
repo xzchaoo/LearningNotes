@@ -1,0 +1,31 @@
+function (){
+	function randomInteger(n){
+		return parseInt(Math.random() * n);
+	}
+	var tags=['青年','动漫','小说','程序员','会计师','测试员'];
+	function generateTags(){
+		var size = randomInteger(tags.length);
+		var ret=[];
+		for(var i=0;i<size;++i){
+			var index = randomInteger(tags.length);
+			var tag = tags[index];
+			if(ret.indexOf(tag)>=0)
+				--i;
+			else
+				ret.push(tag);
+		}
+		return ret;
+	}
+
+	var firstnames = ['三','四','五','超','婵','苹'];
+	var lastnames = ['张','李','王','许','张'];
+	for(var i=0;i<lastnames.length;++i)
+		for(var j=0;j<firstnames.length;++j){
+			var username = lastnames[i]+firstnames[j];
+			db.users.insert({
+				username : username,
+				gender: Math.random() < 0.5 ? '男' : '女',
+				tags:generateTags()
+			});
+		}g
+}

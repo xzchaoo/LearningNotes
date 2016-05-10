@@ -50,3 +50,34 @@ is-open 一个表达式, 用于控制开关
 uib-dropdown-menu 可以带一个 template-url 属性
 
 
+
+# pagination #
+boundary-links 是否显示跳转到 第一页和最后一页的按钮
+direction-links 是否显示 上一页 和 下一页 的按钮
+
+first-text last-text 第一页/最后一页按钮的文本
+previous-text / next-text 上一页/下一页的文本
+
+
+ng-disabled
+
+force-ellipses 显示省略号
+
+total-items 总共有多少条记录
+items-per-page 每页的大小, 这个是你自己指定的, 这样才能计算出页数
+max-size="5" 只会显示5个页面的按钮, 其他的页面 用省略号代替 或 不显示(只有当靠近边界之后他们才又显示出来)
+
+ng-model 页数绑定的模型
+ng-change 回调 当页数发生变化时的回调
+
+
+# Collapse #
+```
+<div ng-controller="CollapseDemoCtrl">
+	<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
+	<hr>
+	<div uib-collapse="isCollapsed">
+		<div class="well well-lg">Some content</div>
+	</div>
+</div>
+```

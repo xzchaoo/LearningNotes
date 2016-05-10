@@ -1,0 +1,21 @@
+Set={}
+local mt={
+	__add=function(self, a)return self.value + a end,
+	__tostring=function(self) return 'hehe' end,
+	__index=function(self, key) return (key .. ' not exists') end, --利用这个可以做原型链!
+	--__newindex=function(self, key, value) self[key]=value print('cnm') end
+}
+function Set.new(a)
+	local set={value=a}
+	setmetatable(set,mt)
+	return set
+end
+
+local a = Set.new(7)
+b = a + 5
+print(b)
+print(a)
+print(a.kk)
+a.kk=33
+print (a.kk)
+-- 当 __index是一个table的时候, 就会自动将key转到它身上

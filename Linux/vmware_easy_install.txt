@@ -1,0 +1,7 @@
+vmware 的 easy install 之后你只会拥有一个拥有sudo权限的账号
+想要修改root密码的话需要这样
+sudo -s
+passwd root
+输入新的root的密码
+
+这样就可以成功修改密码了

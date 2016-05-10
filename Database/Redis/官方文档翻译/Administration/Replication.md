@@ -57,3 +57,7 @@ masterauth <password>
 4. 用户配置一个值M, 表示在M秒内有过ping的slave认为是存活的.
 min-slaves-to-write <number of slaves>
 min-slaves-max-lag <number of seconds>
+
+
+一般master关闭RDB和AOF
+从服务器可以启动RDB或AOF

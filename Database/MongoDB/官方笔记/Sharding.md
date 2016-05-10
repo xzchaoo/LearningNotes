@@ -1,7 +1,11 @@
 将数据存放在多台机器上来应付大量数据, 大量读写
 
 # 垂直扩展 #
+增加每个节点的能力
+
 # 水平扩展 #
+增加节点数量
+
 
 # 分片的目的 #
 1. 提高吞吐量
@@ -31,6 +35,7 @@ Changed in version 3.2: Starting in MongoDB 3.2, config servers for sharded clus
 
 ### 基于hash的分片 ###
 有很好的随机访问能力, 但对范围访问无能为力
+shard key 可以是一个 hash index
 
 # 分片的tag #
 通过分片的tag, 可以使得某些文档只保存在具有某个tag的分片上
@@ -121,6 +126,9 @@ mongos第一次启动 或 mongos重启 或 集群元数据改变 会使得mongos
 2. 随机均匀分布
 3. 其他特点跟索引差不多
 4. 如果这个字段的势比较低, 那么需要来一个第二字段, 构成复合片键
+5. 使得写尽量均匀(是在不行的话可以不考虑这点)
+6. 使得查询隔离(尽量导致请求只发送给一个shard, 即相关性大的数据尽量放在一起)
+7. 势要求高, 势高并不意味着一定 查询隔离 和 写均匀.
 
 # mongos崩溃了 #
 https://docs.mongodb.org/manual/core/sharded-cluster-high-availability/
@@ -170,13 +178,15 @@ https://docs.mongodb.org/manual/core/sharding-balancing/
 2. 也可以手动移动, 特殊情况
 
 ## Chunk Migration Procedure ##
+块的迁移步骤
+
 将块c从from分片移动到to分片
 1. balancer将moveChunk命令发送给from分片
-2. from分片开始执行内部的moveChunk命令, 此时读写请求仍然会被发给from分片
+2. from分片开始执行内部的moveChunk命令, 此时该块对应的读写请求仍然会被发给from分片
 3. to分片开始建立索引
 4. to分片开始接受数据
 5. to分片开始一个同步过程以确保在数据传递过程中发生的修改也被复制到to分片
-6. 当同步完成之后, to分片联系配置服务器, 将该块的位置更改为to分片, 此后对c块的请求就会被发给to分片了
+6. 当同步完成之后, to分片联系配置服务器, 将该块的位置更改为to分片, 此后对c块的请求就会被发给to分片了, 此步骤可能会阻塞from上的写操作, 短时间内.
 7. 当from分片的c块没有任何游标引用之后, 它就会被删除
 8. 第7步可能是在一段时间之后才会发生, 所以实际上第6步的时候就已经完成了
 
@@ -185,6 +195,7 @@ https://docs.mongodb.org/manual/core/sharding-balancing/
 https://docs.mongodb.org/manual/core/sharding-chunk-migration/
 
 # 拆分 #
+默认的chunk size是64mb
 当块大小超过一定值或文档数量超过一定值的时候就会进行拆分
 https://docs.mongodb.org/manual/core/sharding-chunk-splitting/#sharding-chunk-size
 1. 小块更均匀, 但是会经常的移动, 这增加了query routing layer的代价
@@ -391,3 +402,84 @@ https://docs.mongodb.org/manual/tutorial/enforce-unique-keys-for-sharded-collect
 	2. 然后你就可以安全的将这个文档插入到集群了
 3. 用其他方式保证你的唯一键
 	1. 比如uuid, 或递增序列
+	2. 应用服务器使用redis来管理id?
+
+
+
+
+# Query Isolation #
+1. 递增的shard key 会导致所有的插入操作都发生在一个shard上
+2. 如果shard key是完全随机的, 很多时候就不能将操作完全限制在一个shard上, 而是要发到所有shard上去操作, 然后再合并结果
+	1. mongos 需要经请求发给多个分片去处理, 然后合并它们的结果
+	2. 如果需要排序的话, 可能会采用归并排序, 想想归并排序的原理吧
+
+选择shard key的标准:
+1. 经常被用来查询的字段
+2. 性能最相关
+3. 不同的取值要多(如果取值确实少的话, 可以采用复合 shard key 的方法)
+4. 尽量均匀分布, 使得查询能被隔离
+5. 产生之后通常不会变化
+
+# 高可用 #
+1. 应用服务器一般会自己跑一台mongos
+2. 应用程序完全和mongos交互
+
+
+mongos会从配置服务器那里获取一个当前元信息的副本, 由此它就可以知道哪些shard key的取值在哪个shard上
+
+当mongos收到一个查询的时候:
+1. 决定所有必须收到查询的shard
+2. 为上面的shard建立一个游标
+
+通常如果你的查询里使用 shard key 来作为过滤条件, 那么mongos通常可以将这个请求只发送给一部分的shard
+否则就要发给全部的shard了
+
+如果你的shard key:
+{ zipcode: 1, u_id: 1, c_date: 1 }
+
+那么像下面的查询是可以的: 这是不是跟普通的index一样???
+{ zipcode: 1 }
+{ zipcode: 1, u_id: 1 }
+{ zipcode: 1, u_id: 1, c_date: 1 }
+
+这些查询条件必须要是 shard key 的前缀 顺序不同要紧么?
+比如 {  u_id: 1, zipcode: 1} 能被过滤么? 
+答案是可以的, 你可以自己试试
+只要你的查询里包含了 shard key 的前缀就行
+{cdate:2, zipcode:3} 因为包含了前缀 zipcode 因此是可以的
+
+下面的查询也是OK的 显然只要发给 zipcode=1的那些shard去过滤就行了
+{ zipcode: 1, username:'abc' }
+
+
+# 并不是所有的集合都需要分片 #
+可以对数据库进行分片, 这样会导致它的集合不一定在同一个节点上
+可以对集合进行分片, 这样会导致它的文档不一定在同一个节点上
+
+有些集合比较小, 就没有必要进行分片了
+
+# Tag Aware Sharding #
+给一个shard打上一个tag标记, 然后这些tag就会收到所有的插入操作,在这个tag所指定的范围内.
+
+# Cluster Balancer #
+每个mongos都有可能变身成一个balancer, 然后它会请求config server上的一把锁, 用于锁住config server上的集合
+然后检查数据分布是否均衡, 如果均衡, 它就退出balancer模式, 回归普通的mongos.
+如果不均衡, 那么它可能会考虑开始一次块的迁移操作直到平衡(一次只会对一个块进行操作) 或 拆分.
+
+1. 一次执行移动一个chunk, 见 chunk migration queuing
+2. 当拥有最多chunk的shard与拥有最小chunk的shard的chunk数量相差超过一定阀值时
+3. 做某些操作的时候你可能需要将balancer关掉, 以免影响你
+4. schedule the balancing window
+
+在PDF文档里搜索 Migration Thresholds 可以看到对应的阀值
+比如当chunk数量大于80的时候, 要求极差为8才会触发块的迁移, 这是为了减少不必要的迁移
+
+# remove一个shard之前要考虑的 #
+一个shard可能是某个database的primary shard
+In a cluster, a database with unsharded collections stores those collections only on a single shard. That shard becomes
+the primary shard for that database. (Different databases in a cluster can have different primary shards.)
+
+movePrimary 之后, 确定没有任何的db以该shard为primary
+然后才可以安全的 sh.remove(该shard)
+
+清除jumbo
