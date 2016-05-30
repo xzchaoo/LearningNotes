@@ -1,5 +1,11 @@
-共有7个位置
+# 例子 #
 
+0 0 12 ? * WED
+每月的 每个星期三 12点0分0秒
+
+
+
+共有7个位置
 位置|时间|取值范围|特殊字符
 :-:|:-:|:-:|:-:
 1|秒|0-59|,-*/
@@ -10,6 +16,9 @@
 6|星期|1-7|,-*/?LC#
 7|年|1970-2099或省略不写|,-*/
 **注意** 年是可以不写的
+
+JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV and DEC. Days-of-Week can be specified as values between 1 and 7 (1 = Sunday) or by using the strings SUN, MON, TUE, WED, THU, FRI and SAT.
+
 
 ## 特殊字符解释 ##
 字符|解释
