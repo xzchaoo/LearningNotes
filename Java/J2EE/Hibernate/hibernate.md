@@ -166,3 +166,49 @@ entity graphs
 
 Collections.singletonMap()
 
+如果涉及到枚举类型, 只需要使用 @MapKeyEnumerated 或 @Enumerated 即可
+Key,Value是简单值
+```
+@ElementCollection()
+@CollectionTable(name = "exam_ceshi_map", joinColumns = @JoinColumn(name = "exam_id"))
+@Column(name = "ceshi_value")
+@MapKeyColumn(name = "ceshi_key")
+private Map<String, Integer> ceshi;
+```
+
+Key是实体, Value是简单值
+```
+@ElementCollection
+@CollectionTable(name = "exam_results_exam_student_score", joinColumns = @JoinColumn(name = "exam_id"))
+@Column(name = "score")
+@MapKeyJoinColumn(name = "student_id") 与上面相比只有这里改变了
+private Map<Student, Integer> scores;
+```
+
+Key是简单值, Value是实体
+```
+@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+@JoinTable(
+        name = "phone_register",
+        joinColumns = @JoinColumn(name = "phone_id"),
+        inverseJoinColumns = @JoinColumn(name = "person_id"))
+@MapKey(name = "since") 这里意味着这个key是Phone的一部分
+@MapKeyTemporal(TemporalType.TIMESTAMP)
+private Map<Date, Phone> phoneRegister = new HashMap<>();
+
+@JoinTable(name = "ceshi_map_m4", joinColumns = @JoinColumn(name = "ceshi_id"), inverseJoinColumns = @JoinColumn(name = "m4_value_teacher_id"))
+@ManyToMany
+@MapKeyColumn(name = "m4_key_rank")
+private Map<Integer, Teacher> m4;
+
+```
+
+Key,Value是实体
+```
+@JoinTable(name = "ceshi_map_m5", joinColumns = @JoinColumn(name = "ceshi_id"), inverseJoinColumns = @JoinColumn(name = "m5_value_teacher_id"))
+@ManyToMany
+@MapKeyJoinColumn(name = "m5_key_student_id")
+private Map<Student, Teacher> m5;
+```
+
+

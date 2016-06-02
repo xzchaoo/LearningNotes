@@ -1,2 +1,17 @@
-1. tomcat-jdbc 数据库连接池, 性能据说比 C3P0 DBCP等更好
-2. ehcache 可以与 Spring Framework 提供的 Cache 功能 整合
+1. Tomcat-jdbc 数据库连接池, 性能据说比 C3P0 DBCP等更好
+2. Ehcache 可以与 Spring Framework 提供的 Cache 功能 整合
+3. HikariCP 号称是性能最好的JDBC数据库连接池
+4. Hibernate
+	1. JPA
+5. Spring 集大成者
+	1. MVC
+	2. Data
+	3. Cache
+6. jasypt 单向和双向加密支持
+7. Jersey 用于构建 Restful Webservice 的服务端和客户端
+8. QueryDsl 让你编写类型安全的SQL语句
+
+
+joda-time
+dom4j
+log4j

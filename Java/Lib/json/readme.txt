@@ -1,3 +1,3 @@
 google-gson
-fastjson
+°¢ÀïµÄfastjson
 fastxml-jackson
