@@ -1,0 +1,39 @@
+keytool -genkey -alias tomcat -keyalg RSA -keystore xzc.ks
+以前就是忘记指定 keyalg RSA 导致配置失败!
+
+server.port=8443
+server.ssl.key-store=classpath:xzc.ks
+server.ssl.key-store-password=70862045
+server.ssl.key-password=70862045
+
+一旦这么做, 原有的8080就失效了
+需要明确配置
+需要这样子
+```
+	@Bean
+	public EmbeddedServletContainerFactory servletContainer() {
+		TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
+		Connector c = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+		c.setPort(8080);
+		tomcat.addAdditionalTomcatConnectors(c);
+		return tomcat;
+	}
+```
+
+但一旦这么做了之后, 你在 application.properties 里的配置就不会运用到这个Connector上了!
+你很有可能需要重新对c进行配置
+
+不知道是不是上面的c的属性也要做配置?
+
+需要自行配置的有:
+你需要做的配置可以参考:
+org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory#customizeConnector
+
+port
+protocol
+uriEncoding
+connector.setProperty("bindOnInit", "false");
+ssl
+compression
+TomcatConnectorCustomizer
+

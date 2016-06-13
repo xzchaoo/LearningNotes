@@ -115,3 +115,20 @@ public class DefaultMessageDelegate implements MessageDelegate {
     <constructor-arg value="queue-key"/>
   </bean>
 
+
+默认情况下使用的是java的序列化机制
+
+# RedisTemplate #
+
+# 支持类 #
+
+# Spring Cache 整合 #
+<!-- declare Redis Cache Manager -->
+<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" c:template-ref="redisTemplate"/>
+
+# Data #
+@RedisHash
+@TimeToLive
+@Id
+@Indexed
+@Reference

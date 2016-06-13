@@ -1,0 +1,58 @@
+几个概念
+http://my.oschina.net/frankies/blog/344914
+
+keystore
+用于存放 各种秘钥信息, 一般是是一个文件
+
+创建ks的时候需要指定一些信息
+比如组织名 单位名 姓名 国家等
+
+-genkeypair
+好像 -genkeypair 和 -genkey 是一样的
+keytool -genkeypair -keystore xzc.ks -alias tomcat
+keytool -genkey -alias tomcat -keyalg RSA -keystore xzc.ks
+
+
+-exportcert
+将ks里的证书导出
+
+keytool -exportcert -keystore xzc.ks -alias a1 -file a1.cert
+
+-importcert
+导入证书到ks
+keytool -importcert -keystore xzc.ks -alias a2 -file a2.cert
+
+
+-printcert
+keytool -printcert -file a1.cert
+keytool -printcert -keystore xzc.ks -alias a1
+
+加密jar文件
+jarsigner -keystore xzc.ks abc.jar a1
+
+jarsigner -keystore xzc.ks -storepass 70862045 1.jar a1
+接着输入a1对应的密码
+
+验证jar文件
+jarsigner -verify -keystore xzc.ks abc.jar
+
+
+删除条目a1
+keytool -delete -keystore abc.ks -alias a1
+
+创建密钥库
+似乎没有命令可以直接创建, 都是依靠 -genkeypair 之类的方法创建的时候, 如果keystore不存在就会提示你创建新的
+
+修改密钥库密码
+keytool -storepasswd -keystore xzc.ks
+接着会提示你输入旧密码和新密码
+
+导入证书
+keytool -importcert -keystore xzc.ks -alias 别名 -file 证书文件
+
+keytool -importcert -keystore abc.ks -alias a1 -file a1.cert
+会询问你是否同意
+
+生成证书请求
+keytool -certreq -alias a1 -sigalg "MD5withRSA" -file cert.pem -keystore xzc.ks -keypass 70862045 -storepass 70862045
+
