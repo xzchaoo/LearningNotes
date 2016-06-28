@@ -1,0 +1,95 @@
+# windows
+! alt
+^ control
++ shift
+& 用于合并两个热键
+<> 表示左边或右边的键(shift alt ctrl 左右各有一个键)
+* 当多余的修饰键也按下的时候, 也要出发该热键
+
+鼠标左键 ~LButton
+鼠标右键 ~RButton
+
+LWin 左Windows
+
+使用~开头的话, 表示该 热键原有的功能不会被阻塞
+
+热字符串
+可以起到"展开"的作用, 比如输入 btw 然后按下任意的结束字符(比如回车 空格 tab键等)
+就会展开成 By the way
+格式是:
+::热字符串::
+
+热字符串也可以用于触发一个动作:
+::btw::
+MsgBox "By the way"
+Return
+
+
+变量赋值方式
+a=b 等价于 a:="b"
+a=%b% 等价于 a:=b
+
+a:=b+4/2+sqrt(9)
+a=%b% some text %c%.
+a=b " some text " c
+
+当使用 command 的时候通常会和%配合使用
+输入变量名和输出变量名除外
+
+什么时候不使用%
+1. 变量名和输出变量名时
+2. 赋值操作符的左边 a = %b%
+3. If Var1 < %Var2%
+
+if(a=b)
+a:=b+100
+
+Variable4.=Variable 追加内容
+Variable6:=SubStr(Variable, 2, 2)
+
+
+
+
+命令
+InputBox 输入框
+MsgBox 消息框
+
+InputBox, OutputVar, Question 1, What is your first name?
+if (OutputVar="Bill")
+   MsgBox, That's is an awesome name, %OutputVar%.
+
+数组和字典
+MyObject := ["one", "two", "three", 17]
+Banana := {"Shape": "Elongated", "Color": "Yellow", "Taste": "Delicious", "Price": 3}
+MyObject := Array("one", "two", "three", 17)
+Banana := Object("Shape", "Elongated", "Color", "Yellow", "Taste", "Delicious", "Price", 3)
+Banana.Consistency := "Mushy"
+Banana["Pickled"] := True ; This banana has been pickled. Eww.
+Value := Banana["Color"]
+Value := Banana.Color
+MyObject.NewKey := "Shiny"
+MyObject["NewerKey"] := 3.1415
+MyObject.InsertAt(Index, Value1, Value2, Value3...)
+MyObject.Push(Value1, Value2, Value3...)
+RemovedValue := MyObject.Delete(AnyKey)
+NumberOfRemovedKeys := MyObject.Delete(FirstKey, LastKey)
+MyObject.Pop()
+RemovedValue := MyObject.RemoveAt(Index)
+NumberOfRemovedKeys := MyObject.RemoveAt(Index, Length)
+
+https://www.autohotkey.com/docs/commands/index.htm
+
+SetTimer	
+SetTitleMatchMode
+
+
+可以打开的特殊的目录
+https://www.autohotkey.com/docs/misc/CLSID-List.htm
+
+send支持的参数
+https://www.autohotkey.com/docs/commands/Send.htm
+
+ahk2exe
+生成exe文件
+
+Windows10快捷键大全
