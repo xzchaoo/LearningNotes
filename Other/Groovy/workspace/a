@@ -1,0 +1,118 @@
+/*public class HelloWorld{
+	public static void main(def args){
+	//使用def定义变量
+	//括号可以省略
+	//默认是public
+	//不需要分号
+	//可以不用返回
+	//支持三个引号
+		println 123
+	}
+}
+*/
+for(i=0;i<10;++i){
+	print i
+}
+println ''
+for(def i=0;i<10;++i){
+	print i
+}
+println ''
+for(int i=0;i<10;++i){
+	print i
+}
+for(i in 0..10){//注意这里包含10
+	print i
+}
+for(i in 0..<10){//注意这里包含10
+	print i
+}
+
+def name='xzc'
+def age=20
+println "插值$name,$age,$i"
+
+//定义方法
+def f1(p1,p2=2){
+	def p3=p1+p2
+	println "$p1+$p2=$p3"
+}
+f1(11)
+f1(p1=11)
+//数组
+def a1=[1,2,3]
+//3中添加方式
+a1.add(4)
+a1<<5
+a1[a1.size()]=6
+a1[-1]=7 //支持负数
+println a1
+println '集合运算'
+def a2=a1+8 //加法和减法
+println a1
+println a2
+println a1+[9,10]
+println a1[0..3] //前四个 注意3包含
+
+println '定义map'
+def m=['name':'xzc',age:20,sex:'nan']
+m+=['chusheng':1994]
+m.put('shengao',170)
+m.qq=70862045
+m['qq']=8147532
+println m
+//遍历
+m.each {key,value ->
+	println "key=$key,value=$value"
+}
+m.each {it ->
+	println it.class
+}
+
+def say={text->println text}
+say 123
+say(123)
+say.call 123
+
+//安全. a?.next
+
+int sum(int... ints){
+	int total=0
+	for( i in ints)
+		total+=i
+	return total
+}
+println sum(1,2,3,4,5)
+
+enum Day{
+	yi,er,san,si,wu,liu,ri
+}
+println Day
+/*
+String.metaClass.up = {  delegate.toUpperCase() }
+msg.metaClass.methods.each { println it.name }
+msg.metaClass.properties.each { println it.name }
+*/
+
+//集合的额外方法
+a1=[1,2,3]
+println a1.join(',')
+println a1.count(3)
+println (['xzchaoo','asdg123']) //这里需要一个括号 否则会出错
+println (['xzchaoo','asdg123']*.toUpperCase()) //每个元素都去做 相当于是map操作了
+m.size=11111
+println m.size
+println m.size() //这货竟然不冲突!
+
+//这样用构造函数
+class People{
+	def name
+	def age
+	def sex
+	String toString(){//这里为了和父类的toString兼容 必须是Stirng类型返回
+		"${name}-${age}-${sex}"
+	}
+}
+def xzc=new People(name:'xzc',age:20,sex:'nan')
+xzc['age']=22
+println xzc

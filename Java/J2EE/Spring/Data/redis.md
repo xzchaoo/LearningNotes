@@ -1,3 +1,7 @@
+# TODO #
+弄清楚spring data redis的count是如何实现的
+
+#  #
 RedisConnection 连接到redis的接口
 RedisConnectionFactory 产生 连接的工厂
 	它同时还作为 PersistenceExceptionTranslator 
@@ -10,6 +14,10 @@ RedisTemplate 线程安全, 可以被共享使用
 如果有特殊需求也可以使员工 execute 拿到比较底层的方法
 
 使用StringSerializer的话, 对象会被保存成如下的格式
+
+# StringSerializer #
+序列化器
+基于字符串, 基于jdk自带的, 基于xml 基于json
 
 
 # 仓库 #
@@ -132,3 +140,5 @@ public class DefaultMessageDelegate implements MessageDelegate {
 @Id
 @Indexed
 @Reference
+
+# 支持二级索引 #

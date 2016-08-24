@@ -1,0 +1,5 @@
+def names = ['张三','李四','王五']
+for (n in names){
+	println n;
+}
+//groovysh
