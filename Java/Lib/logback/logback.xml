@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration debug="false" scan="false" scanPeriod="30 seconds" packagingData="false">
+	<!--
+	如果不指定seconds 那么就认为是毫秒
+	packagingData=true的话 打印异常的时候回打印出这个语句在哪个包里
+	-->
+
+	<contextName>app1</contextName>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%contextName %d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %logger{36} - %marker -%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<append>true</append>
+		<prudent>false</prudent>
+		<file>${user.home}/myApp.log</file>
+		<encoder>
+			<pattern>%contextName %date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+			<immediateFlush>true</immediateFlush>
+			<!--这回导致pattern被输出-->
+			<outputPatternAsHeader>false</outputPatternAsHeader>
+		</encoder>
+	</appender>
+
+	<appender name="R_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<append>true</append>
+		<prudent>false</prudent>
+		<file></file>
+		<encoder>
+			<pattern>%contextName %date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>0</maxHistory><!--30-->
+			<totalSizeCap>0</totalSizeCap><!---3GB-->
+			<cleanHistoryOnStart>true</cleanHistoryOnStart>
+		</rollingPolicy>
+		<!--
+		<triggeringPolicy></triggeringPolicy>
+		-->
+	</appender>
+
+	<logger name="com.github.xzchaoo" level="debug" additivity="false">
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="R_FILE"/>
+	</logger>
+
+
+	<root level="off">
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE"/>
+	</root>
+
+</configuration>

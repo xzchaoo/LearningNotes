@@ -13,13 +13,13 @@ DEFAULT_WORKING_DIR = %USERHOME%
 
 ;音量控制
 ^!Numpad8::send {Volume_Up}
-^!Numpad2::send {Volume_Down}
+^!Numpad2::send {Volume_Down8}
 ^!Numpad0::send {Volume_Mute}
 
 ;上一首/下一首
 ^!Numpad4:: send {Media_Prev}
 ^!Numpad6:: send {Media_Next}
-^!Numpad5:: send {Media_Next}
+^!Numpad5:: send {Media_Play_Pause}
 
 
 ;在当前目录下打开cmd
@@ -28,7 +28,9 @@ DEFAULT_WORKING_DIR = %USERHOME%
 ^!n::
 id := winActive()
 ;DetectHiddenWindows on
-ControlGetText,epath, ToolbarWindow322, ahk_id %id%
+;win7 ControlGetText,epath, ToolbarWindow322, ahk_id %id%
+;win10
+ControlGetText,epath, ToolbarWindow323, ahk_id %id%
 ;MsgBox %epath%
 epath := RegExReplace(epath, "^.+? ","")
 ;MsgBox %epath%
@@ -41,6 +43,9 @@ SetWorkingDir %epath%
 run cmd
 return
 }
+#IfWinActive
+
+
 #IfWinNotActive ahk_exe explorer.exe
 {
 ^!n::
@@ -48,6 +53,7 @@ SetWorkingDir %DEFAULT_WORKING_DIR%
 run cmd
 return
 }
+#IfWinNotActive
 
 ;打开家目录
 #Home::run %USERHOME%
@@ -55,52 +61,55 @@ return
 
 ;个人
 ;qq浏览器
-#q::run C:\Program Files (x86)\Tencent\QQBrowser\QQBrowser.exe
+#q::run D:\Program Files\Tencent\QQBrowser\QQBrowser.exe
 
 ;打开目录
-#End::run D:\xzc
+;#End::run D:\xzc
 
 ;打开outlook
-#+o::run C:\Program Files\Microsoft Office\Office15\OUTLOOK.EXE
+;#+o::run C:\Program Files\Microsoft Office\Office15\OUTLOOK.EXE
 
 ;拦截 windows + tab 为 其他快捷键, 用于我的虚拟桌面
-#Tab::send #{F3}
+;#Tab::send #{F3}
 
 ;打开markdownpad2
-#Numpad2::run D:\xzc\tools\markdownpad\MarkdownPad2.exe
+#Numpad2::run D:\Program Files\MarkdownPad\markdownpad2-portable\MarkdownPad2.exe
+
+#Numpad8::run C:\Program Files\Sublime Text 3\sublime_text.exe
 
 ;打开idea
-#+i::run C:\Program Files (x86)\JetBrains\IntelliJ IDEA 2016.1.3\bin\idea64.exe
+#+i::run D:\Program Files (x86)\JetBrains\IntelliJ IDEA 2016.1.3\bin\idea64.exe
 
 ;打开chrome
 #Numpad3::run C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
 
 ;打开EditPlus
-#Numpad9::run C:\Program Files (x86)\EditPlus\editplus.exe
+#Numpad9::run C:\Program Files\EditPlus\editplus.exe
 
 ;打开腾讯qq
-#Numpad7::run C:\Program Files (x86)\Tencent\QQ\Bin\QQScLauncher.exe
+#Numpad7::run D:\Program Files\Tencent\QQ\Bin\QQScLauncher.exe
+#Numpad0::run F:\SmallTool\窗口置顶工具.exe
 
 ;打开xftp
-#+f::run C:\Program Files (x86)\NetSarang\Xftp 4\Xftp.exe
+#+f::run D:\Program Files (x86)\NetSarang\Xftp 5\Xftp.exe
 
 ;打开xshll
-#+x::run C:\Program Files (x86)\NetSarang\Xshell 5\Xshell.exe
+#+x::run D:\Program Files (x86)\NetSarang\Xshell 5\Xshell.exe
 
 ;打开微信客户端
-#+c::run C:\Program Files (x86)\Tencent\WeChat\WeChat.exe
+#+c::run D:\Program Files (x86)\Tencent\WeChat\WeChat.exe
 
 ;打开everything
-#w::run C:\Program Files\Everything\Everything.exe
+#w::run D:\Program Files\Everything\Everything.exe
 
 ;打开金山词霸
-#Numpad6::run C:\Users\xiangfeng.xzc\AppData\Local\Kingsoft\Power Word 2016\2016.2.3.0069\PowerWord.exe
+;#Numpad6::run C:\Users\xiangfeng.xzc\AppData\Local\Kingsoft\Power Word 2016\2016.2.3.0069\PowerWord.exe
 
 ;打开酷狗
-#NumpadMult::run C:\Program Files (x86)\KuGou\KGMusic\KuGou.exe
+#NumpadMult::run D:\Program Files\KuGou\KuGou.exe
 
 ;打开navicat
-#+n::run C:\Program Files\PremiumSoft\Navicat Premium\navicat.exe
+#+n::run D:\Program Files\PremiumSoft\Navicat Premium\navicat.exe
 
 ;打开virtual box
-#+v::run C:\Program Files\Oracle\VirtualBox\VirtualBox.exe
+;#+v::run C:\Program Files\Oracle\VirtualBox\VirtualBox.exe

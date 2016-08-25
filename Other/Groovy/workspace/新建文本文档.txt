@@ -1,0 +1,5 @@
+def number=0
+new File ('a').eachLine { line ->
+	number++
+	println "$number: $line"
+}

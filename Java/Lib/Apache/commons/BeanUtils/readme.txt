@@ -43,3 +43,49 @@ ArrayConverter
 
 AbstractConverter
 	提供 与字符串互转的接口
+
+
+妈的用这个就行了, 这个支持下面所有的方式
+get/setProperty 方法的话支持内嵌属性 , 比如 card.money, 相当于是 obj.getCard().getMoney()
+不过一旦card==null就会引发一个异常
+
+get/setSimpleProperty 的话就不支持内嵌属性了
+
+获取数组的元素
+System.out.println(PropertyUtils.getIndexedProperty(user, "names[0]"));
+System.out.println(PropertyUtils.getIndexedProperty(user, "names", 0));
+
+Map也是一样
+System.out.println(PropertyUtils.getMappedProperty(user, "tag(aihao)"));
+System.out.println(PropertyUtils.getMappedProperty(user, "tag", "aihao"));
+
+getNestedProperty 支持内嵌表达式
+
+DynaBean 可以用于 PropertyUtils 的第一个参数
+BasicDynaBean and BasicDynaClass 可以用于构建一个动态bean
+感觉应该不算是常用的功能
+
+BeanUtils 可以:
+1. 克隆一个bean, 即使没有实现Cloneable接口
+2. 复制属性
+3. bean -> map, 支持属性内嵌, 相当于又内嵌了一个map
+4. 用map填充bean
+
+PropertyUtils
+ConvertUtils
+BeanUtilsBean
+PropertyUtilsBean
+ConvertUtilsBean
+
+
+自定义转换器
+实现Converter接口, 调用 ConvertUtils
+
+
+BeanComparator
+这样的话就可以根据属性动态排序了
+ComparatorChain 
+
+ContextClassLoaderLocal
+MethodUtils
+ConstructUtils
