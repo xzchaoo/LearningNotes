@@ -7,7 +7,7 @@
 	3. 加载 ApplicationListener 实现, 但不执行
 	4. 推断 mainApplicatoinClass
 3. springApplication.run(args)
-	1. 加载 SpringApplicationRunListener们, 以下简称listeners
+	1. 加载 SpringApplicationRunListener 们, 以下简称listeners
 	2. listeners.started(), 目前spring用它发射出事件 ApplicationStartedEvent
 	3. 构建 ApplicationArguments
 	4. 根据需要创建 Environment, 以下简称env, 有可能已经通过Builder提供默认环境了

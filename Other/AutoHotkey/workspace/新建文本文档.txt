@@ -1,3 +1,9 @@
+命令
+send, xxx
+
+函数
+
+
 # windows
 ! alt
 ^ control
@@ -24,9 +30,19 @@ LWin 左Windows
 MsgBox "By the way"
 Return
 
+变量
+变量默认都是本地变量, 除非你用 global 在前面修饰它.
+
+LogToFile(TextToLog)
+{
+    global LogFileName  ; This global variable was previously given a value somewhere outside this function.
+    FileAppend, %TextToLog%`n, %LogFileName%
+}
+
 
 变量赋值方式
-a=b 等价于 a:="b"
+a:=b 变量的赋值操作
+a=b 等价于 a:="b", 注意它和上面的区别 b被当做一个字符串了
 a=%b% 等价于 a:=b
 
 a:=b+4/2+sqrt(9)
@@ -39,7 +55,7 @@ a=b " some text " c
 什么时候不使用%
 1. 变量名和输出变量名时
 2. 赋值操作符的左边 a = %b%
-3. If Var1 < %Var2%
+3. If Var1 < %Var2% 这是错的 if 的条件里不用%
 
 if(a=b)
 a:=b+100
@@ -93,3 +109,62 @@ ahk2exe
 生成exe文件
 
 Windows10快捷键大全
+
+杂
+1. 引用传参
+returnByRef(A,B,C)
+MsgBox % A "," B "," C
+
+returnByRef(ByRef val1, ByRef val2, ByRef val3)
+{
+  val1 := "A"
+  val2 := 100
+  val3 := 1.1
+  return
+}
+
+2. 变长参数
+Join(sep, params*) {
+    for index,param in params
+        str .= param . sep
+    return SubStr(str, 1, -StrLen(sep))
+}
+MsgBox % Join("`n", "one", "two", "three")
+
+或这样调用
+substrings := ["one", "two", "three"]
+MsgBox % Join("`n", substrings*)
+
+
+3. 全局变量 静态变量
+TODO
+4. 动态调用函数 %func_name%(x, "fox")
+
+
+5. 内置函数
+
+文件
+是否存在
+
+字符串
+是否包含
+长度
+拆分
+正则
+
+窗口
+是否激活
+是否存在
+
+数学
+
+6. 内置变量
+运行环境相关, 工作目录 脚本名
+当前时间
+非常多
+https://autohotkey.com/docs/Variables.htm
+
+循环上下文的变量
+
+
+7.

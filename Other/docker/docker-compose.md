@@ -1,3 +1,12 @@
+# 安装方法 #
+https://docs.docker.com/compose/install/
+
+https://github.com/docker/compose/releases
+
+curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh > /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+
+
 # docker-compose #
 -p 指定项目的名字, 默认是路径名
 

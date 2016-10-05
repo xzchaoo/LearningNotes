@@ -137,6 +137,9 @@ for(初始化;条件;迭代){
 }
 ```
 
+# print #
+print $2 打印第二列
+
 # printf #
 printf "format", var1, var2, var3
 格式

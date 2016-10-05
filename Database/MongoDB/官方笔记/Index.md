@@ -48,6 +48,38 @@ db.collection.getIndexes()查看这个集合的所有索引
 也可以使用
 db.system.indexes.find({ns:'你的集合的全名'})
 
+# 文本索引 #
+支持字符串或字符串数组的属性
+但一个集合只能有一个文本索引, 一个文本索引可以包含多个字段
+```
+db.collection.createIndex(
+   {
+     content: "text",
+     "users.comments": "text",
+     "users.profiles": "text"
+   },
+   {
+     name: "MyTextIndex",
+	weights:{
+	content:1,//默认就是1
+	xxx:2
+}
+   }
+)
+```
+这样 subject(字符串) comments(字符串数组) 一起构成文本索引了
+createIndex的第二个参数可以用于指定索引的名字, 这样要删除索引的时候你就有名字了
+
+## 星号匹配 ##
+db.collection.createIndex( { "$**": "text" } )
+这会导致mongodb为所有字符串类型或字符串数组类型的属性创建文本索引
+
+还可以这样用
+```
+db.collection.createIndex( { a: 1, "$**": "text" } )
+```
+但是注意, 如果此时要进行文本搜索, where条件里必须包含a!
+
 
 # 在副本集上建立索引 #
 如果主节点完成建立了索引, 那么备份节点随后也会跟着备份索引
