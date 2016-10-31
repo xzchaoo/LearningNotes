@@ -1,1 +1,0 @@
-https://docs.djangoproject.com/en/1.10/ref/request-response/#django.http.HttpRequest

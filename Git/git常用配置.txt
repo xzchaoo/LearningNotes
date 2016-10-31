@@ -1,0 +1,9 @@
+[user]
+	email = 70862045@qq.com
+	name = xzchaoo
+
+[alias]
+	st = status
+	b = branch
+	ci = commit
+	co = checkout

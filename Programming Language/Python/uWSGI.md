@@ -25,6 +25,11 @@ make install
 # 配置 #
 http://uwsgi-docs.readthedocs.io/en/latest/Options.html
 
+virtualenv
+uid
+gid
+
+
 参数|描述
 :-:|:-:
 set|设置一个占位符或选项
