@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+	<id>bin</id>
+
+	<!--打成zip-->
+	<formats>
+		<format>zip</format>
+	</formats>
+
+
+	<fileSets>
+		<fileSet>
+			<directory>${basedir}/scripts/</directory>
+			<outputDirectory>/scripts/</outputDirectory>
+		</fileSet>
+	</fileSets>
+
+	<!--跟上面的相比 下面的就是只对某个文件进行操作-->
+	<files>
+		<file>
+			<source>target/${project.name}-${project.version}.jar</source>
+			<outputDirectory>/</outputDirectory>
+			<destName>app.jar</destName>
+		</file>
+	</files>
+
+	<!--这个元素用于描述如何处理你的依赖-->
+	<dependencySets>
+		<!--将我的所有依赖复制到 /lib 目录-->
+		<dependencySet>
+			<outputDirectory>/lib</outputDirectory>
+			<excludes>
+				<exclude>${project.groupId}:${project.artifactId}</exclude>
+			</excludes>
+		</dependencySet>
+	</dependencySets>
+</assembly>

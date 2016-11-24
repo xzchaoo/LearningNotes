@@ -1,0 +1,21 @@
+@Generated 用于自动生成一些值 比如时间戳
+
+@ValueGenerationType
+看一下 @UpdateTimestamp 的实现就会用了
+
+官方有一个例子是用 数据库的时间 来作为生成值 而不是 在程序里 new Date() 作为新值
+
+@ColumnTransfomer
+
+@Formula(value = "credit * rate")
+private Double interest;
+
+可以对 关联关系 进行 过滤
+@Where( clause = "account_type = 'DEBIT'")
+@OneToMany(mappedBy = "client")
+private List<Account> debitAccounts = new ArrayList<>( );
+
+@Column(name = "account_type")
+@Enumerated(EnumType.STRING)
+private AccountType type;
+
