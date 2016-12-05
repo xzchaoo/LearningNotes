@@ -1,5 +1,19 @@
 属于 archiver 系列插件的一种, 其他还有 war ejb 等
 
+# 20161124 #
+
+新版本的 jar 插件(3.0.0)似乎有点问题:
+1. 它不支持 classpath 的 simple layout, 而是强制使用 repository layout
+2. 降级到2.6就可以
+
+解决办法如下:
+1. 使用 dependency 插件 将依赖复制到 target/lib 下
+2. assembly 不使用 dependencySets
+3. assembly 将 target/lib/ 复制到 lib/
+
+与此同时你也丧失了 dependencySets 带来的好处(有什么好处呢?)
+
+
 
 当你使用了 -jar 的时候 java 会忽略所有的 classpath, 所以你无法使用classpath来指定你的依赖...
 只能根据清单文件中的 Class-Path 来指定, 这个可以由下面的插件生成

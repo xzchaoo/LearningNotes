@@ -1,0 +1,18 @@
+```
+<plugin>
+	<artifactId>maven-dependency-plugin</artifactId>
+	<configuration>
+		<outputDirectory>target/lib/</outputDirectory>
+		<useRepositoryLayout>true</useRepositoryLayout>
+	</configuration>
+	<executions>
+		<execution>
+			<id>copy-dependencies</id>
+			<phase>prepare-package</phase>
+			<goals>
+				<goal>copy-dependencies</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+```

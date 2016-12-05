@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <title>Basic Example</title>
+  </head>
+  <body>
+    <h1>Basic Example</h1>
+    <div id="container">
+      <p>
+        To install React, follow the instructions on
+        <a href="https://github.com/facebook/react/">GitHub</a>.
+      </p>
+      <p>
+        If you can see this, React is <strong>not</strong> working right.
+        If you checked out the source from GitHub make sure to run <code>grunt</code>.
+      </p>
+    </div>
+    <h4>Example Details</h4>
+    <p>This is written in vanilla JavaScript (without JSX) and transformed in the browser.</p>
+    <p>
+      Learn more about React at
+      <a href="https://facebook.github.io/react" target="_blank">facebook.github.io/react</a>.
+    </p>
+
+	<script src="./build/react.js"></script>
+    <script src="./build/react-dom.js"></script>
+		<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	 <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+
+    <script type="text/babel">
+
+		
+var Comment = React.createClass({
+	rawMarkup:function(){
+		var md = new Remarkable();
+		var rawHtml = md.render(this.props.children.toString());
+		return {__html : rawHtml} ;
+	},
+	render: function() {
+		return (
+			<div className="comment">
+				<h2 className="commentAuthor">
+					{this.props.author}
+				</h2>
+				<span dangerouslySetInnerHTML={this.rawMarkup()} />
+			</div>
+		);
+	}
+});
+
+		var CommentList = React.createClass({
+			render: function() {
+				var comments = this.props.data.map(function(comment){
+					return (
+						<Comment author={comment.author} key={comment.id}>
+							{comment.text}
+						</Comment>
+					);
+				});
+				return (
+					<div className="commentList">
+						Hello, world! I am a CommentList.
+						{comments}
+					</div>
+				);
+			}
+		});
+
+var CommentForm = React.createClass({
+  getInitialState: function() {
+    return {author: '', text: ''};
+  },
+  handleAuthorChange: function(e) {
+    this.setState({author: e.target.value});
+  },
+  handleTextChange: function(e) {
+    this.setState({text: e.target.value});
+  },
+	handleSubmit:function(e){
+	    e.preventDefault();
+    var author = this.state.author.trim();
+    var text = this.state.text.trim();
+    if (!text || !author) {
+      return;
+    }
+	this.props.onCommentSubmit({author: author, text: text});
+    // TODO: send request to the server
+    this.setState({author: '', text: ''});
+	},
+  render: function() {
+    return (
+		  <form className="commentForm" onSubmit={this.handleSubmit}>
+			<input type="text"
+				placeholder="Your name"
+				value={this.state.author}
+				onChange={this.handleAuthorChange}
+				/>
+			<input type="text"
+				placeholder="Say something..."
+				value={this.state.text}
+				onChange={this.handleTextChange}
+				/>
+			<input type="submit" value="Post" />
+		  </form>
+    );
+  }
+});
+
+
+		var CommentBox = React.createClass({
+  handleCommentSubmit: function(comment) {
+	  alert('submit'+JSON.stringify(comment));
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  loadCommentsFromServer:function(){
+
+        $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+
+
+  },
+  componentDidMount:function(){
+	this.loadCommentsFromServer();
+	 setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  },
+			render:function(){
+				return (
+					<div className="commentBox">
+						你好世界 我是 commentBox
+						<CommentList data={this.state.data}/>
+						<CommentForm onCommentSubmit={this.handleCommentSubmit}/>
+					</div>
+				);
+			}
+		});
+		ReactDOM.render(
+			<CommentBox url="/1.json" pollInterval={1000}/>,
+			document.getElementById('container')
+		);
+	</script>
+  </body>
+</html>

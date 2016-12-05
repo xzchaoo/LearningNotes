@@ -113,3 +113,27 @@ CopyStrategy
 
 # Compatibility with Previous Versions #
 介绍了如何持久化内存
+
+# searchable #
+只有纯内存的缓存才能搜索 要使用 overflowToDisk=false 才行!
+
+在cache下添加 searchable 子元素 使得该cache可搜索
+默认情况下如果key/value本身就是可搜索的类型, 比如一些基本数据类型, 那么对它们会自动建立索引
+如果不需要这个特性 那么设置 keys="false" values="false"
+searchable下可以放子元素来表示哪些属性(attribute, 和property不一样)是可以作为索引的
+
+```
+<searchAttribute name="age"/> 以 value 的 age 属性可搜索
+<searchAttribute name="age" expression="value.person.getAge()"/> 也可以用表达式
+<searchAttribute name="first_name" expression="value.getFirstName()"/> 也可以用表达式
+
+如果你的 attribute 的提取比较复杂, 不像上面基本一个get方法就搞定的话, 可以这样
+<searchAttribute name="age" class="net.sf.ehcache.search.TestAttributeExtractor"/>
+使用一个自定义的 抽取器 抽取属性
+
+<searchAttribute name="age"
+class="net.sf.ehcache.search.TestAttributeExtractor"
+properties="foo=this,bar=that,etc=12" />
+properties 的值会被转成一个 Properties 对象传给构造器
+
+```

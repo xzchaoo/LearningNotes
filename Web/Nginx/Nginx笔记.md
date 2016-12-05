@@ -251,6 +251,11 @@ index file1 file2 [absolute_file]
 # Autoindex #
 如果启动了autoindex, 如果nginx不能为请求的目录提供一个index网页, 那么就用autoindex来生成一个页面, 它列出了该目录下的所有文件.
 
+autoindex on;
+autoindex_exact_size off;
+autoindex_localtime on;
+
+
 # Access模块 #
 allow ip; 允许该ip访问;
 deny all; 禁止所有ip访问;
