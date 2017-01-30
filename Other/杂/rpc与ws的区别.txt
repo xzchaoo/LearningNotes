@@ -1,0 +1,5 @@
+rpc / web service / restful web service的区别
+
+rpc 远程过程调用: 并没有限定底层使用的协议(可以直接基于TCP而不是HTTP消息更高一些)
+web service: 基于http, SOAP协议(简单对象访问协议是交换数据的一种协议规范), 对它来说http仅仅是用于传输的一种手段而已, 并没有用到太多HTTP的特性
+restul web service: 基于http 并且按照REST架构风格设计, 和上面的ws不一样, 它会尽量利用HTTP的特性, 比如HTTP的消息头, 响应码, 缓存

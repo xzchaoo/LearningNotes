@@ -91,3 +91,13 @@ user@webserver:~$ ./certbot-auto --help
 certbot renew
 certbot renew --pre-hook "service nginx stop" --post-hook "service nginx start"
 
+1. apt-get install openssl libssl-dev
+2. --with-http_ssl_module 重新编译
+3. 
+./certbot-auto certonly --standalone -d xzchaoo.com -d www.xzchaoo.com test.xzchaoo.com b.xzchaoo.com
+ssl on
+ssl_certificate
+ssl_certificate_key
+
+
+./certbot-auto certonly --standalone --expand -d b.xzchaoo.com -d b2.xzchaoo.com

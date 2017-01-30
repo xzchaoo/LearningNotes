@@ -138,14 +138,18 @@ return
 ;qq浏览器
 #q::run C:\Program Files\Tencent\QQBrowser\QQBrowser.exe
 
+
+;打开Typora
+#Numpad1::run C:\Program Files\Typora\Typora.exe
+
 ;打开markdownpad2
 #Numpad2::run D:\Program Files\markdownpad2\MarkdownPad2.exe
 
 ;打开idea
-#+i::run D:\Program Files (x86)\JetBrains\IntelliJ IDEA 2016.2.4\bin\idea64.exe
+#+i::run D:\Program Files (x86)\JetBrains\IntelliJ IDEA 2016.3.2\bin\idea64.exe
 
 ;打开pycharm
-#+p::run D:\Program Files (x86)\JetBrains\PyCharm 2016.2.3\bin\pycharm64.exe
+#+p::run D:\Program Files (x86)\JetBrains\PyCharm 2016.3.2\bin\pycharm64.exe
 
 ;打开chrome
 #Numpad3::run C:\Program Files (x86)\Google\Chrome\Application\chrome.exe

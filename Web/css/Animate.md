@@ -1,0 +1,3 @@
+https://daneden.github.io/animate.css/
+
+https://github.com/daneden/animate.css

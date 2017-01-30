@@ -22,3 +22,8 @@ ssl_certificate_key ...privkey1.pem;
 6. 定期更新一下
 ./cerbot-auto renew
 
+./certbot-auto renew --pre-hook "service nginx stop" --post-hook "service nginx start"
+
+./certbot-auto renew --pre-hook "/usr/local/nginx/sbin/nginx -s stop" --post-hook "/usr/local/nginx/sbin/nginx"
+
+https://letsencrypt.org/how-it-works/
