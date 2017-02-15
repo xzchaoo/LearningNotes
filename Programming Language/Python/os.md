@@ -9,7 +9,7 @@ open
 pipe()
 
 
-
+os.getcwd() 获得当前工作目录
 
 import os
 
