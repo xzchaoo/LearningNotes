@@ -648,3 +648,6 @@ Exec=/usr/local/st/sublime_text %F
 然后就行了~
 
 
+表达式默认值
+${xxx:-ceshi}
+ceshi是${xxx}的默认值
