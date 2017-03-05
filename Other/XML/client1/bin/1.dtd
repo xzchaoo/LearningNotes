@@ -1,2 +1,0 @@
-<!ELEMENT root (user)>
-<!ELEMENT user (#PCDATA)>
