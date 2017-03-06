@@ -15,7 +15,7 @@ import os
 
 # print(os.listdir('c:/')) 返回的是str
 
-for d in os.scandir('c:/'):  # 返回的是 DirEntry
+for d in os.scandir('c:/'):  # 返回的是 DirEntry 列表
     print(dir(d))
     print(d.name)
     print(d.path)
