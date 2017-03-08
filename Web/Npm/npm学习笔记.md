@@ -20,6 +20,8 @@ npm install lodash --save
 	--save 将会在package.json写入依赖项
 
 
+npm init -y 快速初始化
+
 
 
 下载安装lodash到当前目录 并且在 package.json 里添加依赖信息
@@ -170,11 +172,11 @@ npm install <package_name> --save-dev 将依赖保存到devDependencies里
 ## Managing dependency versions ##
  TODO
  semver rules
- 
+
  # 06 - Upadating local packages #
  在package.json所在的目录下执行npm update
  npm outdated 这是啥?
- 
+
  # 07 - Uninstalling local packages 卸载#
 npm uninstall --save lodash
 
