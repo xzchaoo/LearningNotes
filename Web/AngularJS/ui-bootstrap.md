@@ -70,8 +70,8 @@ max-size="5" 只会显示5个页面的按钮, 其他的页面 用省略号代替
 ng-model 页数绑定的模型
 ng-change 回调 当页数发生变化时的回调
 
-
 # Collapse #
+
 ```
 <div ng-controller="CollapseDemoCtrl">
 	<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
@@ -81,3 +81,29 @@ ng-change 回调 当页数发生变化时的回调
 	</div>
 </div>
 ```
+
+
+# Datepicker
+
+这个是内联模式
+
+可以直接绑定到一个div上
+
+ng-model 必须是一个 Date 类型
+
+datepicker-options=对象 用于定制行为 [格式化 初始化日期 最大/最小日期]
+
+
+
+## Datepicker Popup
+
+这个是弹出模式
+
+可以设置 清除/取消/今天 的按钮的文字
+
+is-open 用于控制是否弹出
+
+控制弹出位置
+
+
+
