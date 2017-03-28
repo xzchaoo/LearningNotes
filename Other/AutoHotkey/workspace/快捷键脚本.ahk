@@ -29,9 +29,9 @@ return
 ^!Numpad0::send {Volume_Mute}
 
 ;上一首/下一首
-^!Numpad4:: send {Media_Prev}
-^!Numpad6:: send {Media_Next}
-^!Numpad5:: send {Media_Play_Pause}
+^!Numpad4::send {Media_Prev}
+^!Numpad6::send {Media_Next}
+^!Numpad5::send {Media_Play_Pause}
 
 
 ;在当前目录下打开cmd
@@ -146,7 +146,7 @@ return
 #Numpad2::run D:\Program Files\markdownpad2\MarkdownPad2.exe
 
 ;打开idea
-#+i::run D:\Program Files (x86)\JetBrains\IntelliJ IDEA 2016.3.2\bin\idea64.exe
+#+i::run D:\Program Files (x86)\JetBrains\IntelliJ IDEA 2017.1\bin\idea64.exe
 
 ;打开pycharm
 #+p::run D:\Program Files (x86)\JetBrains\PyCharm 2016.3.2\bin\pycharm64.exe
