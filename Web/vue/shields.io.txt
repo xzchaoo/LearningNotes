@@ -1,0 +1,15 @@
+vue + vue-router + vuex + vue-resources
+
+swiper : vue-awesome-swiper
+图片组件懒加载 : vue-lazyload
+无限加载: vue-infinite-loading
+
+velocity-animate 动画
+select : vue-multiselect
+
+http://eslint.cn/docs/user-guide/integrations
+https://www.npmjs.com/package/badge-size
+http://shields.io/
+http://img.badgesize.io/xzchaoo/learn-travis/master/pom.xml ?compression=gzip][&label=string]
+compression=gzip
+label=

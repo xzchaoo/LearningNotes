@@ -1,0 +1,7 @@
+杀伤力比较大, 建议先执行
+find . -name "*.txt"
+看看哪些文件会被删除
+
+再执行
+find . -name "*.txt" | xargs rm -f
+

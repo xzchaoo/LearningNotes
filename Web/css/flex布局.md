@@ -1,10 +1,16 @@
 http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?utm_source=tuicool
 http://www.ruanyifeng.com/blog/2015/07/flex-examples.html
 
+传统方案: 盒子模型 + display + position + float 等属性
+
+将一个作为容器的元素指定 display:flex;
+子元素的float clear vertical-align 都会失效
+
+
 指定父容器的 display:flex;
 也有 inline-flex;
 
-> Webkit内核的浏览器，必须加上-webkit前缀。
+
 
 
 > 设为Flex布局以后，子元素的float、clear和vertical-align属性将失效。

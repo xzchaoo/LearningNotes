@@ -1,0 +1,48 @@
+给block或inline-block添加overflow:hidden会导致 vertical-align 变成 top
+需要手动调整回 vertical-align:bottom;
+
+bottom 下边界和行底对齐
+每种颜色可以用 色相 饱和度 亮度 来唯一定义
+彩度=饱和度
+
+减色法 = 从白色开始 不断叠加其他颜色 形成最后的颜色
+加色发 = 从黑色开始 不断叠加其他颜色 形成最后的颜色
+
+色环理论
+http://www.peise.net/info/2010/0514/28.html
+
+
+互补色 直径上的亮两点
+互补色之间的搭配十分有趣，如果合适的搭配，会造成强烈的视觉效果，而不当的搭配，会使画面一团糟。
+
+vue-infinite-scroll
+vue-infinite-loading
+用户头像 user
+信封 envelope
+身份证 card
+电池 battery
+菜单汉堡 bars
+箭头 arrow
+禁止 ban
+铃声 bell
+书签 bookmark
+打钩 check
+关闭 close
+克隆 clone
+评论 comment
+数据库 database
+
+webpack + vue2 + webpack-dev-server
+
+npm install --save-dev
+webpack webpack-dev-server webpack-merge extract-text-webpack-plugin friendly-errors-webpack-plugin
+style-loader css-laoder less-loeader less postcss-loader postcss autoprefixer vue-loader
+html-webpack-plugin
+babel-core babel babel-preset-es2015 babel-preset-stage-3 babel-loader
+
+npm install --save vue vue-router
+npm init -y
+src/
+webpack.base.config.js
+
+npm install --save-dev

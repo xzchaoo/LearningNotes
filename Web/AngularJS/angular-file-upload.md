@@ -1,0 +1,1 @@
+https://github.com/nervgh/angular-file-upload

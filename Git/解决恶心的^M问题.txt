@@ -1,0 +1,9 @@
+首先需要知道:
+1. linux下的换行符是 \n
+2. mac的换行符是 \r
+3. windows的换行符是 \r\n
+4. CR=\r LF=\n
+
+https://help.github.com/articles/dealing-with-line-endings/
+
+配置项 core.autocrlf 如果为true 那么本地代码是CRLF, 提交的时候会自动转成LF, 拉取代码的时候自动转成CRLF
