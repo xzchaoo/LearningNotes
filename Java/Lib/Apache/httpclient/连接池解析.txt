@@ -1,0 +1,66 @@
+从一个请求开始到响应结束看HTTPClie
+
+InternalHttpClient
+
+RedirectExec 处理重定向
+RetryExec 判断是否可以重试
+ProtocolExec 可以重写URI
+	httpProcessor
+		基础拦截器, 内置的比如自动添加 Host UserAgent等
+		还有用户自定义的 请求拦截器 响应拦截器
+MainClientExec
+	使用 connManager 获得连接
+	连接池是lazy的
+	ConnectionRequestTimeout 是 获取一个连接的超时时间
+	每个route会有一个pool
+	
+	如果连接还没启动就 establishRoute
+	SocketTimeout 会被最终传递给相关的Socket
+
+HttpRequestExecutor
+1. 实际发送请求, 获得响应
+	sendRequestHeader
+2. 处理keepAlive
+
+
+pool
+leased
+available
+pending
+routeToPool 存放每个Route的连接池
+
+
+RouteSpecificPool
+	available
+	Allocated = available + leased
+
+使用entry持有一个conn及其额外信息
+
+1. 当要为某个route获得conn时
+	1. 调用 ConnectionManager.requestConnection 获取一个 ConnectionRequest
+		1. 调用 CPool.lease 尝试租一个conn 返回一个Future, 该Future只是创建 还没有实际计算(实际借连接)
+		2. ConnectionRequest 对 Future 进行简单的包装 也可以看做是一个 Future, 此时计算依旧没有开始
+	1. 线判断该route有没有专用的available
+	2. 判断该route专用的已分配的连接是否已经超过自己的maxPerRoute
+	3. 如果因为该route要申请conn而导致全局的maxRouteCount超过(route自己的maxPerRoute是没超过的), 那么就要关闭全局available中的最后一个连接, 并且从它相关的routeSpecificPool中移除它
+	4. 现在该route可以申请conn了
+		1. 利用 connFactory 根据 route 创建 conn
+		2. conn加入route的leased
+		3. conn加入全局leased
+	5. 如果无法获取conn
+		1. 检查是否已经被取消
+		2. 加入 routeSpecificPool 的 queue
+		3. 加入全局pending
+		4. 等待很久...
+		5. 当有其他的conn被释放的时候, 最终会调用 CPool 的 release 方法
+			1. 将conn从全局leased中移除
+			2. 通知RSP free掉该conn
+			3. 如果该conn可重用就加入TSP和全局的的available 否则就实际关闭该连接
+			4. 执行onRelease回调
+			5. 盘软RSP中是否有pending, 有的话就唤醒它们
+2. 当成功拿到一个conn之后 会判断该conn是否需要验证, 根据 "conn最后一次更新时间" 和 "validateAfterInactivity" 进行判断
+	1. 主要使用  conn的 isStale 方法进行判断, 一般来说我们也没法干涉这一行为
+	2. 如果conn不通过验证, 就会 release(entry, reusable=false) 释放该连接, 不可重用, 然后重新获取连接
+3. 当通过验证之后
+	1. 调用 onLease 回调
+	2. 创建代理 CPoolProxy.newProxy(entry), 具体意义不明
