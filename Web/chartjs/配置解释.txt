@@ -1,0 +1,43 @@
+data{
+	labels
+	xLabels
+	datasets[{
+		fill: ture, //默认是true, 如果是true那么就会对该组数据围住的区域进行填充
+		label:'这组数据的标题',
+		data:[这组数据]
+
+		backgroundColor 背景色 用于填充该组数据围住的区域
+		borderWidth 线的宽度, 如果你是画line的话, 那么就是line的宽度
+		borderColor 线的颜色
+
+		pointStyle:'cycle', 用于控制数据点的形状, 默认是一个圆圈, 可以换成矩形或三角形 等
+		pointBackgroundColor 数据点的颜色
+		pointBorderWidth 数据点的边框大小
+		pointBorderColor 边框颜色
+		pointRadius 半径大小 用于控制点的总体大小, 为0则不绘制
+
+		上述的pointXxx还有一个 pointHoverXxx 版本, 用于表示当hover时的样式
+
+		showLine:true 是否要绘制线? 如果为false, 那么就只会绘制数据点 没有线连接起来
+		spanGaps: 默认是false 当为false 并且数据中存在为null的点, 那么那一点所在的区域直接就是不绘制的, 视觉上看起来直接就出现了断层, 如果设置成true的话, 则可以忽略该点丢失的数据
+		比如现在要画一个折线图, data:[1,2,null,4] 如果为true, 那么效果和 [1,2,3,4] 一样(当然了3这个数据点是不会绘制的), 如果为false, 那么[2,4]这个区间的图像直接就没了
+
+		steppedLine 如果设置成false 那么不会进行数据的平滑操作
+		lineTension TODO
+	}]
+}
+options{
+	responsive: 默认是true 是否支持响应式,
+	scales:{
+		xAxes:[{
+			display: 默认是true 表示是否要显示X轴
+		}],
+		yAxes:[{
+			stacked: 默认是false, 如果设置成true, 表示y轴上的值要叠加, 假设你要画 y=x 和 y=2x, 由于 y=2x 的顺序在y=x 之后, 因此它的y值是叠加在y=x之上的, 那么最后出来的结果就是y=3x
+			beginAtZero
+			强制限制 最大值和最小值 范围 min max
+			对最大值和最小值提出建议 suggestedMax suggestedMin
+			stepSize
+		}],
+	},
+}

@@ -1,0 +1,12 @@
+FactoryBean子接口
+增加了两个方法
+
+ boolean
+ 
+isEagerInit()
+           Does this FactoryBean expect eager initialization, that is, eagerly initialize itself as well as expect eager initialization of its singleton object (if any)?
+
+ boolean
+ 
+isPrototype()
+           Is the object managed by this factory a prototype? That is, will FactoryBean.getObject() always return an independent instance?

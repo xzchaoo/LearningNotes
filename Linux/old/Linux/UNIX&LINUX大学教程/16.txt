@@ -1,0 +1,34 @@
+1.复习题
+	1.
+		过滤器是应用于管道的处理器 接受输入 处理完后 放出输出
+		用过滤器进行组合可以产生不同的效果
+	2.
+		...应该就是根据已有的过滤器 对我们的问题进行分解
+	3.
+		cat接受输入然后不做任何处理直接输出,是最简单的过滤器
+			1]cat可以用于显示文件内容 cat < input.txt
+			2]cat用于复制文件 cat < input.txt > output.txt
+			3]cat用于将从控制台的输入写入到文件 cat > output.txt
+			4]cat可以接受多个文件 cat 1.txt 2.txt 并按顺序显示他们的内容
+	4.
+		tac是cat的反转,从最后一行倒过来输出
+		rev是对每一行都进行反转
+2.应用题
+	1.
+		cat data1 data2 data3 data4 data5 | wc -l
+	2.
+		(a)
+			cat important
+		(b)
+			tac important
+		(c)
+			rev important
+		(d)
+			tac important | rev
+	3.
+		dmesg | tail -n 25
+3.思考题
+	1.
+		第一是我们的问题一般不会太复杂...然后就没有然后了...
+	2.
+		当然还是要的咯~比如文件实在很大...

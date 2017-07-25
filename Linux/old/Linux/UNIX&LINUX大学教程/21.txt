@@ -1,0 +1,18 @@
+1.复习题
+	1.less cat head tail hexdump/od
+	2.空格键 b g G /pattern ?pattern h q
+	3.:n :p :x :d /*pattern ?*pattern
+	4.tail -f file.txt
+	5....
+2.应用题
+	1.
+		h	/help n n N	G	b 100g :f或=	20p g q
+	2.
+		nl list | less
+		less -N list
+		nl可以定制行号
+	3....
+	4. strings /bin/ls
+		...
+3.思考题
+	

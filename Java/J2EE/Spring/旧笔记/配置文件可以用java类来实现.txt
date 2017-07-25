@@ -1,0 +1,23 @@
+package xzc.config;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+@Configuration
+public class MyAppConfig {
+	@Bean
+	public List<Integer> list222(){
+		List<Integer> list=new LinkedList<Integer>();
+		list.add(1);
+		list.add(2);
+		list.add(3);
+		return list;
+	}
+}
+
+然后在applicationContext.xml
+要把myappconfig给注册进去

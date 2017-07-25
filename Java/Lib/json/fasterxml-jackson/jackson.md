@@ -1,5 +1,38 @@
-# jackson #
+# 20170615 #
+貌似官网已经进不去了
 http://wiki.fasterxml.com/
+现在文档在 https://github.com/FasterXML/jackson-docs 上
+
+# 文档的解析方式 #
+有3种解析方式
+1. 流
+	1. 类似xml的流式解析
+2. 树
+	1. 通常json对象可以当做一棵树
+3. 对象
+	1. 这是最长用的
+	2. 处理泛型的时候可能会用到 TypeReference
+
+
+# 树模型 #
+readTree 方法返回的是 JsonNode, 可以强转
+```
+ObjectNode root = mapper.readTree("stuff.json");
+```
+
+String name = root.get("name").asText();
+
+
+# 支持的特性 #
+是否缩进
+SerializationFeature.INDENT_OUTPUT
+
+解析到未知的属性则失败
+DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
+
+
+# jackson #
+
 官方文档遛一遛即可
 https://github.com/FasterXML/jackson-docs
 https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations
@@ -62,6 +95,7 @@ private Date birthday;
 会影响序列化的结果, 但是反序列化的时候似乎没有这个限制(即不要求提供的日期字符串也是这个格式, 甚至还可以是long)
 
 @JsonUnwrapped
+扁平化
 将一个复杂对象的属性"摊"到外层对象上
 可以指定前缀和后缀
 比如 A a有个属性B b, b有个属性 C c
@@ -86,6 +120,9 @@ public void 名字随便起(String name, Object value) {
 给属性加描述, 对结果没有影响
 https://github.com/FasterXML/jackson-module-jsonSchema
 
+@JsonDeserialize
+能定制一个对象的反序列化方式
+
 @JsonPropertyOrder
 加在类上, 用于控制json的属性顺序, 没有提到的属性将会放在最后
 如果一个属性有别名(以为使用了 JsonProperty ), 那么两个名字都是可以用的
@@ -93,7 +130,12 @@ https://github.com/FasterXML/jackson-module-jsonSchema
 @JsonRawValue
 用于标记某个属性是否不需要进行转义, 如果你有一个本身就是json格式的字符串的时候就很有用
 
+@JsonAutoDetect
+用于控制field或getter或isXxx的可见性
+
 @JsonValue
+标记一个方法, 以它的字符串返回值作为序列化的结果
+
 用于标记某个类的方法(一般是toString()), 用它的返回值作为你序列化的结果
 ```
 @JsonValue
@@ -104,6 +146,8 @@ public String toString() {
 "desc":"content====asdf"
 ```
 
+@JsonCreator
+用于标记构造器或静态工厂方法
 
 @JsonRootName("kk")
 class User{...}

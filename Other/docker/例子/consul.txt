@@ -1,0 +1,17 @@
+/consul/data 数据目录
+/consul/config 配置目录
+
+需要 --net=host
+需要指定-bind
+
+貌似是docker特有的
+可以使用下面两个变量指定要绑定端口的网卡
+CONSUL_CLIENT_INTERFACE
+CONSUL_BIND_INTERFACE
+
+docker run -e CONSUL_CLIENT_INTERFACE=eth0 -e CONSUL_BIND_INTERFACE=eth0 -d consul
+
+docker run -e CONSUL_CLIENT_INTERFACE=eth0 -e CONSUL_BIND_INTERFACE=eth0 -d consul agent -dev -join=172.17.0.4 -node-id=9fe07c45-4548-3875-905d-47b3823de8d5
+
+docker run -d --net=host -e 'CONSUL_LOCAL_CONFIG={"skip_leave_on_interrupt": true}' consul agent -server -bind=<external ip> -retry-join=<root agent ip> -bootstrap-expect=<number of server agents>
+

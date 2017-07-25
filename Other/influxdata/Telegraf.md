@@ -1,8 +1,12 @@
 用于收集机器的各项指标然后输出到influxdb(其他也是可以的)
 https://docs.influxdata.com/telegraf/v1.2/introduction/getting_started/
 
+curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+source /etc/lsb-release
+echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
 
-# 字啊喜爱 #
+
+# 下载 #
 https://portal.influxdata.com/downloads
 wget https://dl.influxdata.com/telegraf/releases/telegraf_1.2.1_amd64.deb
 sudo dpkg -i telegraf_1.2.1_amd64.deb

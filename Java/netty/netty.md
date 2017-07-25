@@ -32,7 +32,12 @@ ReplyingDecoder 是 BTMD 的一个实现类, 可以很大程度上简化编程 �
 
 ## 使用POJO而不是ByteBuf
 
+# EventLoopGroup #
+用于事件循环, 继承了 ScheduledExecutorService 接口
+新增了优雅 shutdown 的相关方法
 
+
+## NioEventLoopGroup ##
 
 
 
@@ -53,6 +58,10 @@ handlerAdded/handlerRemoved 当该handler被加入到某个channel时调用 会�
 ```
 SimpleChannelInboundHandler
 ```
+
+# 处理流式协议 #
+发送方发了按顺序发了 100, 200, 300字节的数据
+接收方手到的时候大小却是不一定的, 但是总量加起来是600
 
 
 
@@ -176,3 +185,10 @@ initialBytesToStrip 表示解码后的内容需要跳过整个帧开头的几个
 但是灵活性不高 复杂的情况下最好模仿它的思想自己定义一个类, 否则你没办法实现上述的自定义头
 
 
+# 小技巧 #
+netty写数据的时候经常需要有一个字段表示整个frame的长度.
+但是frame的长度经常是变化的, 只有整个写完才能知道frame的长度是多少
+可以这样解决:
+先写一个长度占位符, 比如4个bytes.
+然后再写整个frame, 写完之后就可以知道总体长度是多少了
+这时候再通过调整writeIndex回到长度占位符的位置, 修改长度占位符的值

@@ -5,7 +5,13 @@ swiper : vue-awesome-swiper
 无限加载: vue-infinite-loading
 
 velocity-animate 动画
-select : vue-multiselect
+select : vue-multiselect vue-select
+switch vue-switches vue-js-toggle-button 
+tabs https://github.com/cristijora/vue-tabs
+网格布局 vue-grid-layout
+
+瀑布流 vue-waterfall
+虚拟列表 vue-virtual-scroll-list 数据量很大 但是渲染的dom很少
 
 http://eslint.cn/docs/user-guide/integrations
 https://www.npmjs.com/package/badge-size
@@ -13,3 +19,7 @@ http://shields.io/
 http://img.badgesize.io/xzchaoo/learn-travis/master/pom.xml ?compression=gzip][&label=string]
 compression=gzip
 label=
+
+滑块
+https://github.com/NightCatSama/vue-slider-component
+

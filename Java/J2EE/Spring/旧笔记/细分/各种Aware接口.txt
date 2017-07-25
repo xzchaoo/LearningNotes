@@ -1,0 +1,8 @@
+BeanNameAware
+BeanClassLoaderAware
+beanFactoryAware
+ResourceLoaderAware
+ApplicationEventpublisherAware
+ApplicationContextAware
+MessageSourceAware
+ApplicationEventPublisherAware(ApplicationContext本身也是一个publisher)

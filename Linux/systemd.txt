@@ -1,0 +1,6 @@
+http://www.cnblogs.com/wjb10000/p/5566801.html
+systemctl enable nginx.service
+Created symlink from /etc/systemd/system/multi-user.target.wants/nginx.service to /lib/systemd/system/nginx.service.
+
+http://www.jb51.net/article/100457.htm
+https://www.nginx.com/resources/wiki/start/topics/examples/systemd/

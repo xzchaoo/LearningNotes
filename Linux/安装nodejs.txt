@@ -1,0 +1,11 @@
+https://nodejs.org/en/download/
+wget https://nodejs.org/dist/v6.10.3/node-v6.10.3-linux-x64.tar.xz
+tar -Jxf node-v6.10.3-linux-x64.tar.xz
+
+mv node-v6.10.3-linux-x64 /opt/nodejs
+ln -s /opt/nodejs/bin/node /usr/local/bin/node
+ln -s /opt/nodejs/bin/npm /usr/local/bin/npm
+
+node --version
+npm --version
+

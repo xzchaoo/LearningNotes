@@ -44,7 +44,18 @@ Run
 启动程序或打开网站
 
 命令:
-command param1, param2
+command, param1, param2
+命令可以通过变量传递输入和输出
+
+常用的命令
+SysGet 用于获取: 屏幕分辨率 多显示器信息
+显示器数量 主显示器编号 各个显示器的边界
+
+EnvGet 获取环境变量
+
+DllCall 调用外部的dll
+可以通过提前加载 提高性能, 不多对于标准的dll, 比如 user32 就不需要了, 因为它总是会被加载的
+
 
 函数
 function(param1, param2)

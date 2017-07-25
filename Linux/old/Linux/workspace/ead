@@ -1,0 +1,27 @@
+#!/bin/bash
+
+PWD_FILE=~/.pwd_file
+
+if [ ! -f  $PWD_FILE ]
+then
+	touch $PWD_FILE
+fi
+
+if [ $# -gt 0 ]
+then
+	if [ $1 -eq 0 ]
+	then
+		cat /dev/null > $PWD_FILE
+	elif [ $1 -gt 0 ]
+	then
+		RESULT=`cat $PWD_FILE | sed $1d`
+		if [ ! -z $RESULT ]
+		then
+			echo $RESULT > $PWD_FILE
+		else
+			cat /dev/null > $PWD_FILE
+		fi
+	fi
+else
+	echo 'usage: ead 0|1|2|...'
+fi

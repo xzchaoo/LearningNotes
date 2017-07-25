@@ -1,0 +1,7 @@
+这是一个接口
+实现了这个接口的bean,不是普通的bean
+当需要获取这个bean的时候,会实际返回bean的getObject()
+
+<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"/>
+
+当 ac.getBean("sessionFactory"); 实际获得的是 sessionFactory.getObject(); 即SessionFactory类型

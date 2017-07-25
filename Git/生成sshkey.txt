@@ -1,3 +1,13 @@
-https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
+﻿https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 
 ssh-keygen -t rsa -b 4096 -C "70862045@qq.com"
+
+ssh-keygen -t rsa -b 4096 -C "test"
+
+id_rsa 是私钥
+id_rsa.pub 是公钥
+将公钥放到别的机器上 authorized_keys 添加一行就行
+
+
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDJtMBl0BUt/ZvyuVWlR9v5BT9Qosz6ip9xf+zzfYd6Vww8TTmMNIJ1aL0wl6D522z+fJ+CPi78/PpdBQpxLX6gQApiYhsEAKv+7fiEmhP10wGedpt2qFT7T84jjMXF8GawSr+VSlsTuEo1PbD0RJVvimTV9bLGEpwuD1pTe3MXWlK0507s1yJ53qlLStcMA/GtlK3N/sR9Cm5WZY999fe+dFw/7/0Pdq/UyPaVHN3V6p69Y3i/tmsTSfFy3ea/DxGVjjqTZDeriy9fCppSBZGDtgK+Ax5qo/V6oN4RV0P4jwvSf8iSN56+4MhQSKrsVPVkJQ3gG7FTMlseAdCi3lt0BlRAci9kOMgzmWilaPDqo2Y7SgCmV5yQtAejBob61ttEuekiI743P8c4ieEkAMad7QxYz+2cXH9vOG7C3KOBtvkn2uWEJcDv4KQkPDZ28dHOyW1WpJSauGWwtYKGZ0OxCvVfmPBanmnuNH6vBOisgegicumsoeopHRrbf3acnbUesedLHwuWYaCwlCsudXU/3P6Yk2cncLKtccRKxmxWQEuoOLPxiwyso2m5gEcFiEhQBr+lagwSEQTe/OTQIiZRlJSXkA/rJNPlMcGaM4lDTmS4DBYMQ4W/tyowYVeEgU/Yz0etIxo2d/rV9JWskbuDD+FA3UD5gX5UYSKotUztsw== test
