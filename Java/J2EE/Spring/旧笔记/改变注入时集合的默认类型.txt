@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<bean id="day" class="xzc.model.Day">
+		<property name="list">
+			<bean class="org.springframework.beans.factory.config.ListFactoryBean">
+				<property name="targetListClass" value="java.util.LinkedList"/>
+				<property name="sourceList">
+					<list>
+						<value>1</value>
+						<value>2</value>
+						<value>3</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>
+
+如果你的bean有一个属性类型是List
+那默认生成的List是ArrayList
+如果需要强制修改则如上
+Set等也一样
+
+下面这样也行 注意需要导入util
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-3.1.xsd
+	">
+
+	<bean id="day" class="xzc.model.Day">
+		<property name="list" ref="ml"/>
+	</bean>
+	<util:list id="ml" list-class="java.util.LinkedList">
+		<value>1</value>
+		<value>2</value>
+		<value>3</value>
+	</util:list>
+</beans>

@@ -1,0 +1,61 @@
+^表示ctrl, j表示j键
+::hour的所有键是要输入的内容
+
+Send 是一个命令, 所有在逗号之后的内容double会被打出
+Return 结束
+
+esc表示左上角的esc键
+
+MsgBox Escape!!!!
+
+Run, 
+winactivate,
+WinAaitActive
+sendinput
+
+# windows键
+! alt
++ shift
+^ control
+
+& 两个键同时按下(目前只能支持两个键)
+
+Numpad0
+
+1 1
+
+许志超
+18317022717
+
+#IfWinActive
+#IfWinExist
+
+send, {ctrl down}c{ctrl up}
+
+Sleep, 1000
+
+send,
+(
+line1
+line2
+)
+
+Run
+启动程序或打开网站
+
+命令:
+command, param1, param2
+命令可以通过变量传递输入和输出
+
+常用的命令
+SysGet 用于获取: 屏幕分辨率 多显示器信息
+显示器数量 主显示器编号 各个显示器的边界
+
+EnvGet 获取环境变量
+
+DllCall 调用外部的dll
+可以通过提前加载 提高性能
+
+
+函数
+function(param1, param2)

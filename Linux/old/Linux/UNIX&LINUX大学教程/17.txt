@@ -1,0 +1,26 @@
+1.复习题
+	1.
+		cmp comm diff sdiff sort cut
+	2.
+		comm -1 a.txt b.txt
+	3.
+	
+	4.
+		a)uniq
+		b)uniq
+		c)grep
+		d)find忘了...
+		e)cut
+2.应用题
+	1.
+		comm -13 me elaude > temp.txt
+		comm -13 temp.txt eustace
+	2.
+	3.
+		cut sort uniq
+	4
+		paste
+3.思考题
+	1.
+	2.
+	3.先cut出第一列,再cut出第二列,再重新paste到一起

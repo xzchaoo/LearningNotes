@@ -1,1 +1,0 @@
-spring+struts2+hibernate+cxf

@@ -1,0 +1,14 @@
+http://www.linuxdiyf.com/linux/21071.html
+
+apt update
+apt install software-properties-common
+add-apt-repository ppa:webupd8team/java
+apt update
+apt install oracle-java8-installer
+apt install oracle-java7-installer 装java7
+java -version
+设置java环境变量
+apt-get install oracle-java8-set-default
+切换版本
+update-java-alternatives -s java-8-oracle
+update-java-alternatives --list 列出可用版本

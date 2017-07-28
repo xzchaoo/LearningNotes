@@ -1,0 +1,7 @@
+3ÖÖ·½·¨
+
+<bean init-method="..." destory-method="...">
+
+implements InitializingBean,DisposableBean
+
+@PostConstruct @PreDestroy

@@ -1,0 +1,6 @@
+z-index:
+app-header:3000
+page-sidebar:2000
+content:1000
+content-sidebar:1500
+dialog 99999

@@ -1,3 +1,52 @@
+# 语法 #
+https://docs.docker.com/compose/compose-file
+```
+
+version: '3'
+services:
+  web:
+    image: ""
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/code
+	depends_on:
+      - redis 这样redis会先启动
+  redis:
+    image: 指定镜像
+    labels:...给相关的容器加标签 注意比较和下面的去呗
+    deploy:
+      labels:...给这个服务加标签
+      mode: replicated 或 global       
+      replicas: 6 实例数量
+      placement:
+      constraints:
+        - node.role == manager
+        - engine.labels.operatingsystem == ubuntu 16.04
+      update_config: 更新策略
+        parallelism: 2
+        delay: 10s
+      restart_policy: 重启策略
+        condition: on-failure
+      resources:
+        limits:
+          cpus:'0.001'
+          memory:50M
+
+
+volumes:
+networks:
+
+```
+
+deploy
+放在具体服务之下
+
+```
+```
+
+
+
 <<<<<<< HEAD
 # 安装方法 #
 https://docs.docker.com/compose/install/

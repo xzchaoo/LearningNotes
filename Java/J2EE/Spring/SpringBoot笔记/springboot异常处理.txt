@@ -1,0 +1,26 @@
+DefaultErrorAttributes
+用于将错误信息保存到request里
+状态码 异常实例 路径 消息 等
+
+ErrorController
+异常的controller
+默认实现是 BasicErrorController
+当发生404异常的时候
+它会渲染 /error/404 的结果作为响应
+如果是ajax请求的话会渲染其他结果
+
+ErrorViewResolver 当request发生了错误, 状态码是status, 错误模型是model, 返回一个ModelAndView
+DefaultErrorViewResolver
+
+Cache-Control
+
+public 消息可以被任何缓存区缓存
+Private 对于单个用户的整个或部分响应消息, 不能被共享缓存处理
+no-cache 不能被缓存
+no-store 不能被存储
+max-age 指示客户端
+
+Etag/If-None-Match
+
+Expires Cache-Control 用来控制缓存的失效日期
+Last-Modified ETag 根据时间和内容来判断是否需要重新返回

@@ -1,0 +1,29 @@
+loadjs笔记
+https://github.com/muicss/loadjs
+用于在浏览器中异步加载js, 其实也可以用于加载css
+
+语法 loadjs(Array, bundleId, callbackOptions )
+语法 loadjs(String, callbackOptions )
+
+引入依赖
+var loadjs = require('loadjs');
+
+并发下载js, 并且异步执行
+loadjs('/path/to/foo.js', {
+  success: function() { /* foo.js loaded */}
+});
+
+并发下载js, 并且顺序执行
+loadjs(['/path/to/foo.js', '/path/to/bar.js'], {
+  success: function() { /* foo.js & bar.js loaded */ }
+});
+
+
+意思是要并发加载这两个js, 全部"结束"(成功或失败)之后触发'foobar'事件
+loadjs(['/path/to/foo.js', '/path/to/bar.js'], 'foobar');
+
+当'foobar'事件发生的时候
+loadjs.ready('foobar', {
+  success: function() { /* foo.js & bar.js loaded */ },
+  error: function(depsNotFound) {/* foobar bundle load failed */}
+});

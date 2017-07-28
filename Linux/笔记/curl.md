@@ -9,3 +9,12 @@ curl url
 --cookie "a=b" 指定cooie
 -XPOST 使用POST方法
 -v 详情 可以显示请求响应头
+
+-u xzc:123 用于basic认证
+
+-d指定body
+
+--data-urlencode
+
+-d "a=1" -d "b=2"
+

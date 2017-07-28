@@ -1,2 +1,8 @@
+http://www.cnblogs.com/gaoxing/p/4359795.html
 https://issues.sonatype.org/secure/Dashboard.jspa
-xzchaoo xzc@...
+xzchaoo
+http://central.sonatype.org/pages/working-with-pgp-signatures.html
+
+Certificate created successfully.
+Fingerprint: 48652EB0D2FF562BDD25ED9F86BEEB1E03DA9FA3
+gpg2 --keyserver hkp://pool.sks-keyservers.net --recv-keys C6EED57A

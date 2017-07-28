@@ -1,0 +1,10 @@
+<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+  <property name="beanNames" value="jdk*,onlyJdk"/>
+  <property name="interceptorNames">
+    <list>
+      <value>myInterceptor</value>
+    </list>
+  </property>
+</bean>
+
+As with ProxyFactoryBean, there is an interceptorNames property rather than a list of interceptors, to allow correct behavior for prototype advisors. [Named "interceptors" can be advisors or any advice type.]

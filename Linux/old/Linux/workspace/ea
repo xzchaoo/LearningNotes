@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PWD_FILE=~/.pwd_file
+
+if [ ! -f  $PWD_FILE ]
+then
+	echo touch!
+	touch $PWD_FILE
+fi
+
+if [ $# -eq 0 ]
+then
+	#cat $PWD_FILE | awk 'begin{no=0}{print "[" $no "]" $1;no=no+1;}' 
+	cat -n $PWD_FILE
+else
+	PWD=`sed -n $1,0p $PWD_FILE`
+	echo cd $PWD
+fi
+

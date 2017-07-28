@@ -1,2 +1,0 @@
-trunk by trunk
-修正了一个bug

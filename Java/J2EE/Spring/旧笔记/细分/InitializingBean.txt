@@ -1,0 +1,2 @@
+这个几口有一个方法
+afterPropertySet 属性输入完毕后会调用它

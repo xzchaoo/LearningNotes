@@ -1,0 +1,10 @@
+wget http://mirrors.hust.edu.cn/apache/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
+tar -zxf apache-maven-3.5.0-bin.tar.gz
+mv apache-maven-3.5.0 /opt/maven
+cd /opt
+mkdir repo
+chown -R nobody maven
+chown -R nobody repo
+
+export PATH=/opt/maven/bin:$PATH
+echo export PATH=/opt/maven/bin:$PATH >> /etc/bash.bashrc
