@@ -1,0 +1,9 @@
+﻿FI是XML的一种特殊的压缩格式, 所以其实是 obj -> xml(内存形式) -> FI
+
+C#目前没有直接的base64流(有, 但是是internal的!), 只能用下面的方法
+
+var base64Stream = new CryptoStream(stream, new ToBase64Transform(), CryptoStreamMode.Write);
+new XmlSerializer(data.GetType()).Serialize(new XmlFastInfosetWriter(base64Stream, FastInfosetCompression.GZip, 6), data);
+
+var base64Stream = new CryptoStream(stream, new FromBase64Transform(), CryptoStreamMode.Read);
+return new XmlSerializer(type).Deserialize(new XmlFastInfosetReader(base64Stream, FastInfosetCompression.GZip));
