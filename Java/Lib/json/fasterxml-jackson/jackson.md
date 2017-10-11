@@ -27,8 +27,29 @@ String name = root.get("name").asText();
 是否缩进
 SerializationFeature.INDENT_OUTPUT
 
+默认将时间写成时间戳
+WRITE_DATES_AS_TIMESTAMPS
+
+ALLOW_UNQUOTED_FIELD_NAMES 允许key不带引号
+ALLOW_SINGLE_QUOTES 允许key用单引号
+ESCAPE_NON_ASCII 转义飞ascii字符
+
+ALLOW_COMMENTS 允许注释, 这个一般不要允许
+
+
+通常需要disable掉下面的特性:
 解析到未知的属性则失败
 DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
+
+FAIL_ON_EMPTY_BEANS 空对象是否失败
+
+# JsonFactory #
+线程安全, 尽量保持单例, 除非需要不同的配置
+用于创建 JsonParser 和 JsonGenerator
+可以用于修改json的特性配置
+
+# SerializerFactory #
+
 
 
 # jackson #
@@ -75,6 +96,8 @@ JsonFormat
 # 常见annotation #
 @JsonProperty
 标记一个属性为json属性, 可以修改它对应的名字
+index属性可以用于调整ProtoBuf的序号
+一般加在字段上, 也可以加在get方法上
 
 @JsonIgnore
 忽略该属性
@@ -89,7 +112,6 @@ ignoreUnknown 当json字符串提供了未知的参数的时候是否忽略, 这
 @JsonInclude(JsonInclude.Include.NON_NULL)
 这样序列化的时候只会序列化非空字段
 
-@JsonFormat
 @JsonFormat(pattern = "yyyy-MM-dd")
 private Date birthday;
 会影响序列化的结果, 但是反序列化的时候似乎没有这个限制(即不要求提供的日期字符串也是这个格式, 甚至还可以是long)
@@ -147,7 +169,8 @@ public String toString() {
 ```
 
 @JsonCreator
-用于标记构造器或静态工厂方法
+用于标记构造器或静态工厂方法, 这样反序列化的时候就会使用这个构造器来初始化, 否则就需要提供无参构造函数
+
 
 @JsonRootName("kk")
 class User{...}

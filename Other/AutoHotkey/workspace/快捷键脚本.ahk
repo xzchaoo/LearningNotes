@@ -219,18 +219,18 @@ Return
 #Numpad2::run "C:\Program Files (x86)\MarkdownPad 2\MarkdownPad2.exe"
 
 ;打开idea
-#+i::run "C:\Program Files\JetBrains\IntelliJ IDEA 2017.1.4\bin\idea64.exe"
+#+i::run "C:\Program Files\JetBrains\IntelliJ IDEA 2017.2.3\bin\idea64.exe"
 
 ;打开pycharm
-#+p::run D:\Program Files (x86)\JetBrains\PyCharm 2016.3.2\bin\pycharm64.exe
+;#+p::run D:\Program Files (x86)\JetBrains\PyCharm 2016.3.2\bin\pycharm64.exe
 
 ;打开chrome
-#Numpad3::run C:\Users\xzchaoo\AppData\Local\Google\Chrome\Application\chrome.exe
+#Numpad3::run C:\Users\Administrator\AppData\Local\Google\Chrome\Application\chrome.exe
 
 ;打开腾讯qq
 #Numpad7::run "C:\Program Files\Tencent\QQ\Bin\QQScLauncher.exe"
 
-#Numpad0::run F:\SmallTool\窗口置顶工具.exe
+;#Numpad0::run F:\SmallTool\窗口置顶工具.exe
 
 ;打开xftp
 #+f::run C:\Program Files (x86)\NetSarang\Xftp 5\Xftp.exe
@@ -244,15 +244,15 @@ Return
 ;打开everything
 #w::run C:\Program Files\Everything\Everything.exe
 
-;打开酷狗
+;打开网易云音乐
 #NumpadMult::run "C:\Program Files (x86)\Netease\CloudMusic\cloudmusic.exe"
 
 ;打开navicat
 #+n::run C:\Program Files\PremiumSoft\Navicat Premium\navicat.exe
 
 ;打开Sublime
-#Numpad8::run C:\Program Files\Sublime Text 3\sublime_text.exe
+;#Numpad8::run C:\Program Files\Sublime Text 3\sublime_text.exe
 
 ;打开editplus
-#Numpad9::run C:\Program Files\EditPlus\EditPlus.exe
+#Numpad9::run "C:\Program Files\Notepad++\notepad++.exe"
 

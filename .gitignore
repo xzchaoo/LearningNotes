@@ -1,2 +1,6 @@
 *.pdf
 .storage/
+.idea/
+*.iml
+target/
+*.log
