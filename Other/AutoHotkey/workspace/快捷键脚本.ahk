@@ -225,12 +225,10 @@ Return
 ;#+p::run D:\Program Files (x86)\JetBrains\PyCharm 2016.3.2\bin\pycharm64.exe
 
 ;打开chrome
-#Numpad3::run C:\Users\Administrator\AppData\Local\Google\Chrome\Application\chrome.exe
+#Numpad3::run "C:\Users\xzchaoo\AppData\Local\Google\Chrome\Application\chrome.exe"
 
 ;打开腾讯qq
 #Numpad7::run "C:\Program Files\Tencent\QQ\Bin\QQScLauncher.exe"
-
-;#Numpad0::run F:\SmallTool\窗口置顶工具.exe
 
 ;打开xftp
 #+f::run C:\Program Files (x86)\NetSarang\Xftp 5\Xftp.exe
@@ -249,9 +247,6 @@ Return
 
 ;打开navicat
 #+n::run C:\Program Files\PremiumSoft\Navicat Premium\navicat.exe
-
-;打开Sublime
-;#Numpad8::run C:\Program Files\Sublime Text 3\sublime_text.exe
 
 ;打开editplus
 #Numpad9::run "C:\Program Files\Notepad++\notepad++.exe"
