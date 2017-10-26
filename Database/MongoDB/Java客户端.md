@@ -1,4 +1,39 @@
 # java驱动 #
+推荐使用 mongodb-driver 而不是 mongodb-java-driver
+必要时候需要排除旧的jar包
+
+## 插入文档 ##
+当id不存在的时候会自动创建一个ObjectId, 最终底层是直接 new ObjectId() 的
+
+## 更新文档 ##
+update(query, operations)
+
+## 删除文档 ##
+delete(query)
+
+## 查询文档 ##
+query()
+aggregate()
+
+## POJO支持 ##
+建议做好完善的调研之前不要轻易使用, 如果可以的话尽量还是手动进行转换, 反正也就那么几十行代码...
+
+蛮久以前的MongoDB客户端是只支持Document类型的参数, 这导致写代码很麻烦, 比如要保存一个POJO, 你需要先转成Document, 再保存
+拿出来的数据也都是Document, 需要转成POJO
+新版的driver对POJO提供了内置的自持
+感觉这个最新的driver把morphia的一些功能代替了
+但现在对一些类型的支持还不是非常好, 比如LocalDate等
+
+# java异步驱动 #
+有RxJava版的!
+
+# BSON #
+新版推荐使用Document, 旧版的依旧支持DBObject
+
+reader 和 writer 用法和json的类似
+
+codec用于对象和mongodb支持的数据类型间的转换
+
 
 # Morphia #
 官方出品的MongoDB ORM
