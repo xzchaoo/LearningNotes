@@ -153,15 +153,25 @@ tagdrop tagpass 可以根据tag名和tag值一起做出判断的 具体看文档
 我们现在使用的是 influx 全家桶, 所以当然选第一个了
 
 # 常用的输入 #
-1. exec 以脚本的输出结果作为输入
-2. http_response, 以一个http请求的响应的 响应码 消耗时间 作为输入, 注意响应内容并没有! 
-3. httpjson, 以一个http请求的json响应作为输入
-4. mysql
-5. nginx, nginx需要 ngx_http_stub_status_modules 模块
-6. ping
-7. redis
-8. system
-	1. cpu mem disk kernel NETSTAT
+- exec 以脚本的输出结果作为输入
+- http_response, 以一个http请求的响应的 响应码 消耗时间 作为输入, 注意响应内容并没有! 
+- httpjson, 以一个http请求的json响应作为输入
+- mysql
+- nginx, nginx需要 ngx_http_stub_status_modules 模块
+- ping
+- redis
+	- 需要提供redis地址
+	- 内存使用情况
+- system
+	1. linux系统负载 启动时间 cpu个数
+- cpu
+	- 可以配置是否采集全部cpu 但是单个cpu
+	- 主要是采集CPU的利用率和分配时间
+- mem
+	- 
+- disk
+- kernel
+- NETSTAT
 
 # 常用的输出 #
 1. influxdb 输出到influxdb, 需要配置 地址 数据库 rp 用户名 密码等

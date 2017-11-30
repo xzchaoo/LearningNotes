@@ -1,18 +1,17 @@
-1. 默认mongodb是不用验证的, 可以用 mongoed --auth 要求启动验证
+1. 默认mongodb是不用验证的, 可以用 mongoed --auth 要求启动验证, 在配置文件里配置 security.authorization=enabled
 2. 先创建一个管理员, 然后创建其他用户
 3. 通信加密
 4. 限制网络 bindIP
 5. 加密数据
 6. 用专门的系统用户运行mongod
-
+7. 
 # Authentication #
 切换到某个数据库, 用下面的方式进行认证
 db.auth(账号,密码)
 db.logout() 注销登陆
 https://docs.mongodb.org/manual/tutorial/enable-authentication/
 
-支持一系列的认证机制
-副本集和集群之间的认证呢?
+支持一系列的认证机制, 副本集和集群之间的认证呢? 这种认证称为 Internal Authentication
 
 直接连接到mongos, 在mongos添加账号, 然后在mongos处做验证.
 但是有一些操作, 比如rs.reconfig() 需要直接连接到 该副本集所在的master上去做操作
@@ -29,11 +28,14 @@ db.createUser(user, writeConcern)
 https://docs.mongodb.org/manual/reference/method/db.createUser/#db.createUser
 创建一个用户的时候, 需要指定一个数据库, 但一个用户的访问权限可以不局限在这个数据库中
 这样一个作用是命名空间的作用, 再来是让某个用户不能对某个用户进行修改
+但通常在这个数据库创建的用户只具有访问这个数据库的能力, admin数据库除外
+不同数据库的相同用户名的用户也算是不同的用户
 
-所有账号信息都保存在admin数据库的system.users
+所有账号信息都保存在admin数据库的system.users, 不要直接访问这个数据库, 而是使用相关的命令
 
 集群用户的数据存放在配置服务器的admin数据库中
 
+对于sharded cluster, 需要连接到mongos然后添加用户, mongodb将用户的数据放在config server 上
 有些操作需要直接连接到mongoed服务器上进行操作, 而不能在mongos上进行操作
 这时候你需要用这个mongoed上的用户进行登录
 
@@ -45,7 +47,70 @@ v3.0以后 从本机连接到本机的数据库, 也需要验证, 除非你没�
 用户的唯一标识符 = 数据库名 + 用户名
 创建一个用户 + 有权限处理各种数据库 而不是在每个数据库都创建相同的账号
 
-## Roels ##
+当你用mongo客户端连接到mongod或mongos时, 可以使用 -u, -p, --authenticationDatabase 进行认证
+否则连接上之后需要使用db.auth()进行认证
+
+> 有一些特殊的操作, 需要用户直接连接到对应的服务器, 并且使用具有高级权限的用户进行登录
+
+## Localhost Exception ##
+对于localhost登录的用户有特殊的权限, 比如让你可以添加第一个用户
+第一个添加的用户必须具有 userAdmin 或 userAdminAnyDatabase 权限
+
+建议: 先将mongodb设置为 security.authorization.enabled=true
+然后添加第一个用户
+最后 enableLocalhostAuthBypass=false
+
+## createUser ##
+```
+use 相关的数据库
+db.createUser({
+	name:""
+	pwd:"",
+	customData:{自定义的数据},
+	roles:[{role:"角色名",db:"数据库名"}]
+})
+```
+
+> local数据库有特殊用途, 不能在这上面创建用户
+
+### dropAllUsersFromDatabase  ###
+可以用户删除当前数据库的所有用户
+
+### dropUser ###
+删除用户
+```
+db.dropUser("xzc")
+```
+
+### grantRolesToUser ###
+```
+db.grantRolesToUser("xzc",[{role:"",db:""}])
+```
+### revokeRolesFromUser ###
+删除权限
+```
+db.revokeRolesFromUser("xzc",[{role:"",db:""}])
+```
+### updateUser ###
+db.updateUser("xzc",{
+pwd:"如果指定了就会更新密码",
+customData:{},
+roles:[], 这是替换 不是追加
+});
+
+### getUser ###
+查看用户信息
+```
+db.getUser("xzc")
+```
+
+### changeUserPassword ###
+```
+db.changeUserPassword("reporting", "SOh3TbYhxuLiW8ypJPxmt1oOfL")
+```
+
+
+# Roels #
 roles允许它对应的用户对一些资源进行一些操作
 简单的说一个角色就是一堆权限的集合
 
@@ -61,46 +126,82 @@ rolesInfo showPrivileges showBuiltinRoles
 常见权限
 https://docs.mongodb.org/manual/reference/privilege-actions/#security-user-actions
 
-### 内置的角色 ###
-MongoDB provides the built-in database user and database administration roles on every database. 
+## 角色相关的命令 ##
+主要是用户创建自定义角色
+自定义角色其实并没有真的创建新的角色
+自定义角色只是内置角色的复合而已
+
+## 内置的角色 #
 默认情况下, 每个数据库都会有这些内置的角色, 你无法干预他们.
 
-#### Database User Roles ####
+角色|描述
+:-:|:-:
+read|具有读数据库的能力
+readWrite|具有读写数据库的能力
+dbAdmin|具备执行管理性的指令
+dbOwner|具有对当前数据库的任何权限, 复合了 readWrite dbAdmin userAdmin
+userAdmin|具备管理用户的能力
+clusterAdmin|TODO
+clusterManager|TODO
+clusterMonitor|TODO
+hostManager|TODO
+backup|TODO
+restore|TODO
+readAnyDatabase|具备读取任何数据库的能力, 必须放在admin数据库里
+readWriteAnyDatabase|具备读写任何数据库的能力, 必须放在dadmin数据库里
+userAdminAnyDatabase|具备管理所有用户的能力, 必须放在admin数据库里
+dbAdminAnyDatabase|具备操作任何数据库的能力, 必须放在admin数据库里
+root|至高无上的权限, 必须放在admin数据库里
+
+## 集合级别的权限 ##
+通过定义一个自定义角色, 并且分配下面的权限
+```
+privileges: [
+  { resource: { db: "products", collection: "inventory" }, actions: [ "find", "update", "insert" ] },
+  { resource: { db: "products", collection: "orders" },  actions: [ "find" ] }
+]
+```
+
+
+### Database User Roles ###
 read 允许对所有非系统集合进行读操作, 不过 system.indexes system.js system.namespaces 还是允许读的
 readWrite 允许对所有非系统集合进行读写操作, 并且允许 system.js的写操作
 
-#### Database Administration Roles ####
+### Database Administration Roles ###
 dbAdmin 任务 索引 统计信息 它并没有权限做 用户/角色 的管理
 dbOwner 可以对这个数据库执行任何操作 相当于是 readWrite + dbAdmin + userAdmin
 userAdmin 可以对这个数据库的用户进行管理, 并且可以授予任何用户任何权限
 	admin数据库中的userAdmin可以访问任何集合的用户
 	
-#### Cluster Administration Roles ####
+### Cluster Administration Roles ###
 clusterAdmin 集群的大部分操作
 clusterManager 访问config和local数据库
 clustermonitor
 hostManager
 
-#### Backup and Restoration Roles ####
+### Backup and Restoration Roles ###
 backup
 restore
 
-#### All-Database Roles ####
+### All-Database Roles ###
 这几个角色都是可以访问所有数据库的, 这些角色是放在admin数据库里的
 readAnyDatabase
 readWriteAnyDatabase
 userAdminAnyDatabase 
 dbAdminAnyDatabase
 
-#### Superuser Roles ####
+### Superuser Roles ###
 root 所有权利
 
-### 用户自定义角色 ###
+## 用户自定义角色 ##
 角色的唯一标识符 = 数据库 + 角色名
 db.createRole() 只能作用于当前数据库, 除非是创建于admin数据库的角色
 一个admin数据库里的角色 可以包含对其他数据库的权限
 角色数据保存在admin数据库的system.roles集合里
 自定义权限可以细节到对哪个集合可以执行find操作 之类...
+
+
+# Internal Authentication #
 
 
 # 集合级别的权限 #

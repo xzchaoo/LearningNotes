@@ -1,8 +1,19 @@
+# npm的安装与更新 #
+## 安装 ##
+
+## 更新 ##
+npm install npm@latest -g
+
+
+# 配置 #
+## 修改全局依赖的位置 ##
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+export PATH=~/.npm-global/bin:$PATH
+ source ~/.profile
+
 # npm #
 https://docs.npmjs.com/
-
-压缩js
-uglifyjs jquery.js > jquery.min.js
 
 获得安装路径 当全局安装时
 npm config get prefix
@@ -17,11 +28,9 @@ npm install -g <NAME>
 
 本地安装/安装在当前目录
 npm install lodash --save
-	--save 将会在package.json写入依赖项
-
+--save 将会在package.json写入依赖项
 
 npm init -y 快速初始化
-
 
 
 下载安装lodash到当前目录 并且在 package.json 里添加依赖信息
@@ -36,6 +45,11 @@ npm config get proxy
 npm get proxy
 npm delete proxy
 npm config edit
+
+# package.json #
+package.json用于描述:
+- 描述
+- 依赖
 
 
 更新
