@@ -11,6 +11,9 @@ ErrorController
 
 ErrorViewResolver 当request发生了错误, 状态码是status, 错误模型是model, 返回一个ModelAndView
 DefaultErrorViewResolver
+它的实现会委托给4xx错误委托给 error/4xx 的view
+如果模板存在则用它, 如果不存在则委托给 static/4xx.html
+
 
 Cache-Control
 
@@ -24,3 +27,57 @@ Etag/If-None-Match
 
 Expires Cache-Control 用来控制缓存的失效日期
 Last-Modified ETag 根据时间和内容来判断是否需要重新返回
+
+
+20180104
+这里的 错误处理 指的是因为Spring框架异常 或 控制器未捕获异常 而导致异常最终被容器捕获 而产生的一系列处理
+如果是你自己在一个web页面的controller上想渲染一个403页面, 那是不影响的...
+
+20180104
+经过检查, 发现上述的第一句说法是错的, 实际情况是Spring自己注册了一个ErrorFilter, 优先级应该是比较高的, 用它来处理error情况
+详情看 ErrorPageFilter
+可以注册:
+	1. 每种异常一个特定的error处理路径
+	2. 每种状态码一个特定的error处理路径
+	3. 如果没指定, 那么会fallback到一个全局的处理路径
+出错时 该filter会forward到对应的errorPath
+
+1. 错误处理应该是利用了Servlet容器的支持:
+	Spring本身不拦截错误, 会向容器注册errorPage, 比如/error
+	当前请求会forward 到 /error, 对应的controller是 BasicErrorController
+	BEC上有针对text/html的view, 也有针对其他类型的view
+2. 如果是text/html
+	1. 利用errorResolves依次进行resolve, 第一个resolve成功的用它
+		1. 默认实现是:
+			1. 如果有能处理 view/错误码 的view, 如果有就委托给它
+			2. 如果有能处理 error/错误码.html 的静态文件, 就委托给它
+	2. 如果都没找到, 那么就委托给一个叫做error的view(注意不是 /error 的view), 由boot提供
+		1. 这个view的作用就是简单渲染当前错误
+		2. 通过 BeanNameViewResolver
+3. 如果是其他类型, 比如是json, 那么会通过对应的格式返回json字符串
+
+自定义错误, 想满足如下的要求:
+1. 对于json请求, 如果发生了错误, 它的返回值一定也是json格式
+2. 对于web页面请求, 如果发生了错误, 那么想自定义错误页面
+	1. 原始请求信息, 话说能拿到多少信息? url header method?
+	2. 异常信息
+3. 对于某些特殊的web页面请求, 可以自定义错误页面
+	1. 视频不存在的404页面和用户不存在的404页面不一样
+
+利用 @ControllerAdvice 和 @ExceptionHandler 可以实现对某些满足条件的Controller进行error拦截
+目前条件Controller只能是
+1. 某个包下的类
+2. 某个类的子类
+3. 具有annotation的类
+4. 如果指定了上述的多个条件, 那么他们的关系是OR
+
+@ExceptionHandler
+参数支持request, response, session, exception, Model, 还有spring对servlet对象的包装类, 比如Webrequest;
+返回值大部分和controller一样吧, 特殊的返回值类型没有试过
+可以用 @ResponseStatus 注解来表示状态码
+
+@ExceptionHandler的优先级问题
+如果控制器A发生了未补货异常, 那么控制器A里的 @ExceptionHandler 是优先级最高的
+如果A没有异常处理器, 那么会用全局的异常处理器
+各处的异常处理器可以有多个, exception参数可以用于匹配异常
+
