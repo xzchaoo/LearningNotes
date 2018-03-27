@@ -219,7 +219,7 @@ Return
 #Numpad2::run "C:\Program Files (x86)\MarkdownPad 2\MarkdownPad2.exe"
 
 ;打开idea
-#+i::run "C:\Program Files\JetBrains\IntelliJ IDEA 2017.2.3\bin\idea64.exe"
+#+i::run "D:\Program Files\JetBrains\IntelliJ IDEA 2017.3\bin\idea64.exe"
 
 ;打开pycharm
 ;#+p::run D:\Program Files (x86)\JetBrains\PyCharm 2016.3.2\bin\pycharm64.exe
