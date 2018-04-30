@@ -1,11 +1,18 @@
 # nvm #
 nodejs版本管理器
 https://github.com/creationix/nvm
-现在貌似不支持windows
+
+https://github.com/coreybutler/nvm-windows
+windows版本
+
 
 # 安装nvm #
+本身不需要安装node
+最新的额命令可以到官网去找
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
 注销重启, 就有nvm命令了
+
+# 命令 #
 
 nvm install node 安装最新的node
 nvm install 8.8.1 安装8.8.1版本

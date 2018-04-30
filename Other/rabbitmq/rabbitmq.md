@@ -1,0 +1,5 @@
+exchange不允许被覆盖 必须保证同一个exchange的配置一样
+
+
+direct 发送者和接受者的routeKey严格匹配才能收到消息, 一个q可以绑定到多个routeKey上, 一个routeKey也可以绑定到多个Q上
+fanout

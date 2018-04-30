@@ -1,4 +1,6 @@
-通常认为 apt 和 apt-get 一样, 并且 apt 比 apt-get 更强
+# apt #
+apt 包含了 apt-get 和 apt-cache 的功能
+
 apt update 更新源
 apt upgrade 升级所有软件
 
@@ -40,3 +42,6 @@ deb-src http://ftp.sjtu.edu.cn/ubuntu/ xenial-backports main restricted universe
 ```
 
 16.04的代号是xenial
+
+腾讯源
+http://mirrors.tencentyun.com/ubuntu/

@@ -1,0 +1,28 @@
+反应堆
+-am --also-make 同时构建所列模块依赖的模块
+
+--amd -also-make-dependents 同时构建依赖于所列模块的模块
+因此这里需要指定一个父模块, 这样它的所有子模块会跟着构建
+
+-pl --projects <arg> 构建指定的模块
+-pl 模块1,模块2,模块3
+
+-rf -resume-from <arg> 从哪个模块开始构建
+假设有拓扑序 [A]->[B,C,D]->[E]
+指定从B开始构建, 那么只会构建 B, 然后是E
+
+
+
+mvn clean compile -pl dao 构建dao模块
+注意, 这样不会构建dao依赖的模块, 因此会导致构建失败!
+
+mvn clean compile -pl dao -am
+这个会连dao依赖的模块一起构建
+假设dao依赖了 commons 和 model 模块 那么 会构建这3个模块
+
+构建多个模块的时候会按照拓扑序!
+
+假设部署的时候只想部署某些个模块, 那么可以用
+mvn clean deploy -pl module1,module2,module3 -am
+-pl 指定要部署的模块
+-am 让这3个模块的间接依赖也参与构建

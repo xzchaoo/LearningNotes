@@ -1,0 +1,8 @@
+<service>
+  <id>jenkins</id>
+  <name>Jenkins</name>
+  <description>This service runs Jenkins continuous integration system.</description>
+  <executable>pm2</executable>
+  <arguments>.\bin\www --watch</arguments>
+  <logmode>rotate</logmode>
+</service>

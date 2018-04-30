@@ -1,0 +1,7 @@
+connectionLimit 限制最大连接数
+貌似一个连接上可以开多个channel
+
+MessageListener 用于一个消息的监听器
+
+MessageListenerAdapter 可以让一个pojo的方法作为一个消息的监听器, 这和spring-message里的概念是一样的, pojo的方法签名将会用于匹配回调
+

@@ -1,0 +1,22 @@
+start
+stop
+restart
+reload
+
+enable
+disable
+--now
+
+is-enabled
+
+edit 编辑配置
+
+show-environment
+
+配置文件放在
+/lib/systemd/system
+/usr/lib/systemd/system/systemd
+
+被激活的文件创建一个软连接到
+/etc/systemd/system/
+
