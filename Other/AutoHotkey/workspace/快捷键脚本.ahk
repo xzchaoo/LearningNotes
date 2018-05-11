@@ -219,7 +219,7 @@ Return
 #Numpad2::run "C:\Program Files (x86)\MarkdownPad 2\MarkdownPad2.exe"
 
 ;打开idea
-#+i::run "D:\Program Files\JetBrains\IntelliJ IDEA 2018.1.1\bin\idea64.exe"
+#+i::run "D:\Program Files\JetBrains\IntelliJ IDEA 2018.1.3\bin\idea64.exe"
 
 ;打开pycharm
 ;#+p::run D:\Program Files (x86)\JetBrains\PyCharm 2016.3.2\bin\pycharm64.exe
@@ -243,7 +243,7 @@ Return
 #w::run C:\Program Files\Everything\Everything.exe
 
 ;打开网易云音乐
-#NumpadMult::run "C:\Program Files (x86)\Netease\CloudMusic\cloudmusic.exe"
+#NumpadMult::run "D:\Program Files (x86)\Netease\CloudMusic\cloudmusic.exe"
 
 ;打开navicat
 #+n::run C:\Program Files\PremiumSoft\Navicat Premium\navicat.exe
